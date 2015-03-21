@@ -4,7 +4,7 @@
 
 # Site
 title: wustrive's Hexo blog
-subtitle: hexo demo
+subtitle: 生活，工作记录
 description: "hello,I'm wustrive. This is my blog on GitHub."
 author: wustrive
 language: zh-CN
@@ -66,6 +66,7 @@ pagination_dir: page
 theme: pacman
 stylus:
     compress: true
+
 
 # Deployment
 ## Docs: http://hexo.io/docs/deployment.html

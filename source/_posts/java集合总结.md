@@ -80,3 +80,6 @@ pull()时会用peek()查看队头的元素，检查是否到达触发时间。Sc
 定长的并发优化的BlockingQueue，基于循环数组实现。也由一把公共读写锁与notFull、notEmpty两个Condition管理阻塞状态。
 3. LinkedBlockingQueue
 可选定长的并发优化的BlockingQueue，基于链表实现，所以可以把长度设为Integer.MAX_VALUE。有takeLock、putLock两把锁及notFull、notEmpty两个Condition精细复杂的管理阻塞状态。
+
+### 参考
+[关于Java集合的小抄](http://calvin1978.blogcn.com/articles/collection.html)

@@ -2,7 +2,11 @@ title: "java集合总结"
 date: 2015-06-07 21:46:12
 categories: java
 tags: [java,集合]
+photos:
+- http://7xifb5.com1.z0.glb.clouddn.com/wustrive-hexojava知识结构.png
 ---
+
+
 
 ## List
 ### ArrayList
@@ -83,3 +87,4 @@ pull()时会用peek()查看队头的元素，检查是否到达触发时间。Sc
 
 ### 参考
 [关于Java集合的小抄](http://calvin1978.blogcn.com/articles/collection.html)
+[java知识结构原文件(xmind)](https://onedrive.live.com/redir?resid=5E1CBCB0E85E3260!3073&authkey=!AHbyMJW_M24fmdY&ithint=file%2cxmind)

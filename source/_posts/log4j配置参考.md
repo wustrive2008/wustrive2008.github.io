@@ -2,6 +2,8 @@ title: log4j配置参考
 date: 2015-03-21 23:00:16
 categories: java
 tags: [log4j,java]
+photos:
+- http://7xifb5.com1.z0.glb.clouddn.com/wustrive-hexojava知识结构.png
 ---
 
 **说明**

@@ -315,8 +315,9 @@ sudo reboot
 
 1. 执行docker命令提示：
 
-    `Get http:///var/run/docker.sock/v1.19/containers/json: dial unix /var/run/docker.sock: no such file or directory. Are you trying to connect to a TLS-enabled daemon without TLS?`
-
+```
+Get http:///var/run/docker.sock/v1.19/containers/json: dial unix /var/run/docker.sock: no such file or directory. Are you trying to connect to a TLS-enabled daemon without TLS?
+```
 
 **解决办法:**
 

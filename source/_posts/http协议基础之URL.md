@@ -2,6 +2,8 @@ title: http协议基础之URL
 date: 2015-8-9 17:18:33
 categories: http协议
 tags: [http,url,协议]
+photos:
+- http://7xifb5.com1.z0.glb.clouddn.com/wustrive-hexoHTTP.png
 ---
 
 http协议之URL

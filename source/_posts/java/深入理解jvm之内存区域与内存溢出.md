@@ -1,4 +1,4 @@
-title: 深入理解JVM
+title: 深入理解jvm之内存区域与内存溢出
 date: 2015-12-24 21:21:29
 categories: java
 tags: [java,jvm,虚拟机,性能,HotSpot]

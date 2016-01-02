@@ -81,3 +81,8 @@ gpgcheck=0
 ```
   
 这里就可以看到可以直接安装php，而不需要通过网上去下载。
+
+### 捐赠
+如何觉得本文章对你有帮助，欢迎捐赠
+
+![捐赠](http://7xifb5.com1.z0.glb.clouddn.com/wustrive-hexo%E6%94%AF%E4%BB%98%E5%AE%9D%E4%BB%98%E6%AC%BE%E4%BA%8C%E7%BB%B4%E7%A0%81%E6%9C%80%E5%B0%8F.png)

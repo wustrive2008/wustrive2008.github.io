@@ -1,0 +1,520 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>java集合总结 | wustrive&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="wustrive">
+    
+    <meta name="description" content="ListArrayList
+以数组实现，有容量限制，超出限制时会自动扩充容量，为避免不必要的复制操作，使用时尽量给出数组的预估大小。
+按数组小标随机访问(get(i)/set(i,e))的性能很高，删除元素性能低，适合数据比较固定，随机访问操作远多于删除操作的列表
+
+LinkedList
+以双向链表">
+    
+    
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="wustrive" />
+    <meta name="twitter:title" content="java集合总结 | wustrive&#39;s blog" />
+      
+    
+    
+    <link rel="alternate" href="/atom.xml" title="wustrive&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/logo.ico">
+    <link rel="apple-touch-icon-precomposed" href="/img/logo.ico">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?5829c94e2ff91660826b6c0c188f5620";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="wustrive&#39;s blog" title="wustrive&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="wustrive&#39;s blog">wustrive&#39;s blog</a></h1>
+				<h2 class="blog-motto">好记性不如写博客</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/aboutme">关于</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:wustrive2008.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/06/07/java/java集合总结/" title="java集合总结" itemprop="url">java集合总结</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="https://wustrive2008.github.io" title="wustrive">wustrive</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-06-07T13:46:12.000Z" itemprop="datePublished">2015-06-07</time>
+    更新日期:<time datetime="2016-11-05T18:14:33.000Z" itemprop="dateModified">2016-11-06</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="http://7xifb5.com1.z0.glb.clouddn.com/wustrive-hexojava知识结构.png" rel="gallery_civ5jdlgy001luvfyn8jpqec0">
+        <img src="http://7xifb5.com1.z0.glb.clouddn.com/wustrive-hexojava知识结构.png" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#List"><span class="toc-number">1.</span> <span class="toc-text">List</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ArrayList"><span class="toc-number">1.1.</span> <span class="toc-text">ArrayList</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LinkedList"><span class="toc-number">1.2.</span> <span class="toc-text">LinkedList</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CopyOnWriteArrayList"><span class="toc-number">1.3.</span> <span class="toc-text">CopyOnWriteArrayList</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Map"><span class="toc-number">2.</span> <span class="toc-text">Map</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HashMap"><span class="toc-number">2.1.</span> <span class="toc-text">HashMap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LinkedHashMap"><span class="toc-number">2.2.</span> <span class="toc-text">LinkedHashMap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TreeMap"><span class="toc-number">2.3.</span> <span class="toc-text">TreeMap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ConcurrentHashMap"><span class="toc-number">2.4.</span> <span class="toc-text">ConcurrentHashMap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ConcurrentSkipListMap"><span class="toc-number">2.5.</span> <span class="toc-text">ConcurrentSkipListMap</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Set"><span class="toc-number">3.</span> <span class="toc-text">Set</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Queue"><span class="toc-number">4.</span> <span class="toc-text">Queue</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LinkedList-1"><span class="toc-number">4.1.</span> <span class="toc-text">LinkedList</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ArrayDeque"><span class="toc-number">4.2.</span> <span class="toc-text">ArrayDeque</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程安全的队列"><span class="toc-number">4.3.</span> <span class="toc-text">线程安全的队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程安全的阻塞队列"><span class="toc-number">4.4.</span> <span class="toc-text">线程安全的阻塞队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考"><span class="toc-number">4.5.</span> <span class="toc-text">参考</span></a></li></ol></li></ol>
+		</div>
+		
+		<h2 id="List">List</h2><h3 id="ArrayList">ArrayList</h3><ol>
+<li>以数组实现，有容量限制，超出限制时会自动扩充容量，为避免不必要的复制操作，使用时尽量给出数组的预估大小。</li>
+<li>按数组小标随机访问(get(i)/set(i,e))的性能很高，删除元素性能低，适合数据比较固定，随机访问操作远多于删除操作的列表</li>
+</ol>
+<h3 id="LinkedList">LinkedList</h3><ol>
+<li>以双向链表实现，无容量限制，但双向链表本身使用了更多空间</li>
+<li>按下标访问元素，需要遍历链表移动指针</li>
+<li>插入删除元素的效率高，因为只需要修改操作节点的前后节点指针</li>
+</ol>
+<h3 id="CopyOnWriteArrayList">CopyOnWriteArrayList</h3><ol>
+<li>实现并发的ArrayList，使用CopyOnWrite策略，在修改时先复制一个快照来修改，改完后再让内部指针指向新数组，因为对快照的操作对读操作不可见，所以只有写锁没有读锁，比较适合读多写少的场景。如果更新频率较高，或数组较大时，还是Collections.synchronizedList(list)，对所有操作用同一把锁来保证线程安全更好。</li>
+<li>增加了addIfAbsent(e)方法，会遍历数组来检查元素是否已存在，性能不太好</li>
+</ol>
+<h2 id="Map">Map</h2><h3 id="HashMap">HashMap</h3><ol>
+<li>以Entry[]数组实现的哈希桶数组，用key的哈希值取模桶数组的大小可得到数组下标。</li>
+<li>插入元素时，如果两个key落在同一个桶，Entry用一个next属性实现多个Entry以单向链表方式存放，后入桶的Entry将next指向桶当前的Entry。查找哈希值为17的key时，先定位到第一个哈希桶，然后以链表遍历所有元素，逐个比较其key值</li>
+<li>当Entry数量达到桶数量的75%时，会成倍扩容桶数组，并重新分配所有原来Entry。</li>
+<li>在JDK8里，新增默认为8的閥值，当一个桶里的Entry超过8个，就不以单向链表而以红黑树来存放以加快查找速度。</li>
+</ol>
+<h3 id="LinkedHashMap">LinkedHashMap</h3><ol>
+<li>扩展HashMap增加双向链表实现，支持iterator()时按Entry的插入顺序来排序(只算插入不算更新， 如果设置accessOrder属性为true，则所有读写访问都算)</li>
+<li>实现上是在Entry上再增加属性before/after指针，插入时把自己加到Header Entry的前面去。如果所有读写访问都要排序，还要把前后Entry的before/after拼接起来以在链表中删除掉自己。</li>
+</ol>
+<h3 id="TreeMap">TreeMap</h3><ol>
+<li>以红黑树实现,支持iterator()时按Key值排序，可按实现了Comparable接口的Key的自然顺序升序排序，或由传入的Comparator控制。可想象的，在树上插入/删除元素的代价一定比HashMap的大。</li>
+<li>支持SortedMap接口，如firstKey()，lastKey()取得最大最小的key，或sub(fromKey, toKey), tailMap(fromKey)剪取Map的某一段。</li>
+</ol>
+<h3 id="ConcurrentHashMap">ConcurrentHashMap</h3><ol>
+<li>并发优化的HashMap，默认16把写锁(可以设置更多),有效分散了阻塞的概率，而且没有读锁</li>
+<li>数据结构为Segment[]，Segment里面才是哈希桶数组，每个Segment一把锁。Key先算出它在哪个Segment里，再算出它在哪个哈希桶里。</li>
+<li>支持ConcurrentMap接口，如putIfAbsent(key，value)与相反的replace(key，value)与以及实现CAS的replace(key, oldValue, newValue)。</li>
+<li>没有读锁是因为put/remove动作是个原子动作(比如put是一个对数组元素/Entry 指针的赋值操作)，因此read不会看到一个更新动作的中间状态。</li>
+</ol>
+<h3 id="ConcurrentSkipListMap">ConcurrentSkipListMap</h3><p>JDK6新增的并发优化的SortedMap，以SkipList实现。SkipList是红黑树的一种简化替代方案，是个很流行的有序集合算法，见入门教程。Concurrent包选用它是因为它支持基于CAS的无锁算法，而红黑树则没有好的无锁算法。<br>很特殊的，它的size()不能随便调，会遍历来统计。</p>
+<h2 id="Set">Set</h2><blockquote>
+<p>(Set几乎都是内部用一个Map来实现, 因为Map里的KeySet就是一个Set，而value全部使用同一个Object。Set的特征也继承了那些内部Map实现的特征。)</p>
+</blockquote>
+<ol>
+<li>HashSet：内部是HashMap。</li>
+<li>LinkedHashSet：内部是LinkedHashMap。</li>
+<li>TreeSet：内部是TreeMap的SortedSet。</li>
+<li>ConcurrentSkipListSet：内部是ConcurrentSkipListMap的并发优化的SortedSet。</li>
+<li>CopyOnWriteArraySet：内部是CopyOnWriteArrayList的并发优化的Set，利用其addIfAbsent()方法实现元素去重，如前所述该方法的性能很一般。</li>
+</ol>
+<h2 id="Queue">Queue</h2><p>Queue是在两端出入的List，所以也可以用数组或链表来实现。</p>
+<h3 id="LinkedList-1">LinkedList</h3><p>是的，以双向链表实现的LinkedList既是List，也是Queue。它是唯一一个允许放入null的Queue。</p>
+<h3 id="ArrayDeque">ArrayDeque</h3><ol>
+<li>以循环数组实现的双向Queue。大小是2的倍数，默认是16。</li>
+<li>普通数组只能快速在末尾添加元素，为了支持FIFO，从数组头快速取出元素，就需要使用循环数组：有队头队尾两个下标：弹出元素时，队头下标递增；加入元素时，如果已到数组空间的末尾，则将元素循环赋值到数组[0],同时队尾下标指向0，再插入下一个元素则赋值到数组[1]，队尾下标指向1。如果队尾的下标追上队头，说明数组所有空间已用完，进行双倍的数组扩容。</li>
+</ol>
+<h3 id="线程安全的队列">线程安全的队列</h3><ol>
+<li>ConcurrentLinkedQueue/ConcurrentLinkedDeque<br>无界的并发优化的Queue，基于链表，实现了依赖于CAS的无锁算法</li>
+<li>PriorityBlockingQueue<br>无界的并发优化的PriorityQueue，也是基于二分堆。使用一把公共的读写锁。虽然实现了BlockingQueue接口，其实没有任何阻塞队列的特征，空间不够时会自动扩容。</li>
+<li>DelayQueue<br>内部包含一个PriorityQueue，同样是无界的。元素需实现Delayed接口，每次调用时需返回当前离触发时间还有多久，小于0表示该触发了。<br>pull()时会用peek()查看队头的元素，检查是否到达触发时间。ScheduledThreadPoolExecutor用了类似的结构。</li>
+</ol>
+<h3 id="线程安全的阻塞队列">线程安全的阻塞队列</h3><ol>
+<li>BlockingQueue的队列长度受限，用以保证生产者与消费者的速度不会相差太远，避免内存耗尽。队列长度设定后不可改变。当入队时队列已满，或出队时队列已空，不同函数的效果见下表：<table><tr><td></td><td>可能报异常</td><td>返回布尔值</td><td>可能阻塞等待</td><br><td>可设定等待时间</td></tr><tr><td>入队</td><td>add(e)</td><td>offer(e)</td><td>put(e)</td><td>offer(e, timeout, unit)</td></tr><tr><td>出队</td><td>remove()</td><td>poll()</td><td>take()</td><td>poll(timeout, unit)</td><br></tr><tr><td>查看</td><td>element()</td><td>peek()</td><td>无</td><td>无</td><br></tr></table></li>
+<li>ArrayBlockingQueue<br>定长的并发优化的BlockingQueue，基于循环数组实现。也由一把公共读写锁与notFull、notEmpty两个Condition管理阻塞状态。</li>
+<li>LinkedBlockingQueue<br>可选定长的并发优化的BlockingQueue，基于链表实现，所以可以把长度设为Integer.MAX_VALUE。有takeLock、putLock两把锁及notFull、notEmpty两个Condition精细复杂的管理阻塞状态。</li>
+</ol>
+<h3 id="参考">参考</h3><p><a href="http://calvin1978.blogcn.com/articles/collection.html" target="_blank" rel="external">关于Java集合的小抄</a><br><a href="https://onedrive.live.com/redir?resid=5E1CBCB0E85E3260!3073&amp;authkey=!AHbyMJW_M24fmdY&amp;ithint=file%2cxmind" target="_blank" rel="external">java知识结构原文件(xmind)</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/集合/">集合</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/java/">java</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="https://wustrive2008.github.io/2015/06/07/java/java集合总结/" data-title="java集合总结 | wustrive&#39;s blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/26/读书笔记/读书笔记-解忧杂货店/" title="解忧杂货店">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  解忧杂货店</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/03/21/java/log4j配置参考/"  title="log4j配置参考">
+ <strong>NEXT:</strong><br/> 
+ <span>log4j配置参考
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#List"><span class="toc-number">1.</span> <span class="toc-text">List</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ArrayList"><span class="toc-number">1.1.</span> <span class="toc-text">ArrayList</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LinkedList"><span class="toc-number">1.2.</span> <span class="toc-text">LinkedList</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CopyOnWriteArrayList"><span class="toc-number">1.3.</span> <span class="toc-text">CopyOnWriteArrayList</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Map"><span class="toc-number">2.</span> <span class="toc-text">Map</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HashMap"><span class="toc-number">2.1.</span> <span class="toc-text">HashMap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LinkedHashMap"><span class="toc-number">2.2.</span> <span class="toc-text">LinkedHashMap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TreeMap"><span class="toc-number">2.3.</span> <span class="toc-text">TreeMap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ConcurrentHashMap"><span class="toc-number">2.4.</span> <span class="toc-text">ConcurrentHashMap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ConcurrentSkipListMap"><span class="toc-number">2.5.</span> <span class="toc-text">ConcurrentSkipListMap</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Set"><span class="toc-number">3.</span> <span class="toc-text">Set</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Queue"><span class="toc-number">4.</span> <span class="toc-text">Queue</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LinkedList-1"><span class="toc-number">4.1.</span> <span class="toc-text">LinkedList</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ArrayDeque"><span class="toc-number">4.2.</span> <span class="toc-text">ArrayDeque</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程安全的队列"><span class="toc-number">4.3.</span> <span class="toc-text">线程安全的队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程安全的阻塞队列"><span class="toc-number">4.4.</span> <span class="toc-text">线程安全的阻塞队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考"><span class="toc-number">4.5.</span> <span class="toc-text">参考</span></a></li></ol></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+		
+			<li><a href="/categories/UML/" title="UML">UML<sup>1</sup></a></li>
+		
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		
+			<li><a href="/categories/http协议/" title="http协议">http协议<sup>2</sup></a></li>
+		
+			<li><a href="/categories/java/" title="java">java<sup>8</sup></a></li>
+		
+			<li><a href="/categories/js/" title="js">js<sup>1</sup></a></li>
+		
+			<li><a href="/categories/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+		
+			<li><a href="/categories/python/" title="python">python<sup>2</sup></a></li>
+		
+			<li><a href="/categories/分享/" title="分享">分享<sup>1</sup></a></li>
+		
+			<li><a href="/categories/版本控制/" title="版本控制">版本控制<sup>2</sup></a></li>
+		
+			<li><a href="/categories/缓存/" title="缓存">缓存<sup>1</sup></a></li>
+		
+			<li><a href="/categories/网络安全/" title="网络安全">网络安全<sup>1</sup></a></li>
+		
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>2</sup></a></li>
+		
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>8</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Arraylist/" title="Arraylist">Arraylist<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Centos/" title="Centos">Centos<sup>2</sup></a></li>
+		
+			<li><a href="/tags/Docker/" title="Docker">Docker<sup>1</sup></a></li>
+		
+			<li><a href="/tags/HashMap/" title="HashMap">HashMap<sup>1</sup></a></li>
+		
+			<li><a href="/tags/HotSpot/" title="HotSpot">HotSpot<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Linux/" title="Linux">Linux<sup>5</sup></a></li>
+		
+			<li><a href="/tags/OOM/" title="OOM">OOM<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Tomcat/" title="Tomcat">Tomcat<sup>1</sup></a></li>
+		
+			<li><a href="/tags/UML/" title="UML">UML<sup>1</sup></a></li>
+		
+			<li><a href="/tags/aes/" title="aes">aes<sup>1</sup></a></li>
+		
+			<li><a href="/tags/array/" title="array">array<sup>1</sup></a></li>
+		
+			<li><a href="/tags/arraylist/" title="arraylist">arraylist<sup>1</sup></a></li>
+		
+			<li><a href="/tags/chkconfig/" title="chkconfig">chkconfig<sup>1</sup></a></li>
+		
+			<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
+		
+			<li><a href="/tags/github/" title="github">github<sup>1</sup></a></li>
+		
+			<li><a href="/tags/hashmap/" title="hashmap">hashmap<sup>1</sup></a></li>
+		
+			<li><a href="/tags/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		
+			<li><a href="/tags/http/" title="http">http<sup>2</sup></a></li>
+		
+			<li><a href="/tags/java/" title="java">java<sup>11</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I&#39;m wustrive. This is my blog on GitHub. <br/>
+			I wish you happiness</p>
+	</section>
+	 
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/12100106" target="_blank" title="weibo"></a>
+		
+		
+		<a href="https://twitter.com/wustrive" target="_blank" title="twitter"></a>
+		
+		
+		<a href="https://github.com/wustrive2008" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2016 
+		
+		<a href="https://wustrive2008.github.io" target="_blank" title="wustrive">wustrive</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"wustrive"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-22190106-2', 'auto');  
+ga('send', 'pageview');
+</script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-22190106-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+  </body>
+</html>

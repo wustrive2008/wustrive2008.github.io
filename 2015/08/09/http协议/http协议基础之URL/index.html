@@ -1,0 +1,503 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>http协议基础之URL | wustrive&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="wustrive">
+    
+    <meta name="description" content="http协议之URLURI(Uniform Resource Identifier) 统一资源标识符URI就像因特网上的邮政地址一样，在世界范围内唯一标识并定位信息资源。
+URL 统一资源定位符是资源标识符的最常见形式，是URI的一个子集(另一个是URN)。URL描述了一台特定服务器上某资源的特定位">
+    
+    
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="wustrive" />
+    <meta name="twitter:title" content="http协议基础之URL | wustrive&#39;s blog" />
+      
+    
+    
+    <link rel="alternate" href="/atom.xml" title="wustrive&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/logo.ico">
+    <link rel="apple-touch-icon-precomposed" href="/img/logo.ico">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?5829c94e2ff91660826b6c0c188f5620";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="wustrive&#39;s blog" title="wustrive&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="wustrive&#39;s blog">wustrive&#39;s blog</a></h1>
+				<h2 class="blog-motto">好记性不如写博客</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/aboutme">关于</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:wustrive2008.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/08/09/http协议/http协议基础之URL/" title="http协议基础之URL" itemprop="url">http协议基础之URL</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="https://wustrive2008.github.io" title="wustrive">wustrive</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-08-09T09:18:33.000Z" itemprop="datePublished">2015-08-09</time>
+    更新日期:<time datetime="2016-11-05T18:14:33.000Z" itemprop="dateModified">2016-11-06</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="http://7xifb5.com1.z0.glb.clouddn.com/wustrive-hexoHTTP.png" rel="gallery_civ5jdlgl0018uvfy21l42neh">
+        <img src="http://7xifb5.com1.z0.glb.clouddn.com/wustrive-hexoHTTP.png" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#http协议之URL"><span class="toc-number">1.</span> <span class="toc-text">http协议之URL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#URI(Uniform_Resource_Identifier)_统一资源标识符"><span class="toc-number">1.1.</span> <span class="toc-text">URI(Uniform Resource Identifier) 统一资源标识符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#URL_统一资源定位符"><span class="toc-number">1.2.</span> <span class="toc-text">URL 统一资源定位符</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#URL遵循的标准格式"><span class="toc-number">1.2.1.</span> <span class="toc-text">URL遵循的标准格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#URL语法"><span class="toc-number">1.2.2.</span> <span class="toc-text">URL语法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#用户名和密码"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">用户名和密码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#参数"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">参数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#查询字符串"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">查询字符串</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#片段"><span class="toc-number">1.2.2.4.</span> <span class="toc-text">片段</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#URL快捷方式"><span class="toc-number">1.2.3.</span> <span class="toc-text">URL快捷方式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#基础URL"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">基础URL</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#自动扩展URL"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">自动扩展URL</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#URL编码"><span class="toc-number">1.2.4.</span> <span class="toc-text">URL编码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#常见的URL方案(协议)"><span class="toc-number">1.2.5.</span> <span class="toc-text">常见的URL方案(协议)</span></a></li></ol></li></ol></li></ol>
+		</div>
+		
+		<h2 id="http协议之URL">http协议之URL</h2><h3 id="URI(Uniform_Resource_Identifier)_统一资源标识符">URI(Uniform Resource Identifier) 统一资源标识符</h3><p>URI就像因特网上的邮政地址一样，在世界范围内唯一标识并定位信息资源。</p>
+<h3 id="URL_统一资源定位符">URL 统一资源定位符</h3><p>是资源标识符的最常见形式，是URI的一个子集(另一个是URN)。URL描述了一台特定服务器上某资源的特定位置。它们可以说明如何从一个精确、固定的位置获取资源。</p>
+<h4 id="URL遵循的标准格式">URL遵循的标准格式</h4><ol>
+<li>URL的第一部分被称为方案(scheme)，说明了访问资源所使用的协议类型。如http://</li>
+<li>第二部分给出了服务器的因特网地址</li>
+<li>其余部分制定了Web服务器上的某个资源</li>
+</ol>
+<p><strong>现在几乎所有的URI都是URL</strong></p>
+<h4 id="URL语法">URL语法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;scheme&gt;://&lt;user&gt;:&lt;password&gt;@&lt;host&gt;:&lt;port&gt;/&lt;path&gt;;&lt;params&gt;?&lt;query&gt;#&lt;flag&gt;</div></pre></td></tr></table></figure>
+<ol>
+<li>方案：使用的协议，不区分大小写</li>
+<li>用户：访问某些资源需要用户名</li>
+<li>密码：用户对应的密码 中间用:分割</li>
+<li>主机：服务器的主机名或IP地址</li>
+<li>端口：服务器正在监听的端口号</li>
+<li>路径：服务器资源的本地名，路径组件的语法是与服务器和方案有关</li>
+<li>参数：某些方案会用这个组件来指定输入参数。参数为名/值对。URL中可以包含多个参数字段</li>
+<li>查询：传递的参数，用”?”将其与URL的其余部分分隔开</li>
+<li>片段：一小片或一部分资源的名字，这个字段是在客户端内部使用的，通过字符”#”与URL其他部分分隔开来</li>
+</ol>
+<h5 id="用户名和密码">用户名和密码</h5><p>很多服务器都要求输入用户名和密码才允许用户访问资源。常见的有FTP服务器。<br>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ftp://192.168.1.2</div><div class="line">ftp://anonymous@192.168.1.2</div><div class="line">ftp://anonymous:my_pwd@192.168.1.2</div></pre></td></tr></table></figure></p>
+<h5 id="参数">参数</h5><p>为了向应用程序提供它们所需的输入参数，以便正确地与服务器进行交互，URL中有一个参数组件。这个就是URL中的名值对列表，由字符”;”与其他部分分隔。<br>如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ftp://192.168.1.2;type=d</div><div class="line">http://192.168.1.2/index.html;sale=false/login.html;id=true</div></pre></td></tr></table></figure></p>
+<h5 id="查询字符串">查询字符串</h5><p>很多资源都可以通过提问题或者查询来缩小所请求资源类型的范围。<br>如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://192.168.1.2/login.html?user=zhangsan&amp;password=123456</div></pre></td></tr></table></figure></p>
+<p><strong>经常使用的http get请求传递的参数就是查询字符串</strong></p>
+<h5 id="片段">片段</h5><p>有些资源，比如html，除了资源级之外，还可以进一步划分。比如，对一个带有章节的大型文本文档来说，资源的URL会指向整个文档，但有时我们希望能够指定资源中的某些章节。<br>片段组件用来表示一个资源内部的片段。如一个特定的图片或小节<br>片段挂在URL的右边，前面用一个”#”与其他部分分隔。</p>
+<p><strong>HTTP服务器通常只处理整个对象，而不是对象的片段，客户端不能将片段传给服务器，浏览器从服务器获取整个资源后，会根据片段来显示部分资源。</strong></p>
+<h4 id="URL快捷方式">URL快捷方式</h4><p>URL有两种方式：绝对URL和相对URL，相对URL只是URL的片段或一部分。处理URL的程序(如浏览器)能够在相对和绝对URL之间进行转换。相对URL有利于资源的迁移，因为相对URL都是相对于新基础进行解释的。这样可以实现在其他服务器上提供镜像内容之类的功能。</p>
+<h5 id="基础URL">基础URL</h5><p>转换处理的第一步就是找到基础URL。基础URL是作为相对URL的参考点使用的。有以下几种方式：</p>
+<ol>
+<li>在资源中显示提供 如html中的<base>标签</li>
+<li>封装资源的基础URL 如果在一个没有显示指定基础URL的资源中发现一个相对URL，可以将它所属资源的URL作为基础</li>
+</ol>
+<h5 id="自动扩展URL">自动扩展URL</h5><p>浏览器一般都提供自动扩展URL的功能<br>主要的扩展方式：</p>
+<ol>
+<li>主机名扩展 如在浏览器中输入 google.com ,浏览器会自动扩展为<a href="http://google.com" target="_blank" rel="external">http://google.com</a></li>
+<li>历史扩展 对浏览器历史记录进行匹配查询</li>
+</ol>
+<h4 id="URL编码">URL编码</h4><p>使用一种”转义”表示法来表示各种不安全的字符(保留及受限字符)。<br>如：~ 空格 %等</p>
+<h4 id="常见的URL方案(协议)">常见的URL方案(协议)</h4><ol>
+<li>http 超文本传输协议 默认端口80</li>
+<li>https 加密的http，使用SSL进行安全加密 默认端口443</li>
+<li>mailto 指向Email地址，如mailto:wustrive2008@gmail.com</li>
+<li>ftp  文件传输协议，用来从ftp服务器上传或下载文件</li>
+<li>rtsp,rtspu   通过实时流传输协议解析音/视频媒体资源的标识符</li>
+<li>file  从一台共享主机上直接访问文件</li>
+<li>news 用来访问一些特定的文章或新闻组</li>
+<li>telnet   用户访问交互式业务</li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/http/">http</a><a href="/tags/url/">url</a><a href="/tags/协议/">协议</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/http协议/">http协议</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="https://wustrive2008.github.io/2015/08/09/http协议/http协议基础之URL/" data-title="http协议基础之URL | wustrive&#39;s blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/08/09/读书笔记/读书笔记-心理罪/" title="心理罪">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  心理罪</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/26/Linux/centos搭建本地yum服务器/"  title="centos搭建本地yum服务器">
+ <strong>NEXT:</strong><br/> 
+ <span>centos搭建本地yum服务器
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#http协议之URL"><span class="toc-number">1.</span> <span class="toc-text">http协议之URL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#URI(Uniform_Resource_Identifier)_统一资源标识符"><span class="toc-number">1.1.</span> <span class="toc-text">URI(Uniform Resource Identifier) 统一资源标识符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#URL_统一资源定位符"><span class="toc-number">1.2.</span> <span class="toc-text">URL 统一资源定位符</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#URL遵循的标准格式"><span class="toc-number">1.2.1.</span> <span class="toc-text">URL遵循的标准格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#URL语法"><span class="toc-number">1.2.2.</span> <span class="toc-text">URL语法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#用户名和密码"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">用户名和密码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#参数"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">参数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#查询字符串"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">查询字符串</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#片段"><span class="toc-number">1.2.2.4.</span> <span class="toc-text">片段</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#URL快捷方式"><span class="toc-number">1.2.3.</span> <span class="toc-text">URL快捷方式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#基础URL"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">基础URL</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#自动扩展URL"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">自动扩展URL</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#URL编码"><span class="toc-number">1.2.4.</span> <span class="toc-text">URL编码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#常见的URL方案(协议)"><span class="toc-number">1.2.5.</span> <span class="toc-text">常见的URL方案(协议)</span></a></li></ol></li></ol></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+		
+			<li><a href="/categories/UML/" title="UML">UML<sup>1</sup></a></li>
+		
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		
+			<li><a href="/categories/http协议/" title="http协议">http协议<sup>2</sup></a></li>
+		
+			<li><a href="/categories/java/" title="java">java<sup>8</sup></a></li>
+		
+			<li><a href="/categories/js/" title="js">js<sup>1</sup></a></li>
+		
+			<li><a href="/categories/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+		
+			<li><a href="/categories/python/" title="python">python<sup>2</sup></a></li>
+		
+			<li><a href="/categories/分享/" title="分享">分享<sup>1</sup></a></li>
+		
+			<li><a href="/categories/版本控制/" title="版本控制">版本控制<sup>2</sup></a></li>
+		
+			<li><a href="/categories/缓存/" title="缓存">缓存<sup>1</sup></a></li>
+		
+			<li><a href="/categories/网络安全/" title="网络安全">网络安全<sup>1</sup></a></li>
+		
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>2</sup></a></li>
+		
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>8</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Arraylist/" title="Arraylist">Arraylist<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Centos/" title="Centos">Centos<sup>2</sup></a></li>
+		
+			<li><a href="/tags/Docker/" title="Docker">Docker<sup>1</sup></a></li>
+		
+			<li><a href="/tags/HashMap/" title="HashMap">HashMap<sup>1</sup></a></li>
+		
+			<li><a href="/tags/HotSpot/" title="HotSpot">HotSpot<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Linux/" title="Linux">Linux<sup>5</sup></a></li>
+		
+			<li><a href="/tags/OOM/" title="OOM">OOM<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Tomcat/" title="Tomcat">Tomcat<sup>1</sup></a></li>
+		
+			<li><a href="/tags/UML/" title="UML">UML<sup>1</sup></a></li>
+		
+			<li><a href="/tags/aes/" title="aes">aes<sup>1</sup></a></li>
+		
+			<li><a href="/tags/array/" title="array">array<sup>1</sup></a></li>
+		
+			<li><a href="/tags/arraylist/" title="arraylist">arraylist<sup>1</sup></a></li>
+		
+			<li><a href="/tags/chkconfig/" title="chkconfig">chkconfig<sup>1</sup></a></li>
+		
+			<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
+		
+			<li><a href="/tags/github/" title="github">github<sup>1</sup></a></li>
+		
+			<li><a href="/tags/hashmap/" title="hashmap">hashmap<sup>1</sup></a></li>
+		
+			<li><a href="/tags/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		
+			<li><a href="/tags/http/" title="http">http<sup>2</sup></a></li>
+		
+			<li><a href="/tags/java/" title="java">java<sup>11</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I&#39;m wustrive. This is my blog on GitHub. <br/>
+			I wish you happiness</p>
+	</section>
+	 
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/12100106" target="_blank" title="weibo"></a>
+		
+		
+		<a href="https://twitter.com/wustrive" target="_blank" title="twitter"></a>
+		
+		
+		<a href="https://github.com/wustrive2008" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2016 
+		
+		<a href="https://wustrive2008.github.io" target="_blank" title="wustrive">wustrive</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"wustrive"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-22190106-2', 'auto');  
+ga('send', 'pageview');
+</script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-22190106-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+  </body>
+</html>

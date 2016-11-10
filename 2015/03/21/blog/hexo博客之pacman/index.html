@@ -1,0 +1,477 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>hexo博客搭建记录 | wustrive&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="wustrive">
+    
+    <meta name="description" content="下面是本博客的搭建记录准备软件环境
+windows 8.1
+nodejs  官网
+git     官网
+
+注册github 账号
+注册github账号 官网
+创建博客仓库
+添加ssh-key
+
+建立与你用户名对应的仓库，仓库名必须为『your_user_name.github.com』
+
+安装Hex">
+    
+    
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="wustrive" />
+    <meta name="twitter:title" content="hexo博客搭建记录 | wustrive&#39;s blog" />
+      
+    
+    
+    <link rel="alternate" href="/atom.xml" title="wustrive&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/logo.ico">
+    <link rel="apple-touch-icon-precomposed" href="/img/logo.ico">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?5829c94e2ff91660826b6c0c188f5620";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="wustrive&#39;s blog" title="wustrive&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="wustrive&#39;s blog">wustrive&#39;s blog</a></h1>
+				<h2 class="blog-motto">好记性不如写博客</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/aboutme">关于</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:wustrive2008.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/03/21/blog/hexo博客之pacman/" title="hexo博客搭建记录" itemprop="url">hexo博客搭建记录</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="https://wustrive2008.github.io" title="wustrive">wustrive</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-03-21T13:35:25.000Z" itemprop="datePublished">2015-03-21</time>
+    更新日期:<time datetime="2016-11-05T18:14:33.000Z" itemprop="dateModified">2016-11-06</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#下面是本博客的搭建记录"><span class="toc-number">1.</span> <span class="toc-text">下面是本博客的搭建记录</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#准备"><span class="toc-number">1.1.</span> <span class="toc-text">准备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#软件环境"><span class="toc-number">1.1.1.</span> <span class="toc-text">软件环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注册github_账号"><span class="toc-number">1.1.2.</span> <span class="toc-text">注册github 账号</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装Hexo_参考hexo官网"><span class="toc-number">1.2.</span> <span class="toc-text">安装Hexo 参考hexo官网</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#cmd中输入安装命令即可完成安装"><span class="toc-number">1.2.1.</span> <span class="toc-text">cmd中输入安装命令即可完成安装</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#博客搭建"><span class="toc-number">1.3.</span> <span class="toc-text">博客搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#建站"><span class="toc-number">1.3.1.</span> <span class="toc-text">建站</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装pacman主题_github地址"><span class="toc-number">1.3.2.</span> <span class="toc-text">安装pacman主题 github地址</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#安装_(切换到博客目录)"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">安装 (切换到博客目录)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#启用"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">启用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#更新_(更新前建议备份_config-yml文件)"><span class="toc-number">1.3.2.3.</span> <span class="toc-text">更新 (更新前建议备份_config..yml文件)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#配置文件_config-yml"><span class="toc-number">1.3.2.4.</span> <span class="toc-text">配置文件_config.yml</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#备注"><span class="toc-number">1.4.</span> <span class="toc-text">备注</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#hexo插件安装_,比如安装git插件"><span class="toc-number">1.4.1.</span> <span class="toc-text">hexo插件安装 ,比如安装git插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码高亮不显示问题"><span class="toc-number">1.4.2.</span> <span class="toc-text">代码高亮不显示问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pacman主题author图片显示问题"><span class="toc-number">1.4.3.</span> <span class="toc-text">pacman主题author图片显示问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用命令"><span class="toc-number">1.4.4.</span> <span class="toc-text">常用命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用复合命令"><span class="toc-number">1.4.5.</span> <span class="toc-text">常用复合命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#简写命令"><span class="toc-number">1.4.6.</span> <span class="toc-text">简写命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考"><span class="toc-number">1.4.7.</span> <span class="toc-text">参考</span></a></li></ol></li></ol></li></ol>
+		</div>
+		
+		<h1 id="下面是本博客的搭建记录">下面是本博客的搭建记录</h1><h2 id="准备">准备</h2><h3 id="软件环境">软件环境</h3><ol>
+<li>windows 8.1</li>
+<li>nodejs  <a href="https://nodejs.org/" target="_blank" rel="external">官网</a></li>
+<li>git     <a href="http://git-scm.com/download/" target="_blank" rel="external">官网</a></li>
+</ol>
+<h3 id="注册github_账号">注册github 账号</h3><ol>
+<li>注册github账号 <a href="https://github.com/" target="_blank" rel="external">官网</a></li>
+<li>创建博客仓库</li>
+<li>添加ssh-key</li>
+</ol>
+<p>建立与你用户名对应的仓库，仓库名必须为『your_user_name.github.com』</p>
+<p><img src="/img/githubblog.PNG" alt="github blog"></p>
+<h2 id="安装Hexo_参考hexo官网">安装Hexo 参考<a href="http://hexo.io/zh-cn/docs/index.html" target="_blank" rel="external">hexo官网</a></h2><h3 id="cmd中输入安装命令即可完成安装">cmd中输入安装命令即可完成安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install -g hexo-cli</div></pre></td></tr></table></figure>
+<h2 id="博客搭建">博客搭建</h2><h3 id="建站">建站</h3><p>安装 Hexo 完成后，请执行下列命令，Hexo 将会在指定文件夹中新建所需要的文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ hexo init &lt;folder&gt;</div><div class="line">$ cd &lt;folder&gt;</div><div class="line">$ npm install</div></pre></td></tr></table></figure>
+<p>配置文件_config.yml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div></pre></td><td class="code"><pre><div class="line"># Hexo Configuration</div><div class="line">## Docs: http://hexo.io/docs/configuration.html</div><div class="line">## Source: https://github.com/hexojs/hexo/</div><div class="line"></div><div class="line"># Site</div><div class="line">title: wustrive&apos;s Hexo blog</div><div class="line">subtitle: 生活，工作记录</div><div class="line">description: &quot;hello,I&apos;m wustrive. This is my blog on GitHub.&quot;</div><div class="line">author: wustrive</div><div class="line">language: zh-CN</div><div class="line">email: wustrive_2008@126.com</div><div class="line">timezone:</div><div class="line"></div><div class="line"># URL</div><div class="line">## If your site is put in a subdirectory, set url as &apos;http://yoursite.com/child&apos; and root as &apos;/child/&apos;</div><div class="line">url: https://wustrive2008.github.io</div><div class="line">root: /</div><div class="line">permalink: :year/:month/:day/:title/</div><div class="line">permalink_defaults:</div><div class="line"></div><div class="line"># Directory</div><div class="line">source_dir: source</div><div class="line">public_dir: public</div><div class="line">tag_dir: tags</div><div class="line">archive_dir: archives</div><div class="line">category_dir: categories</div><div class="line">code_dir: downloads/code</div><div class="line">i18n_dir: :lang</div><div class="line">skip_render:</div><div class="line"></div><div class="line"># Writing</div><div class="line">new_post_name: :title.md # File name of new posts</div><div class="line">default_layout: post</div><div class="line">titlecase: false # Transform title into titlecase</div><div class="line">external_link: true # Open external links in new tab</div><div class="line">filename_case: 0</div><div class="line">render_drafts: false</div><div class="line">post_asset_folder: false</div><div class="line">relative_link: false</div><div class="line">future: true</div><div class="line">highlight:</div><div class="line">  enable: true</div><div class="line">  line_number: true</div><div class="line">  tab_replace:</div><div class="line"></div><div class="line"># Category &amp; Tag</div><div class="line">default_category: uncategorized</div><div class="line">category_map:</div><div class="line">tag_map:</div><div class="line"></div><div class="line"># Date / Time format</div><div class="line">## Hexo uses Moment.js to parse and display date</div><div class="line">## You can customize the date format as defined in</div><div class="line">## http://momentjs.com/docs/#/displaying/format/</div><div class="line">date_format: YYYY-MM-DD</div><div class="line">time_format: HH:mm:ss</div><div class="line"></div><div class="line"># Pagination</div><div class="line">## Set per_page to 0 to disable pagination</div><div class="line">per_page: 10</div><div class="line">pagination_dir: page</div><div class="line"></div><div class="line"># Extensions</div><div class="line">## Plugins: http://hexo.io/plugins/</div><div class="line">## Themes: http://hexo.io/themes/</div><div class="line">theme: pacman</div><div class="line">stylus:</div><div class="line">    compress: true</div><div class="line"></div><div class="line"></div><div class="line"># Deployment</div><div class="line">## Docs: http://hexo.io/docs/deployment.html</div><div class="line">deploy:</div><div class="line">  type: git</div><div class="line">  repository: git@github.com:wustrive2008/wustrive2008.github.io.git</div><div class="line">  branch: master</div><div class="line"></div><div class="line">plugins:</div><div class="line">- hexo-generator-feed</div><div class="line">- hexo-generator-sitemap</div></pre></td></tr></table></figure>
+<h3 id="安装pacman主题_github地址">安装pacman主题 <a href="https://github.com/A-limon/pacman" target="_blank" rel="external">github地址</a></h3><h4 id="安装_(切换到博客目录)">安装 (切换到博客目录)</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git clone https://github.com/A-limon/pacman.git themes/pacman</div></pre></td></tr></table></figure>
+<h4 id="启用">启用</h4><p>修改你的博客根目录下的config.yml配置文件中的theme属性，将其设置为pacman。同时请设置stylus属性中的compress值为true。</p>
+<h4 id="更新_(更新前建议备份_config-yml文件)">更新 (更新前建议备份_config..yml文件)</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd themes/pacman</div><div class="line">git pull</div></pre></td></tr></table></figure>
+<h4 id="配置文件_config-yml">配置文件_config.yml</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div></pre></td><td class="code"><pre><div class="line">##### Menu</div><div class="line">menu:</div><div class="line">  主页: /</div><div class="line">  归档: /archives</div><div class="line">## you can create `tags` and `categories` folders in `../source`.</div><div class="line">## And create a `index.md` file in each of them.</div><div class="line">## set `front-matter`as</div><div class="line">## layout: tags (or categories)</div><div class="line">## title: tags (or categories)</div><div class="line">## ---</div><div class="line"></div><div class="line">#### Widgets</div><div class="line">widgets: </div><div class="line">- category</div><div class="line">- tag</div><div class="line">- rss</div><div class="line">## provide six widgets:category,tag,rss,archive,tagcloud,links.</div><div class="line">## modify links in `/layout/_widget/links.ejs`.</div><div class="line"></div><div class="line">#### RSS</div><div class="line">rss: /atom.xml ## RSS address.</div><div class="line"></div><div class="line">#### Image</div><div class="line">imglogo:</div><div class="line">  enable: true             ## display image logo true/false.</div><div class="line">  src: img/logo.svg        ## `.svg` and `.png` are recommended,please put image into the theme folder `/pacman/source/img`.</div><div class="line">favicon: img/favicon.ico   ## size:32px*32px,`.ico` is recommended,please put image into the theme folder `/pacman/source/img`.     </div><div class="line">apple_icon: img/pacman.jpg ## size:114px*114px,please put image into the theme folder `/pacman/source/img`.</div><div class="line"></div><div class="line">#### Author Avatar Picture</div><div class="line">author_img_enable: true ## display author avatar picture</div><div class="line">dataURI: false</div><div class="line">## if the picture&apos;s format is dataURI please set the value to true,otherwise set the value to false.</div><div class="line">## convert an image into base 64 data URIs http://websemantics.co.uk/online_tools/image_to_data_uri_convertor/ .</div><div class="line">author_img_data: &apos;&apos;</div><div class="line">## paste the dataURI in ONE LINE and included it by &apos;&apos;.</div><div class="line">author_img: ../img/author.jpg ## size:220px*220px.</div><div class="line">## if the picture&apos;s format is `.png` or `.jpg`  instead of dataURI,you should set the `dataURI` value to false.</div><div class="line"></div><div class="line">#### Font</div><div class="line">ShowCustomFont: true  </div><div class="line">## you can change custom font in `variable.styl` and `font.styl` which in the theme folder `/pacman/source/css`.</div><div class="line"></div><div class="line">#### Toc</div><div class="line">toc:</div><div class="line">  article: true   ## show contents in article.</div><div class="line">  aside: true     ## show contents in aside.</div><div class="line">## you can set both of the value to true of neither of them.</div><div class="line">## if you don&apos;t want display contents in a specified post,you can modify `front-matter` and add `toc: false`.</div><div class="line"></div><div class="line">#### Fancybox</div><div class="line">fancybox: false </div><div class="line">## if you use gallery post or want use fancybox please set the value to true.</div><div class="line">## if you want use fancybox in ANY post please copy the file `fancybox.js`.</div><div class="line">## in theme folder `/pacman/scripts` to your hexo blog folder `../scritps`.</div><div class="line"></div><div class="line">#### Author information</div><div class="line">author:</div><div class="line">  google_plus:    ## eg:116338260303228776998 for https://plus.google.com/u/0/116338260303228776998</div><div class="line">  intro_line1: &quot;Hello, I&apos;m wustrive. This is my blog on GitHub.&quot; ## eg: &quot;Hello ,I&apos;m Larry Page in Google.&quot;</div><div class="line">  intro_line2: &quot;I wish you happiness&quot; ## eg: &quot;This is my blog,believe it or not.&quot;</div><div class="line">  weibo:      12100106  ## e.g. 436062867 for http://weibo.com/436062867</div><div class="line">  twitter:    wustrive ## e.g. yangjiansky for https://twitter.com/yangjiansky</div><div class="line">  github:     wustrive2008   ## e.g. A-limon for https://github.com/A-limon</div><div class="line">  facebook:   ## e.g. yangjian for https://favebook.com/yangjian</div><div class="line">  tsina:      ## e.g. 1664838973  Your weibo ID,It will be used in share button.</div><div class="line">  linkedin:   ## e.g. in/jeffweiner08 for https://www.linkedin.com/in/jeffweiner08</div><div class="line"></div><div class="line">#### Comment</div><div class="line">duoshuo: </div><div class="line">  enable: true  ## duoshuo.com</div><div class="line">  short_name: wustrive ## duoshuo short name.</div><div class="line">highlight:</div><div class="line">  enable: true</div><div class="line">  line_number: true</div><div class="line">  tab_replace:</div><div class="line"></div><div class="line">#### Share button</div><div class="line">jiathis:</div><div class="line">  enable: false ## if you use jiathis as your share tool,the built-in share tool won&apos;t be display.</div><div class="line">  id:    ## e.g. 1501277 your jiathis ID. </div><div class="line">  tsina: ## e.g. 1664838973 Your weibo id,It will be used in share button.</div><div class="line"></div><div class="line"></div><div class="line">#### Baidu Analytics</div><div class="line">baidu_analytics: true</div><div class="line"></div><div class="line"></div><div class="line">#### Analytics</div><div class="line">google_analytics:</div><div class="line">  enable: false</div><div class="line">  id:   ## e.g. UA-1766729-8 your google analytics ID.</div><div class="line">  site: ## e.g. yangjian.me your google analytics site or set the value as auto.</div><div class="line">## You MUST upgrade to Universal Analytics first!</div><div class="line">## https://developers.google.com/analytics/devguides/collection/upgrade/?hl=zh_CN</div><div class="line"></div><div class="line">#### Custom Search</div><div class="line">google_cse: </div><div class="line">  enable: false</div><div class="line">  cx:  ## e.g. 000561263943549425496:mrzrm0gr4kg your Custom Search ID</div><div class="line">## https://www.google.com/cse/ </div><div class="line">## To enable the custom search You must create a &quot;search&quot; folder in &apos;/source&apos; and a &quot;index.md&quot; file</div><div class="line">## set the &apos;front-matter&apos; as</div><div class="line">## layout: search </div><div class="line">## title: search</div><div class="line">## ---</div></pre></td></tr></table></figure>
+<h2 id="备注">备注</h2><h3 id="hexo插件安装_,比如安装git插件">hexo插件安装 ,比如安装git插件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install hexo-deployer-git --save</div></pre></td></tr></table></figure>
+<h3 id="代码高亮不显示问题">代码高亮不显示问题</h3><p>将主配置文件中的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">highlight:</div><div class="line">  enable: true</div><div class="line">  line_number: true</div><div class="line">  tab_replace:</div></pre></td></tr></table></figure></p>
+<p>拷贝到主题配置的_config.yml文件中</p>
+<h3 id="pacman主题author图片显示问题">pacman主题author图片显示问题</h3><p>修改主题的_config.yml文件中的author_img配置:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">author_img: ../img/author.jpg</div></pre></td></tr></table></figure></p>
+<h3 id="常用命令">常用命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">hexo new &quot;postName&quot; #新建文章</div><div class="line">hexo new page &quot;pageName&quot; #新建页面</div><div class="line">hexo generate #生成静态页面至public目录</div><div class="line">hexo server #开启预览访问端口（默认端口4000，&apos;ctrl + c&apos;关闭server）</div><div class="line">hexo deploy #将.deploy目录部署到GitHub</div></pre></td></tr></table></figure>
+<h3 id="常用复合命令">常用复合命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hexo deploy -g</div><div class="line">hexo server -g</div></pre></td></tr></table></figure>
+<h3 id="简写命令">简写命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">hexo n == hexo new</div><div class="line">hexo g == hexo generate</div><div class="line">hexo s == hexo server</div><div class="line">hexo d == hexo deploy</div></pre></td></tr></table></figure>
+<h3 id="参考">参考</h3><p><a href="http://ibruce.info/2013/11/22/hexo-your-blog/" target="_blank" rel="external">hexo你的博客</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/hexo/">hexo</a><a href="/tags/pacman/">pacman</a><a href="/tags/github/">github</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/hexo/">hexo</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="https://wustrive2008.github.io/2015/03/21/blog/hexo博客之pacman/" data-title="hexo博客搭建记录 | wustrive&#39;s blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/03/21/java/log4j配置参考/" title="log4j配置参考">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  log4j配置参考</span>
+</a>
+</div>
+
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#下面是本博客的搭建记录"><span class="toc-number">1.</span> <span class="toc-text">下面是本博客的搭建记录</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#准备"><span class="toc-number">1.1.</span> <span class="toc-text">准备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#软件环境"><span class="toc-number">1.1.1.</span> <span class="toc-text">软件环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注册github_账号"><span class="toc-number">1.1.2.</span> <span class="toc-text">注册github 账号</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装Hexo_参考hexo官网"><span class="toc-number">1.2.</span> <span class="toc-text">安装Hexo 参考hexo官网</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#cmd中输入安装命令即可完成安装"><span class="toc-number">1.2.1.</span> <span class="toc-text">cmd中输入安装命令即可完成安装</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#博客搭建"><span class="toc-number">1.3.</span> <span class="toc-text">博客搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#建站"><span class="toc-number">1.3.1.</span> <span class="toc-text">建站</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装pacman主题_github地址"><span class="toc-number">1.3.2.</span> <span class="toc-text">安装pacman主题 github地址</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#安装_(切换到博客目录)"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">安装 (切换到博客目录)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#启用"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">启用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#更新_(更新前建议备份_config-yml文件)"><span class="toc-number">1.3.2.3.</span> <span class="toc-text">更新 (更新前建议备份_config..yml文件)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#配置文件_config-yml"><span class="toc-number">1.3.2.4.</span> <span class="toc-text">配置文件_config.yml</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#备注"><span class="toc-number">1.4.</span> <span class="toc-text">备注</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#hexo插件安装_,比如安装git插件"><span class="toc-number">1.4.1.</span> <span class="toc-text">hexo插件安装 ,比如安装git插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码高亮不显示问题"><span class="toc-number">1.4.2.</span> <span class="toc-text">代码高亮不显示问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pacman主题author图片显示问题"><span class="toc-number">1.4.3.</span> <span class="toc-text">pacman主题author图片显示问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用命令"><span class="toc-number">1.4.4.</span> <span class="toc-text">常用命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用复合命令"><span class="toc-number">1.4.5.</span> <span class="toc-text">常用复合命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#简写命令"><span class="toc-number">1.4.6.</span> <span class="toc-text">简写命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考"><span class="toc-number">1.4.7.</span> <span class="toc-text">参考</span></a></li></ol></li></ol></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+		
+			<li><a href="/categories/UML/" title="UML">UML<sup>1</sup></a></li>
+		
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		
+			<li><a href="/categories/http协议/" title="http协议">http协议<sup>2</sup></a></li>
+		
+			<li><a href="/categories/java/" title="java">java<sup>8</sup></a></li>
+		
+			<li><a href="/categories/js/" title="js">js<sup>1</sup></a></li>
+		
+			<li><a href="/categories/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+		
+			<li><a href="/categories/python/" title="python">python<sup>2</sup></a></li>
+		
+			<li><a href="/categories/分享/" title="分享">分享<sup>1</sup></a></li>
+		
+			<li><a href="/categories/版本控制/" title="版本控制">版本控制<sup>2</sup></a></li>
+		
+			<li><a href="/categories/缓存/" title="缓存">缓存<sup>1</sup></a></li>
+		
+			<li><a href="/categories/网络安全/" title="网络安全">网络安全<sup>1</sup></a></li>
+		
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>2</sup></a></li>
+		
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>8</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Arraylist/" title="Arraylist">Arraylist<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Centos/" title="Centos">Centos<sup>2</sup></a></li>
+		
+			<li><a href="/tags/Docker/" title="Docker">Docker<sup>1</sup></a></li>
+		
+			<li><a href="/tags/HashMap/" title="HashMap">HashMap<sup>1</sup></a></li>
+		
+			<li><a href="/tags/HotSpot/" title="HotSpot">HotSpot<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Linux/" title="Linux">Linux<sup>5</sup></a></li>
+		
+			<li><a href="/tags/OOM/" title="OOM">OOM<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Tomcat/" title="Tomcat">Tomcat<sup>1</sup></a></li>
+		
+			<li><a href="/tags/UML/" title="UML">UML<sup>1</sup></a></li>
+		
+			<li><a href="/tags/aes/" title="aes">aes<sup>1</sup></a></li>
+		
+			<li><a href="/tags/array/" title="array">array<sup>1</sup></a></li>
+		
+			<li><a href="/tags/arraylist/" title="arraylist">arraylist<sup>1</sup></a></li>
+		
+			<li><a href="/tags/chkconfig/" title="chkconfig">chkconfig<sup>1</sup></a></li>
+		
+			<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
+		
+			<li><a href="/tags/github/" title="github">github<sup>1</sup></a></li>
+		
+			<li><a href="/tags/hashmap/" title="hashmap">hashmap<sup>1</sup></a></li>
+		
+			<li><a href="/tags/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		
+			<li><a href="/tags/http/" title="http">http<sup>2</sup></a></li>
+		
+			<li><a href="/tags/java/" title="java">java<sup>11</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I&#39;m wustrive. This is my blog on GitHub. <br/>
+			I wish you happiness</p>
+	</section>
+	 
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/12100106" target="_blank" title="weibo"></a>
+		
+		
+		<a href="https://twitter.com/wustrive" target="_blank" title="twitter"></a>
+		
+		
+		<a href="https://github.com/wustrive2008" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2016 
+		
+		<a href="https://wustrive2008.github.io" target="_blank" title="wustrive">wustrive</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"wustrive"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-22190106-2', 'auto');  
+ga('send', 'pageview');
+</script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-22190106-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+  </body>
+</html>

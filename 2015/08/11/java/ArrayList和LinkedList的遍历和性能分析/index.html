@@ -1,0 +1,507 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>ArrayList和LinkedList的遍历和性能分析 | wustrive&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="wustrive">
+    
+    <meta name="description" content="List的五种遍历方式
+for each循环
+1234List&amp;lt;Integer&amp;gt; list = new ArrayList&amp;lt;Integer&amp;gt;();for (Integer j : list) &amp;#123;    // use j&amp;#125;
+
+显示调用集合迭代器
+1234Li">
+    
+    
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="wustrive" />
+    <meta name="twitter:title" content="ArrayList和LinkedList的遍历和性能分析 | wustrive&#39;s blog" />
+      
+    
+    
+    <link rel="alternate" href="/atom.xml" title="wustrive&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/logo.ico">
+    <link rel="apple-touch-icon-precomposed" href="/img/logo.ico">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?5829c94e2ff91660826b6c0c188f5620";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="wustrive&#39;s blog" title="wustrive&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="wustrive&#39;s blog">wustrive&#39;s blog</a></h1>
+				<h2 class="blog-motto">好记性不如写博客</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/aboutme">关于</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:wustrive2008.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/08/11/java/ArrayList和LinkedList的遍历和性能分析/" title="ArrayList和LinkedList的遍历和性能分析" itemprop="url">ArrayList和LinkedList的遍历和性能分析</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="https://wustrive2008.github.io" title="wustrive">wustrive</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-08-11T12:01:15.000Z" itemprop="datePublished">2015-08-11</time>
+    更新日期:<time datetime="2016-11-05T18:14:33.000Z" itemprop="dateModified">2016-11-06</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="http://7xifb5.com1.z0.glb.clouddn.com/wustrive-hexojava知识结构.png" rel="gallery_civ5jdlgo001auvfyi8yes54u">
+        <img src="http://7xifb5.com1.z0.glb.clouddn.com/wustrive-hexojava知识结构.png" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#List的五种遍历方式"><span class="toc-number">1.</span> <span class="toc-text">List的五种遍历方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#List五种遍历方式的性能测试及对比"><span class="toc-number">2.</span> <span class="toc-text">List五种遍历方式的性能测试及对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#遍历方式性能测试结果分析"><span class="toc-number">3.</span> <span class="toc-text">遍历方式性能测试结果分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结论总结"><span class="toc-number">4.</span> <span class="toc-text">结论总结</span></a></li></ol>
+		</div>
+		
+		<h3 id="List的五种遍历方式">List的五种遍历方式</h3><ol>
+<li><p>for each循环</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">List&lt;Integer&gt; list = new ArrayList&lt;Integer&gt;();</div><div class="line">for (Integer j : list) &#123;</div><div class="line">    // use j</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>显示调用集合迭代器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">List&lt;Integer&gt; list = new ArrayList&lt;Integer&gt;();</div><div class="line">for (Iterator&lt;Integer&gt; iterator = list.iterator(); iterator.hasNext();) &#123;</div><div class="line">    iterator.next();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> 或</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">List&lt;Integer&gt; list = new ArrayList&lt;Integer&gt;();</div><div class="line">Iterator&lt;Integer&gt; iterator = list.iterator();</div><div class="line">while (iterator.hasNext()) &#123;</div><div class="line">    iterator.next();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>下标递增循环，终止条件为每次调用size()函数比较判断</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">List&lt;Integer&gt; list = new ArrayList&lt;Integer&gt;();</div><div class="line">for (int j = 0; j &lt; list.size(); j++) &#123;</div><div class="line">    list.get(j);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>下标递增循环，终止条件为和等于size()的临时变量比较判断</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">List&lt;Integer&gt; list = new ArrayList&lt;Integer&gt;();</div><div class="line">int size = list.size();</div><div class="line">for (int j = 0; j &lt; size; j++) &#123;</div><div class="line">    list.get(j);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>下标递减循环</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">List&lt;Integer&gt; list = new ArrayList&lt;Integer&gt;();</div><div class="line">for (int j = list.size() - 1; j &gt;= 0; j--) &#123;</div><div class="line">    list.get(j);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="List五种遍历方式的性能测试及对比">List五种遍历方式的性能测试及对比</h3><p>以下是性能测试代码，会输出不同数量级大小的ArrayList和LinkedList各种遍历方式所花费的时间。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div></pre></td><td class="code"><pre><div class="line">package cn.trinea.java.test;</div><div class="line"></div><div class="line">import java.text.DecimalFormat;</div><div class="line">import java.util.ArrayList;</div><div class="line">import java.util.Calendar;</div><div class="line">import java.util.Iterator;</div><div class="line">import java.util.LinkedList;</div><div class="line">import java.util.List;</div><div class="line"></div><div class="line">/**</div><div class="line"> * JavaLoopTest</div><div class="line"> * </div><div class="line"> * @author www.trinea.cn 2013-10-28</div><div class="line"> */</div><div class="line">public class JavaLoopTest &#123;</div><div class="line"></div><div class="line">    public static void main(String[] args) &#123;</div><div class="line"></div><div class="line">        System.out.print(&quot;compare loop performance of ArrayList&quot;);</div><div class="line">        loopListCompare(getArrayLists(10000, 100000, 1000000, 9000000));</div><div class="line"></div><div class="line">        System.out.print(&quot;\r\n\r\ncompare loop performance of LinkedList&quot;);</div><div class="line">        loopListCompare(getLinkedLists(100, 1000, 10000, 100000));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static List&lt;Integer&gt;[] getArrayLists(int... sizeArray) &#123;</div><div class="line">        List&lt;Integer&gt;[] listArray = new ArrayList[sizeArray.length];</div><div class="line">        for (int i = 0; i &lt; listArray.length; i++) &#123;</div><div class="line">            int size = sizeArray[i];</div><div class="line">            List&lt;Integer&gt; list = new ArrayList&lt;Integer&gt;();</div><div class="line">            for (int j = 0; j &lt; size; j++) &#123;</div><div class="line">                list.add(j);</div><div class="line">            &#125;</div><div class="line">            listArray[i] = list;</div><div class="line">        &#125;</div><div class="line">        return listArray;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static List&lt;Integer&gt;[] getLinkedLists(int... sizeArray) &#123;</div><div class="line">        List&lt;Integer&gt;[] listArray = new LinkedList[sizeArray.length];</div><div class="line">        for (int i = 0; i &lt; listArray.length; i++) &#123;</div><div class="line">            int size = sizeArray[i];</div><div class="line">            List&lt;Integer&gt; list = new LinkedList&lt;Integer&gt;();</div><div class="line">            for (int j = 0; j &lt; size; j++) &#123;</div><div class="line">                list.add(j);</div><div class="line">            &#125;</div><div class="line">            listArray[i] = list;</div><div class="line">        &#125;</div><div class="line">        return listArray;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static void loopListCompare(List&lt;Integer&gt;... listArray) &#123;</div><div class="line">        printHeader(listArray);</div><div class="line">        long startTime, endTime;</div><div class="line"></div><div class="line">        // Type 1</div><div class="line">        for (int i = 0; i &lt; listArray.length; i++) &#123;</div><div class="line">            List&lt;Integer&gt; list = listArray[i];</div><div class="line">            startTime = Calendar.getInstance().getTimeInMillis();</div><div class="line">            for (Integer j : list) &#123;</div><div class="line">                // use j</div><div class="line">            &#125;</div><div class="line">            endTime = Calendar.getInstance().getTimeInMillis();</div><div class="line">            printCostTime(i, listArray.length, &quot;for each&quot;, endTime - startTime);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        // Type 2</div><div class="line">        for (int i = 0; i &lt; listArray.length; i++) &#123;</div><div class="line">            List&lt;Integer&gt; list = listArray[i];</div><div class="line">            startTime = Calendar.getInstance().getTimeInMillis();</div><div class="line">            // Iterator&lt;Integer&gt; iterator = list.iterator();</div><div class="line">            // while(iterator.hasNext()) &#123;</div><div class="line">            // iterator.next();</div><div class="line">            // &#125;</div><div class="line">            for (Iterator&lt;Integer&gt; iterator = list.iterator(); iterator.hasNext();) &#123;</div><div class="line">                iterator.next();</div><div class="line">            &#125;</div><div class="line">            endTime = Calendar.getInstance().getTimeInMillis();</div><div class="line">            printCostTime(i, listArray.length, &quot;for iterator&quot;, endTime - startTime);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        // Type 3</div><div class="line">        for (int i = 0; i &lt; listArray.length; i++) &#123;</div><div class="line">            List&lt;Integer&gt; list = listArray[i];</div><div class="line">            startTime = Calendar.getInstance().getTimeInMillis();</div><div class="line">            for (int j = 0; j &lt; list.size(); j++) &#123;</div><div class="line">                list.get(j);</div><div class="line">            &#125;</div><div class="line">            endTime = Calendar.getInstance().getTimeInMillis();</div><div class="line">            printCostTime(i, listArray.length, &quot;for list.size()&quot;, endTime - startTime);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        // Type 4</div><div class="line">        for (int i = 0; i &lt; listArray.length; i++) &#123;</div><div class="line">            List&lt;Integer&gt; list = listArray[i];</div><div class="line">            startTime = Calendar.getInstance().getTimeInMillis();</div><div class="line">            int size = list.size();</div><div class="line">            for (int j = 0; j &lt; size; j++) &#123;</div><div class="line">                list.get(j);</div><div class="line">            &#125;</div><div class="line">            endTime = Calendar.getInstance().getTimeInMillis();</div><div class="line">            printCostTime(i, listArray.length, &quot;for size = list.size()&quot;, endTime - startTime);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        // Type 5</div><div class="line">        for (int i = 0; i &lt; listArray.length; i++) &#123;</div><div class="line">            List&lt;Integer&gt; list = listArray[i];</div><div class="line">            startTime = Calendar.getInstance().getTimeInMillis();</div><div class="line">            for (int j = list.size() - 1; j &gt;= 0; j--) &#123;</div><div class="line">                list.get(j);</div><div class="line">            &#125;</div><div class="line">            endTime = Calendar.getInstance().getTimeInMillis();</div><div class="line">            printCostTime(i, listArray.length, &quot;for j--&quot;, endTime - startTime);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    static int                 FIRST_COLUMN_LENGTH = 23, OTHER_COLUMN_LENGTH = 12, TOTAL_COLUMN_LENGTH = 71;</div><div class="line">    static final DecimalFormat COMMA_FORMAT        = new DecimalFormat(&quot;#,###&quot;);</div><div class="line"></div><div class="line">    public static void printHeader(List&lt;Integer&gt;... listArray) &#123;</div><div class="line">        printRowDivider();</div><div class="line">        for (int i = 0; i &lt; listArray.length; i++) &#123;</div><div class="line">            if (i == 0) &#123;</div><div class="line">                StringBuilder sb = new StringBuilder().append(&quot;list size&quot;);</div><div class="line">                while (sb.length() &lt; FIRST_COLUMN_LENGTH) &#123;</div><div class="line">                    sb.append(&quot; &quot;);</div><div class="line">                &#125;</div><div class="line">                System.out.print(sb);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            StringBuilder sb = new StringBuilder().append(&quot;| &quot;).append(COMMA_FORMAT.format(listArray[i].size()));</div><div class="line">            while (sb.length() &lt; OTHER_COLUMN_LENGTH) &#123;</div><div class="line">                sb.append(&quot; &quot;);</div><div class="line">            &#125;</div><div class="line">            System.out.print(sb);</div><div class="line">        &#125;</div><div class="line">        TOTAL_COLUMN_LENGTH = FIRST_COLUMN_LENGTH + OTHER_COLUMN_LENGTH * listArray.length;</div><div class="line">        printRowDivider();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static void printRowDivider() &#123;</div><div class="line">        System.out.println();</div><div class="line">        StringBuilder sb = new StringBuilder();</div><div class="line">        while (sb.length() &lt; TOTAL_COLUMN_LENGTH) &#123;</div><div class="line">            sb.append(&quot;-&quot;);</div><div class="line">        &#125;</div><div class="line">        System.out.println(sb);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static void printCostTime(int i, int size, String caseName, long costTime) &#123;</div><div class="line">        if (i == 0) &#123;</div><div class="line">            StringBuilder sb = new StringBuilder().append(caseName);</div><div class="line">            while (sb.length() &lt; FIRST_COLUMN_LENGTH) &#123;</div><div class="line">                sb.append(&quot; &quot;);</div><div class="line">            &#125;</div><div class="line">            System.out.print(sb);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        StringBuilder sb = new StringBuilder().append(&quot;| &quot;).append(costTime).append(&quot; ms&quot;);</div><div class="line">        while (sb.length() &lt; OTHER_COLUMN_LENGTH) &#123;</div><div class="line">            sb.append(&quot; &quot;);</div><div class="line">        &#125;</div><div class="line">        System.out.print(sb);</div><div class="line"></div><div class="line">        if (i == size - 1) &#123;</div><div class="line">            printRowDivider();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>PS：如果运行报异常in thread “main” java.lang.OutOfMemoryError: Java heap space，请将main函数里面list size的大小减小。<br>其中getArrayLists函数会返回不同size的ArrayList，getLinkedLists函数会返回不同size的LinkedList。<br>loopListCompare函数会分别用上面的遍历方式1-5去遍历每一个list数组(包含不同大小list)中的list。<br>print开头函数为输出辅助函数。</p>
+<p>测试环境为Windows7 32位系统 3.2G双核CPU 4G内存，Java 7，Eclipse -Xms512m -Xmx512m<br>最终测试结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">compare loop performance of ArrayList</div><div class="line">-----------------------------------------------------------------------</div><div class="line">list size              | 10,000    | 100,000   | 1,000,000 | 10,000,000 </div><div class="line">-----------------------------------------------------------------------</div><div class="line">for each               | 1 ms      | 3 ms      | 14 ms     | 152 ms    </div><div class="line">-----------------------------------------------------------------------</div><div class="line">for iterator           | 0 ms      | 1 ms      | 12 ms     | 114 ms    </div><div class="line">-----------------------------------------------------------------------</div><div class="line">for list.size()        | 1 ms      | 1 ms      | 13 ms     | 128 ms    </div><div class="line">-----------------------------------------------------------------------</div><div class="line">for size = list.size() | 0 ms      | 0 ms      | 6 ms      | 62 ms     </div><div class="line">-----------------------------------------------------------------------</div><div class="line">for j--                | 0 ms      | 1 ms      | 6 ms      | 63 ms     </div><div class="line">-----------------------------------------------------------------------</div><div class="line"> </div><div class="line">compare loop performance of LinkedList</div><div class="line">-----------------------------------------------------------------------</div><div class="line">list size              | 100       | 1,000     | 10,000    | 100,000   </div><div class="line">-----------------------------------------------------------------------</div><div class="line">for each               | 0 ms      | 1 ms      | 1 ms      | 2 ms      </div><div class="line">-----------------------------------------------------------------------</div><div class="line">for iterator           | 0 ms      | 0 ms      | 0 ms      | 2 ms      </div><div class="line">-----------------------------------------------------------------------</div><div class="line">for list.size()        | 0 ms      | 1 ms      | 73 ms     | 7972 ms   </div><div class="line">-----------------------------------------------------------------------</div><div class="line">for size = list.size() | 0 ms      | 0 ms      | 67 ms     | 8216 ms   </div><div class="line">-----------------------------------------------------------------------</div><div class="line">for j--                | 0 ms      | 1 ms      | 67 ms     | 8277 ms   </div><div class="line">-----------------------------------------------------------------------</div></pre></td></tr></table></figure></p>
+<p>第一张表为ArrayList对比结果，第二张表为LinkedList对比结果。<br>表横向为同一遍历方式不同大小list遍历的时间消耗，纵向为同一list不同遍历方式遍历的时间消耗。<br>PS：由于首次遍历List会稍微多耗时一点，for each的结果稍微有点偏差，将测试代码中的几个Type顺序调换会发现，for each耗时和for iterator接近。</p>
+<h3 id="遍历方式性能测试结果分析">遍历方式性能测试结果分析</h3><ol>
+<li><p>foreach介绍<br>foreach是Java SE5.0引入的功能很强的循环结构，for (Integer j : list)应读作for each int in list。<br>for (Integer j : list)实现几乎等价于</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Iterator&lt;Integer&gt; iterator = list.iterator();</div><div class="line">while(iterator.hasNext()) &#123;</div><div class="line">    Integer j = iterator.next();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>foreach代码书写简单，不必关心下标初始值和终止值及越界等，所以不易出错</p>
+</li>
+<li><p>ArrayList遍历方式结果分析<br>a. 在ArrayList大小为十万之前，五种遍历方式时间消耗几乎一样<br>b. 在十万以后，第四、五种遍历方式快于前三种，get方式优于Iterator方式，并且</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">int size = list.size();</div><div class="line">for (int j = 0; j &lt; size; j++) &#123;</div><div class="line">    list.get(j);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> 用临时变量size取代list.size()性能更优。我们看看ArrayList中迭代器Iterator和get方法的实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">private class Itr implements Iterator&lt;E&gt; &#123;</div><div class="line">    int cursor;       // index of next element to return</div><div class="line">    int lastRet = -1; // index of last element returned; -1 if no such</div><div class="line">    int expectedModCount = modCount;</div><div class="line"> </div><div class="line">    public boolean hasNext() &#123;</div><div class="line">        return cursor != size;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    @SuppressWarnings(&quot;unchecked&quot;)</div><div class="line">    public E next() &#123;</div><div class="line">        checkForComodification();</div><div class="line">        int i = cursor;</div><div class="line">        if (i &gt;= size)</div><div class="line">            throw new NoSuchElementException();</div><div class="line">        Object[] elementData = ArrayList.this.elementData;</div><div class="line">        if (i &gt;= elementData.length)</div><div class="line">            throw new ConcurrentModificationException();</div><div class="line">        cursor = i + 1;</div><div class="line">        return (E) elementData[lastRet = i];</div><div class="line">    &#125;</div><div class="line">    ……</div><div class="line">&#125;</div><div class="line"> </div><div class="line">public E get(int index) &#123;</div><div class="line">    rangeCheck(index);</div><div class="line"> </div><div class="line">    return elementData(index);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> 从中可以看出get和Iterator的next函数同样通过直接定位数据获取元素，只是多了几个判断而已。<br>c. 从上可以看出即便在千万大小的ArrayList中，几种遍历方式相差也不过50ms左右，且在常用的十万左右时间几乎相等，考虑foreach的优点，我们大可选用foreach这种简便方式进行遍历。</p>
+</li>
+<li><p>LinkedList遍历方式结果分析<br>a. 在LinkedList大小接近一万时，get方式和Iterator方式就已经差了差不多两个数量级，十万时Iterator方式性能已经远胜于get方式。<br>我们看看LinkedList中迭代器和get方法的实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line">private class ListItr implements ListIterator&lt;E&gt; &#123;</div><div class="line">    private Node&lt;E&gt; lastReturned = null;</div><div class="line">    private Node&lt;E&gt; next;</div><div class="line">    private int nextIndex;</div><div class="line">    private int expectedModCount = modCount;</div><div class="line"> </div><div class="line">    ListItr(int index) &#123;</div><div class="line">        // assert isPositionIndex(index);</div><div class="line">        next = (index == size) ? null : node(index);</div><div class="line">        nextIndex = index;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    public boolean hasNext() &#123;</div><div class="line">        return nextIndex &lt; size;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    public E next() &#123;</div><div class="line">        checkForComodification();</div><div class="line">        if (!hasNext())</div><div class="line">            throw new NoSuchElementException();</div><div class="line"> </div><div class="line">        lastReturned = next;</div><div class="line">        next = next.next;</div><div class="line">        nextIndex++;</div><div class="line">        return lastReturned.item;</div><div class="line">    &#125;</div><div class="line">    ……</div><div class="line">&#125;</div><div class="line"> </div><div class="line">public E get(int index) &#123;</div><div class="line">    checkElementIndex(index);</div><div class="line">    return node(index).item;</div><div class="line">&#125;</div><div class="line"> </div><div class="line">/**</div><div class="line"> * Returns the (non-null) Node at the specified element index.</div><div class="line"> */</div><div class="line">Node&lt;E&gt; node(int index) &#123;</div><div class="line">    // assert isElementIndex(index);</div><div class="line"> </div><div class="line">    if (index &lt; (size &gt;&gt; 1)) &#123;</div><div class="line">        Node&lt;E&gt; x = first;</div><div class="line">        for (int i = 0; i &lt; index; i++)</div><div class="line">            x = x.next;</div><div class="line">        return x;</div><div class="line">    &#125; else &#123;</div><div class="line">        Node&lt;E&gt; x = last;</div><div class="line">        for (int i = size - 1; i &gt; index; i--)</div><div class="line">            x = x.prev;</div><div class="line">        return x;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> 从上面代码中可以看出LinkedList迭代器的next函数只是通过next指针快速得到下一个元素并返回。而get方法会从头遍历直到index下标，查找一个元素时间复杂度为哦O(n)，遍历的时间复杂度就达到了O(n2)。<br> 所以对于LinkedList的遍历推荐使用foreach，避免使用get方式遍历。</p>
+</li>
+<li><p>ArrayList和LinkedList遍历方式结果对比分析<br>从上面的数量级来看，同样是foreach循环遍历，ArrayList和LinkedList时间差不多，可将本例稍作修改加大list size会发现两者基本在一个数量级上。<br>但ArrayList get函数直接定位获取的方式时间复杂度为O(1)，而LinkedList的get函数时间复杂度为O(n)。<br>再结合考虑空间消耗的话，建议首选ArrayList。对于个别插入删除非常多的可以使用LinkedList。</p>
+</li>
+</ol>
+<h3 id="结论总结">结论总结</h3><p>通过上面的分析我们基本可以总结下：</p>
+<ol>
+<li>无论ArrayList还是LinkedList，遍历建议使用foreach，尤其是数据量较大时LinkedList避免使用get遍历。</li>
+<li>List使用首选ArrayList。对于个别插入删除非常多的可以使用LinkedList。</li>
+<li>可能在遍历List循环内部需要使用到下标，这时综合考虑下是使用foreach和自增count还是get方式。</li>
+</ol>
+<p>参考：<a href="http://www.trinea.cn/android/arraylist-linkedlist-loop-performance/" target="_blank" rel="external">ArrayList和LinkedList的几种循环遍历方式及性能对比分析</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/arraylist/">arraylist</a><a href="/tags/linkedlist/">linkedlist</a><a href="/tags/性能/">性能</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/java/">java</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="https://wustrive2008.github.io/2015/08/11/java/ArrayList和LinkedList的遍历和性能分析/" data-title="ArrayList和LinkedList的遍历和性能分析 | wustrive&#39;s blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/08/11/Linux/通过零拷贝实现有效数据传输/" title="通过零拷贝实现有效数据传输">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  通过零拷贝实现有效数据传输</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/08/11/java/HashMap遍历及性能/"  title="HashMap遍历方式及其性能">
+ <strong>NEXT:</strong><br/> 
+ <span>HashMap遍历方式及其性能
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#List的五种遍历方式"><span class="toc-number">1.</span> <span class="toc-text">List的五种遍历方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#List五种遍历方式的性能测试及对比"><span class="toc-number">2.</span> <span class="toc-text">List五种遍历方式的性能测试及对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#遍历方式性能测试结果分析"><span class="toc-number">3.</span> <span class="toc-text">遍历方式性能测试结果分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结论总结"><span class="toc-number">4.</span> <span class="toc-text">结论总结</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+		
+			<li><a href="/categories/UML/" title="UML">UML<sup>1</sup></a></li>
+		
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		
+			<li><a href="/categories/http协议/" title="http协议">http协议<sup>2</sup></a></li>
+		
+			<li><a href="/categories/java/" title="java">java<sup>8</sup></a></li>
+		
+			<li><a href="/categories/js/" title="js">js<sup>1</sup></a></li>
+		
+			<li><a href="/categories/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+		
+			<li><a href="/categories/python/" title="python">python<sup>2</sup></a></li>
+		
+			<li><a href="/categories/分享/" title="分享">分享<sup>1</sup></a></li>
+		
+			<li><a href="/categories/版本控制/" title="版本控制">版本控制<sup>2</sup></a></li>
+		
+			<li><a href="/categories/缓存/" title="缓存">缓存<sup>1</sup></a></li>
+		
+			<li><a href="/categories/网络安全/" title="网络安全">网络安全<sup>1</sup></a></li>
+		
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>2</sup></a></li>
+		
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>8</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Arraylist/" title="Arraylist">Arraylist<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Centos/" title="Centos">Centos<sup>2</sup></a></li>
+		
+			<li><a href="/tags/Docker/" title="Docker">Docker<sup>1</sup></a></li>
+		
+			<li><a href="/tags/HashMap/" title="HashMap">HashMap<sup>1</sup></a></li>
+		
+			<li><a href="/tags/HotSpot/" title="HotSpot">HotSpot<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Linux/" title="Linux">Linux<sup>5</sup></a></li>
+		
+			<li><a href="/tags/OOM/" title="OOM">OOM<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Tomcat/" title="Tomcat">Tomcat<sup>1</sup></a></li>
+		
+			<li><a href="/tags/UML/" title="UML">UML<sup>1</sup></a></li>
+		
+			<li><a href="/tags/aes/" title="aes">aes<sup>1</sup></a></li>
+		
+			<li><a href="/tags/array/" title="array">array<sup>1</sup></a></li>
+		
+			<li><a href="/tags/arraylist/" title="arraylist">arraylist<sup>1</sup></a></li>
+		
+			<li><a href="/tags/chkconfig/" title="chkconfig">chkconfig<sup>1</sup></a></li>
+		
+			<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
+		
+			<li><a href="/tags/github/" title="github">github<sup>1</sup></a></li>
+		
+			<li><a href="/tags/hashmap/" title="hashmap">hashmap<sup>1</sup></a></li>
+		
+			<li><a href="/tags/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		
+			<li><a href="/tags/http/" title="http">http<sup>2</sup></a></li>
+		
+			<li><a href="/tags/java/" title="java">java<sup>11</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I&#39;m wustrive. This is my blog on GitHub. <br/>
+			I wish you happiness</p>
+	</section>
+	 
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/12100106" target="_blank" title="weibo"></a>
+		
+		
+		<a href="https://twitter.com/wustrive" target="_blank" title="twitter"></a>
+		
+		
+		<a href="https://github.com/wustrive2008" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2016 
+		
+		<a href="https://wustrive2008.github.io" target="_blank" title="wustrive">wustrive</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"wustrive"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-22190106-2', 'auto');  
+ga('send', 'pageview');
+</script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-22190106-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+  </body>
+</html>

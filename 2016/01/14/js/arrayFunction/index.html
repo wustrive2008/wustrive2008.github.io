@@ -1,0 +1,470 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>javaScript数组方法总结 | wustrive&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="wustrive">
+    
+    <meta name="description" content="javaScript数组方法总结Array.prototype.indexOf&amp;amp;lastIndexOf 检索示例：123456789var arr = [1,2,3,4,1,2];console.log(arr.indexOf(2));console.log(arr.indexOf(10))">
+    
+    
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="wustrive" />
+    <meta name="twitter:title" content="javaScript数组方法总结 | wustrive&#39;s blog" />
+      
+    
+    
+    <link rel="alternate" href="/atom.xml" title="wustrive&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/logo.ico">
+    <link rel="apple-touch-icon-precomposed" href="/img/logo.ico">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?5829c94e2ff91660826b6c0c188f5620";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="wustrive&#39;s blog" title="wustrive&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="wustrive&#39;s blog">wustrive&#39;s blog</a></h1>
+				<h2 class="blog-motto">好记性不如写博客</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/aboutme">关于</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:wustrive2008.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/01/14/js/arrayFunction/" title="javaScript数组方法总结" itemprop="url">javaScript数组方法总结</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="https://wustrive2008.github.io" title="wustrive">wustrive</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2016-01-14T14:06:43.000Z" itemprop="datePublished">2016-01-14</time>
+    更新日期:<time datetime="2016-11-05T18:14:33.000Z" itemprop="dateModified">2016-11-06</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#javaScript数组方法总结"><span class="toc-number">1.</span> <span class="toc-text">javaScript数组方法总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Array-prototype-indexOf&lastIndexOf_检索"><span class="toc-number">1.1.</span> <span class="toc-text">Array.prototype.indexOf&lastIndexOf 检索</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Array-prototype-join_将数组转为字符串"><span class="toc-number">1.2.</span> <span class="toc-text">Array.prototype.join 将数组转为字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Array-prototype-reverse_逆序"><span class="toc-number">1.3.</span> <span class="toc-text">Array.prototype.reverse 逆序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Array-prototype-sort_排序"><span class="toc-number">1.4.</span> <span class="toc-text">Array.prototype.sort 排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Array-prototype-concat_合并数组"><span class="toc-number">1.5.</span> <span class="toc-text">Array.prototype.concat 合并数组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Array-prototype-slice_截取数组"><span class="toc-number">1.6.</span> <span class="toc-text">Array.prototype.slice 截取数组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Array-prototype-splice_数组拼接"><span class="toc-number">1.7.</span> <span class="toc-text">Array.prototype.splice 数组拼接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Array-prototype-forEach_遍历"><span class="toc-number">1.8.</span> <span class="toc-text">Array.prototype.forEach 遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Array-prototype-map_映射"><span class="toc-number">1.9.</span> <span class="toc-text">Array.prototype.map 映射</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Array-prototype-filter_过滤"><span class="toc-number">1.10.</span> <span class="toc-text">Array.prototype.filter 过滤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Array-prototype-every&some_数组判断"><span class="toc-number">1.11.</span> <span class="toc-text">Array.prototype.every&some 数组判断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Array-prototype-reduce&reduceRight_元素之间运算"><span class="toc-number">1.12.</span> <span class="toc-text">Array.prototype.reduce&reduceRight 元素之间运算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Array-isArray_判断是否是数组"><span class="toc-number">1.13.</span> <span class="toc-text">Array.isArray 判断是否是数组</span></a></li></ol></li></ol>
+		</div>
+		
+		<h2 id="javaScript数组方法总结">javaScript数组方法总结</h2><h3 id="Array-prototype-indexOf&amp;lastIndexOf_检索">Array.prototype.indexOf&amp;lastIndexOf 检索</h3><p>示例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">1</span>,<span class="number">2</span>];</div><div class="line"><span class="built_in">console</span>.log(arr.indexOf(<span class="number">2</span>));</div><div class="line"><span class="built_in">console</span>.log(arr.indexOf(<span class="number">10</span>));</div><div class="line"><span class="built_in">console</span>.log(arr.indexOf(<span class="number">1</span>,<span class="number">1</span>));</div><div class="line"><span class="built_in">console</span>.log(arr.indexOf(<span class="number">1</span>,<span class="number">-3</span>));</div><div class="line"><span class="built_in">console</span>.log(arr.indexOf(<span class="number">2</span>,<span class="number">-1</span>));</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(arr.lastIndexOf(<span class="number">2</span>));</div><div class="line"><span class="built_in">console</span>.log(arr.lastIndexOf(<span class="number">2</span>,<span class="number">-2</span>));</div></pre></td></tr></table></figure></p>
+<p>输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">1</div><div class="line">-1</div><div class="line">4</div><div class="line">4</div><div class="line">5</div><div class="line">5</div><div class="line">1</div><div class="line">[Finished in 0.2s]</div></pre></td></tr></table></figure></p>
+<h3 id="Array-prototype-join_将数组转为字符串">Array.prototype.join 将数组转为字符串</h3><p>示例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</div><div class="line"><span class="built_in">console</span>.log(arr.join());</div><div class="line"><span class="built_in">console</span>.log(arr.join(<span class="string">"_"</span>));</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">repeatString</span>(<span class="params">str,n</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Array</span>(n+<span class="number">1</span>).join(str)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">2</span>).join(<span class="string">"js"</span>));</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(repeatString(<span class="string">"a."</span>,<span class="number">4</span>));</div><div class="line"><span class="built_in">console</span>.log(repeatString(<span class="string">"hello_"</span>,<span class="number">6</span>));</div></pre></td></tr></table></figure></p>
+<p>输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">1,2,3</div><div class="line">1_2_3</div><div class="line">js</div><div class="line">a.a.a.a.</div><div class="line">hello_hello_hello_hello_hello_hello_</div><div class="line">[Finished in 0.2s]</div></pre></td></tr></table></figure></p>
+<h3 id="Array-prototype-reverse_逆序">Array.prototype.reverse 逆序</h3><p>示例<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>];</div><div class="line">arr.reverse();</div><div class="line"><span class="built_in">console</span>.log(arr);</div></pre></td></tr></table></figure></p>
+<p>输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[ 5, 4, 3, 2, 1 ]</div><div class="line">[Finished in 0.2s]</div></pre></td></tr></table></figure></p>
+<h3 id="Array-prototype-sort_排序">Array.prototype.sort 排序</h3><p>示例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="string">'c'</span>,<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'e'</span>];</div><div class="line"><span class="keyword">var</span> sortArr = arr.sort();</div><div class="line"><span class="built_in">console</span>.log(arr);</div><div class="line"><span class="built_in">console</span>.log(sortArr);</div><div class="line"></div><div class="line"><span class="comment">//默认转字符串排序</span></div><div class="line">arr = [<span class="number">12</span>,<span class="number">3</span>,<span class="number">14</span>,<span class="number">43</span>,<span class="number">5</span>];</div><div class="line"><span class="built_in">console</span>.log(arr.sort());</div><div class="line"></div><div class="line"><span class="comment">//可以通过下面的方式实现数字排序</span></div><div class="line"><span class="keyword">var</span> numberSortArr = arr.sort(<span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> a - b;</div><div class="line">&#125;);</div><div class="line"><span class="built_in">console</span>.log(numberSortArr);</div><div class="line"></div><div class="line"><span class="comment">//对象属性排序</span></div><div class="line"><span class="keyword">var</span> arr = [&#123;<span class="attr">age</span>:<span class="number">25</span>&#125;,&#123;<span class="attr">age</span>:<span class="number">20</span>&#125;,&#123;<span class="attr">age</span>:<span class="number">30</span>&#125;];</div><div class="line">arr.sort(<span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> a.age - b.age;</div><div class="line">&#125;);</div><div class="line">arr.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">item</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'age'</span>,item.age);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">[ &apos;a&apos;, &apos;b&apos;, &apos;c&apos;, &apos;e&apos; ]</div><div class="line">[ &apos;a&apos;, &apos;b&apos;, &apos;c&apos;, &apos;e&apos; ]</div><div class="line">[ 12, 14, 3, 43, 5 ]</div><div class="line">[ 3, 5, 12, 14, 43 ]</div><div class="line">age 20</div><div class="line">age 25</div><div class="line">age 30</div><div class="line">[Finished in 0.2s]</div></pre></td></tr></table></figure></p>
+<h3 id="Array-prototype-concat_合并数组">Array.prototype.concat 合并数组</h3><p>示例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</div><div class="line"><span class="built_in">console</span>.log(arr.concat(<span class="number">4</span>,<span class="number">5</span>));</div><div class="line"><span class="built_in">console</span>.log(arr);</div><div class="line"></div><div class="line"><span class="comment">//合并时只拆一级</span></div><div class="line"><span class="built_in">console</span>.log(arr.concat([<span class="number">12</span>,<span class="number">33</span>],<span class="number">14</span>));</div><div class="line"><span class="built_in">console</span>.log(arr.concat([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,[<span class="number">4</span>,<span class="number">5</span>]]));</div></pre></td></tr></table></figure></p>
+<p>输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[ 1, 2, 3, 4, 5 ]</div><div class="line">[ 1, 2, 3 ]</div><div class="line">[ 1, 2, 3, 12, 33, 14 ]</div><div class="line">[ 1, 2, 3, 1, 2, 3, [ 4, 5 ] ]</div><div class="line">[Finished in 0.2s]</div></pre></td></tr></table></figure></p>
+<h3 id="Array-prototype-slice_截取数组">Array.prototype.slice 截取数组</h3><p>示例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//右不包含</span></div><div class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>];</div><div class="line"><span class="built_in">console</span>.log(arr.slice(<span class="number">1</span>,<span class="number">4</span>));</div><div class="line"><span class="built_in">console</span>.log(arr.slice(<span class="number">-1</span>));</div><div class="line"><span class="built_in">console</span>.log(arr.slice(<span class="number">-4</span>,<span class="number">4</span>));</div><div class="line"><span class="built_in">console</span>.log(arr.slice(<span class="number">-4</span>,<span class="number">-1</span>));</div></pre></td></tr></table></figure></p>
+<p>输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[ 2, 3, 4 ]</div><div class="line">[ 6 ]</div><div class="line">[ 3, 4 ]</div><div class="line">[ 3, 4, 5 ]</div><div class="line">[Finished in 0.3s]</div></pre></td></tr></table></figure></p>
+<h3 id="Array-prototype-splice_数组拼接">Array.prototype.splice 数组拼接</h3><p>示例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//删除元素</span></div><div class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>];</div><div class="line"><span class="built_in">console</span>.log(arr.splice(<span class="number">2</span>));</div><div class="line"><span class="built_in">console</span>.log(arr);</div><div class="line"></div><div class="line">arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>];</div><div class="line"><span class="built_in">console</span>.log(arr.splice(<span class="number">2</span>,<span class="number">2</span>));</div><div class="line"><span class="built_in">console</span>.log(arr);</div><div class="line"></div><div class="line"><span class="comment">//拼接</span></div><div class="line">arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>];</div><div class="line"><span class="built_in">console</span>.log(arr.splice(<span class="number">1</span>,<span class="number">1</span>,<span class="string">'a'</span>,<span class="string">'b'</span>));</div><div class="line"><span class="built_in">console</span>.log(arr);</div></pre></td></tr></table></figure></p>
+<p>输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[ 3, 4, 5 ]</div><div class="line">[ 1, 2 ]</div><div class="line">[ 3, 4 ]</div><div class="line">[ 1, 2, 5 ]</div><div class="line">[ 2 ]</div><div class="line">[ 1, &apos;a&apos;, &apos;b&apos;, 3, 4, 5 ]</div><div class="line">[Finished in 0.2s]</div></pre></td></tr></table></figure></p>
+<h3 id="Array-prototype-forEach_遍历">Array.prototype.forEach 遍历</h3><p>示例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//x:值  index:索引 a:数组本身</span></div><div class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>];</div><div class="line">arr.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">x,index,a</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(x + <span class="string">'|'</span> + index + <span class="string">'|'</span> + (a === arr));</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">1|0|true</div><div class="line">2|1|true</div><div class="line">3|2|true</div><div class="line">4|3|true</div><div class="line">5|4|true</div></pre></td></tr></table></figure></p>
+<h3 id="Array-prototype-map_映射">Array.prototype.map 映射</h3><p>示例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//原数组不变</span></div><div class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>];</div><div class="line"><span class="keyword">var</span> mapArr = arr.map(<span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> x + <span class="number">10</span>;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(mapArr);</div><div class="line"><span class="built_in">console</span>.log(arr);</div></pre></td></tr></table></figure></p>
+<p>输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[ 11, 12, 13, 14, 15 ]</div><div class="line">[ 1, 2, 3, 4, 5 ]</div></pre></td></tr></table></figure></p>
+<h3 id="Array-prototype-filter_过滤">Array.prototype.filter 过滤</h3><p>示例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>];</div><div class="line"><span class="keyword">var</span> filterArr = arr.filter(<span class="function"><span class="keyword">function</span>(<span class="params">x,index</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> index % <span class="number">2</span> === <span class="number">0</span> || x &gt; <span class="number">4</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(filterArr);</div><div class="line"><span class="built_in">console</span>.log(arr);</div></pre></td></tr></table></figure></p>
+<p>输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[ 1, 3, 5, 6, 7 ]</div><div class="line">[ 1, 2, 3, 4, 5, 6, 7 ]</div></pre></td></tr></table></figure></p>
+<h3 id="Array-prototype-every&amp;some_数组判断">Array.prototype.every&amp;some 数组判断</h3><p>示例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>];</div><div class="line"><span class="comment">//判断是否所有元素都小于10</span></div><div class="line"><span class="built_in">console</span>.log(arr.every(<span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> x &lt; <span class="number">10</span>;</div><div class="line">&#125;));</div><div class="line"></div><div class="line"><span class="comment">//判断是否所有元素都大于5</span></div><div class="line"><span class="built_in">console</span>.log(arr.every(<span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> x &gt; <span class="number">5</span>;</div><div class="line">&#125;));</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">//是否有元素等于3</span></div><div class="line"><span class="built_in">console</span>.log(arr.some(<span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> x === <span class="number">3</span>;</div><div class="line">&#125;));</div><div class="line"></div><div class="line"><span class="comment">//是否有元素等于10</span></div><div class="line"><span class="built_in">console</span>.log(arr.some(<span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> x === <span class="number">10</span>;</div><div class="line">&#125;));</div></pre></td></tr></table></figure></p>
+<p>输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">true</div><div class="line">false</div><div class="line">true</div><div class="line">false</div></pre></td></tr></table></figure></p>
+<h3 id="Array-prototype-reduce&amp;reduceRight_元素之间运算">Array.prototype.reduce&amp;reduceRight 元素之间运算</h3><p>示例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</div><div class="line"><span class="comment">//0+1 1+2 3+3</span></div><div class="line"><span class="keyword">var</span> sum = arr.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">x,y</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> x + y;</div><div class="line">&#125;,<span class="number">0</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(sum);</div><div class="line"><span class="built_in">console</span>.log(arr);</div><div class="line"></div><div class="line"></div><div class="line">arr = [<span class="number">3</span>,<span class="number">6</span>,<span class="number">9</span>];</div><div class="line"><span class="keyword">var</span> max = arr.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">x,y</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(x + <span class="string">"|"</span> + y);</div><div class="line">    <span class="keyword">return</span> x &gt; y ? x : y;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(max);</div><div class="line"></div><div class="line"><span class="comment">//从右到左运算</span></div><div class="line"><span class="keyword">var</span> arr = [<span class="number">3</span>,<span class="number">6</span>,<span class="number">9</span>];</div><div class="line"><span class="keyword">var</span> max = arr.reduceRight(<span class="function"><span class="keyword">function</span>(<span class="params">x,y</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(x + <span class="string">"|"</span> + y);</div><div class="line">    <span class="keyword">return</span> x &gt; y ? x : y;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(max);</div></pre></td></tr></table></figure></p>
+<p>输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">6</div><div class="line">[ 1, 2, 3 ]</div><div class="line">3|6</div><div class="line">6|9</div><div class="line">9</div><div class="line">9|6</div><div class="line">9|3</div><div class="line">9</div><div class="line">[Finished in 0.2s]</div></pre></td></tr></table></figure></p>
+<h3 id="Array-isArray_判断是否是数组">Array.isArray 判断是否是数组</h3><p>示例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Array</span>.isArray([]));</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log([] <span class="keyword">instanceof</span> <span class="built_in">Array</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log((&#123;&#125;).toString.apply([]) === <span class="string">'[object Array]'</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log([].constructor === <span class="built_in">Array</span>);</div></pre></td></tr></table></figure></p>
+<p>输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">true</div><div class="line">true</div><div class="line">true</div><div class="line">true</div><div class="line">[Finished in 0.3s]</div></pre></td></tr></table></figure></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/array/">array</a><a href="/tags/前端/">前端</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/js/">js</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="https://wustrive2008.github.io/2016/01/14/js/arrayFunction/" data-title="javaScript数组方法总结 | wustrive&#39;s blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/03/21/Linux/正则表达式/" title="正则表达式">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  正则表达式</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/01/11/版本控制/Git全解析之远程仓库交互/"  title="Git全解析之远程仓库交互">
+ <strong>NEXT:</strong><br/> 
+ <span>Git全解析之远程仓库交互
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#javaScript数组方法总结"><span class="toc-number">1.</span> <span class="toc-text">javaScript数组方法总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Array-prototype-indexOf&lastIndexOf_检索"><span class="toc-number">1.1.</span> <span class="toc-text">Array.prototype.indexOf&lastIndexOf 检索</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Array-prototype-join_将数组转为字符串"><span class="toc-number">1.2.</span> <span class="toc-text">Array.prototype.join 将数组转为字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Array-prototype-reverse_逆序"><span class="toc-number">1.3.</span> <span class="toc-text">Array.prototype.reverse 逆序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Array-prototype-sort_排序"><span class="toc-number">1.4.</span> <span class="toc-text">Array.prototype.sort 排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Array-prototype-concat_合并数组"><span class="toc-number">1.5.</span> <span class="toc-text">Array.prototype.concat 合并数组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Array-prototype-slice_截取数组"><span class="toc-number">1.6.</span> <span class="toc-text">Array.prototype.slice 截取数组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Array-prototype-splice_数组拼接"><span class="toc-number">1.7.</span> <span class="toc-text">Array.prototype.splice 数组拼接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Array-prototype-forEach_遍历"><span class="toc-number">1.8.</span> <span class="toc-text">Array.prototype.forEach 遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Array-prototype-map_映射"><span class="toc-number">1.9.</span> <span class="toc-text">Array.prototype.map 映射</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Array-prototype-filter_过滤"><span class="toc-number">1.10.</span> <span class="toc-text">Array.prototype.filter 过滤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Array-prototype-every&some_数组判断"><span class="toc-number">1.11.</span> <span class="toc-text">Array.prototype.every&some 数组判断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Array-prototype-reduce&reduceRight_元素之间运算"><span class="toc-number">1.12.</span> <span class="toc-text">Array.prototype.reduce&reduceRight 元素之间运算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Array-isArray_判断是否是数组"><span class="toc-number">1.13.</span> <span class="toc-text">Array.isArray 判断是否是数组</span></a></li></ol></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+		
+			<li><a href="/categories/UML/" title="UML">UML<sup>1</sup></a></li>
+		
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		
+			<li><a href="/categories/http协议/" title="http协议">http协议<sup>2</sup></a></li>
+		
+			<li><a href="/categories/java/" title="java">java<sup>8</sup></a></li>
+		
+			<li><a href="/categories/js/" title="js">js<sup>1</sup></a></li>
+		
+			<li><a href="/categories/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+		
+			<li><a href="/categories/python/" title="python">python<sup>2</sup></a></li>
+		
+			<li><a href="/categories/分享/" title="分享">分享<sup>1</sup></a></li>
+		
+			<li><a href="/categories/版本控制/" title="版本控制">版本控制<sup>2</sup></a></li>
+		
+			<li><a href="/categories/缓存/" title="缓存">缓存<sup>1</sup></a></li>
+		
+			<li><a href="/categories/网络安全/" title="网络安全">网络安全<sup>1</sup></a></li>
+		
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>2</sup></a></li>
+		
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>8</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Arraylist/" title="Arraylist">Arraylist<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Centos/" title="Centos">Centos<sup>2</sup></a></li>
+		
+			<li><a href="/tags/Docker/" title="Docker">Docker<sup>1</sup></a></li>
+		
+			<li><a href="/tags/HashMap/" title="HashMap">HashMap<sup>1</sup></a></li>
+		
+			<li><a href="/tags/HotSpot/" title="HotSpot">HotSpot<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Linux/" title="Linux">Linux<sup>5</sup></a></li>
+		
+			<li><a href="/tags/OOM/" title="OOM">OOM<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Tomcat/" title="Tomcat">Tomcat<sup>1</sup></a></li>
+		
+			<li><a href="/tags/UML/" title="UML">UML<sup>1</sup></a></li>
+		
+			<li><a href="/tags/aes/" title="aes">aes<sup>1</sup></a></li>
+		
+			<li><a href="/tags/array/" title="array">array<sup>1</sup></a></li>
+		
+			<li><a href="/tags/arraylist/" title="arraylist">arraylist<sup>1</sup></a></li>
+		
+			<li><a href="/tags/chkconfig/" title="chkconfig">chkconfig<sup>1</sup></a></li>
+		
+			<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
+		
+			<li><a href="/tags/github/" title="github">github<sup>1</sup></a></li>
+		
+			<li><a href="/tags/hashmap/" title="hashmap">hashmap<sup>1</sup></a></li>
+		
+			<li><a href="/tags/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		
+			<li><a href="/tags/http/" title="http">http<sup>2</sup></a></li>
+		
+			<li><a href="/tags/java/" title="java">java<sup>11</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I&#39;m wustrive. This is my blog on GitHub. <br/>
+			I wish you happiness</p>
+	</section>
+	 
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/12100106" target="_blank" title="weibo"></a>
+		
+		
+		<a href="https://twitter.com/wustrive" target="_blank" title="twitter"></a>
+		
+		
+		<a href="https://github.com/wustrive2008" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2016 
+		
+		<a href="https://wustrive2008.github.io" target="_blank" title="wustrive">wustrive</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"wustrive"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-22190106-2', 'auto');  
+ga('send', 'pageview');
+</script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-22190106-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+  </body>
+</html>

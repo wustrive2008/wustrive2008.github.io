@@ -1,0 +1,494 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>2016.8.27分享内容 | wustrive&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="wustrive">
+    
+    <meta name="description" content="开发规范目的
+提高工作效率  指定规范的最重要目的应该是提高工作效率。在一个没有规范的开发团队中，制定一个能够提高开发效率的规范是困难的，往往需要更多的试错和磨合，同时这也是迫切需要规范的信号。
+减少运维成本  规范常常是后期运维的有用依据。项目后期运维的难易往往依赖开发规范的执行力度。
+团队传承 ">
+    
+    
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="wustrive" />
+    <meta name="twitter:title" content="2016.8.27分享内容 | wustrive&#39;s blog" />
+      
+    
+    
+    <link rel="alternate" href="/atom.xml" title="wustrive&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/logo.ico">
+    <link rel="apple-touch-icon-precomposed" href="/img/logo.ico">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?5829c94e2ff91660826b6c0c188f5620";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="wustrive&#39;s blog" title="wustrive&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="wustrive&#39;s blog">wustrive&#39;s blog</a></h1>
+				<h2 class="blog-motto">好记性不如写博客</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/aboutme">关于</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:wustrive2008.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/08/27/工作与分享/2016.8.27分享内容/" title="2016.8.27分享内容" itemprop="url">2016.8.27分享内容</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="https://wustrive2008.github.io" title="wustrive">wustrive</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2016-08-27T14:12:45.000Z" itemprop="datePublished">2016-08-27</time>
+    更新日期:<time datetime="2016-11-05T18:14:33.000Z" itemprop="dateModified">2016-11-06</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="http://7vzshu.com1.z0.glb.clouddn.com/share/2016.8.27%E5%88%86%E4%BA%AB.png" rel="gallery_civ5jdlhr002juvfyex7njnz6">
+        <img src="http://7vzshu.com1.z0.glb.clouddn.com/share/2016.8.27%E5%88%86%E4%BA%AB.png" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#开发规范"><span class="toc-number">1.</span> <span class="toc-text">开发规范</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#目的"><span class="toc-number">1.1.</span> <span class="toc-text">目的</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#前提"><span class="toc-number">1.2.</span> <span class="toc-text">前提</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#原则"><span class="toc-number">1.3.</span> <span class="toc-text">原则</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#方法"><span class="toc-number">1.4.</span> <span class="toc-text">方法</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#个人思维思想"><span class="toc-number">2.</span> <span class="toc-text">个人思维思想</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#三体与互联网公司"><span class="toc-number">3.</span> <span class="toc-text">三体与互联网公司</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#《三体》资料"><span class="toc-number">4.</span> <span class="toc-text">《三体》资料</span></a></li></ol>
+		</div>
+		
+		<h4 id="开发规范">开发规范</h4><h5 id="目的">目的</h5><ul>
+<li>提高工作效率<br>  指定规范的最重要目的应该是提高工作效率。在一个没有规范的开发团队中，制定一个能够提高开发效率的规范是困难的，往往需要更多的试错和磨合，同时这也是迫切需要规范的信号。</li>
+<li>减少运维成本<br>  规范常常是后期运维的有用依据。项目后期运维的难易往往依赖开发规范的执行力度。</li>
+<li>团队传承<br>  熟悉开发规范往往是团队新入的第一个工作任务，有时也是一个新人对团队好坏的第一依据，更是新人更快融入团队的有效工具，可以想象，对于一个新人，面对一个没有任何规范的团队是多么的糟糕。</li>
+</ul>
+<h5 id="前提">前提</h5><ul>
+<li>使用方便，流畅<br>  一个规范首先要让大家用起来爽，不能影响工作的流畅性，规范中的任何一条都不应该是多余的，每一步都应该是必要的。</li>
+<li>协调性<br>  管理上应该对规范的顺利执行提供良好的环境，不能忽视执行规范带来的时间成本。保证整个开发周期的协调性，没有一个好的设计规范和运维规范，很难保证一个好的开发规范能够实施顺利。</li>
+</ul>
+<h5 id="原则">原则</h5><ul>
+<li>约束随意性保证创造性<br>  规范不能影响开发工作的创造性，所以规范的灵活度要把握好。一个好的规范往往只是用来约束一小部分人，就像制定法律来约束小部分思想邪恶的“坏人”的行为一样，不能影响到大部分好的行为。一个国家的法律如果缺失灵活性，往往会压制国民的创造性，影响国家的发展。</li>
+</ul>
+<h5 id="方法">方法</h5><ul>
+<li>避免个人偏好<br>  规范是由人来制定的，所以很难避免规范倾向于个人偏好，如果一个规范完全按照某个人的偏好来制定，这个规范在一开始就注定是失败的。</li>
+<li>基于行业经验<br>  制定规范一个较好的实践就是参考行业经验，在一些大公司的规范基础上结合自己团队的实际情况，进行优化、改造。就像我们基于马列的社会主义结合我国的国情指定特色社会主义一样。</li>
+<li>一人制定 多人讨论定稿<br>  群众是愚蠢的，所以不要在没有任何基础和准备的情况下开会讨论任何事情，在这种情况下的最好也就是一个“中庸”的结果，不要陷入人多力量大这个思维陷阱。一人出方案，多人讨论，集思广益是很好的实践。</li>
+</ul>
+<h4 id="个人思维思想">个人思维思想</h4><ul>
+<li>训练独立思考能力，增强辨别是非能力<br>  网络时代，很多人只会接受信息，但是独立思考能力不强。所谓独立思考，不是特立独行，不是一定要对社会问题有不同寻常的论断，而是说这个论断应该做到知其然知其所以然。</li>
+<li>战胜对未知的恐惧<br>  害怕未知的事物是人的本性，是从我们祖先那里遗传下来的。常问自己：“你害怕什么”，多做尝试，通过尝试加强信心，从而慢慢克服恐惧</li>
+</ul>
+<h4 id="三体与互联网公司">三体与互联网公司</h4><ul>
+<li><p>三体观点</p>
+<ul>
+<li>生存是文明的第一需要</li>
+<li>文明不断增长和扩张，但宇宙中的物质总量保持不变</li>
+<li>猜疑链：宇宙中的不同文明会猜疑对方并采取各种手段毁灭对方</li>
+<li>技术爆炸：任何一个不起眼的小文明在宇宙尺度中很快可以通过技术大爆炸超越自己</li>
+</ul>
+</li>
+<li><p>互联网环境</p>
+<ul>
+<li>生存是公司的第一需要</li>
+<li>公司不断增长和扩张，商业环境中的市场总量有限</li>
+<li>垄断主义。商业模式的本质造成只有绝对的垄断，才可以绝对的利用资源提高效率，创造利润。每一个公司为了实现公司战略，必须逼死其他公司，占有绝对的市场垄断</li>
+<li>颠覆逆袭。借助互联网的力量，小公司随时可能发生商业模式爆炸，一下子远远走在大公司前面，灭掉大公司</li>
+</ul>
+</li>
+<li><p>隐藏自己 干掉别人<br>  小米、凡客、facebook，这些都是近几年借助互联网思维异军突起颠覆行业格局和品牌影响力的公司。所以在现代商业模式之下，每一个公司都要学会隐藏自己，暴露的越早，面临的危险越大。</p>
+</li>
+</ul>
+<h4 id="《三体》资料">《三体》资料</h4><ul>
+<li><a href="http://sanwen8.cn/p/142AwLy.html" target="_blank" rel="external">为啥大佬们都爱看《三体》</a></li>
+<li><a href="https://pan.baidu.com/s/1nvjMnIL" target="_blank" rel="external">《三体》电子书下载</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/规范/">规范</a><a href="/tags/分享/">分享</a><a href="/tags/三体/">三体</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/分享/">分享</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="https://wustrive2008.github.io/2016/08/27/工作与分享/2016.8.27分享内容/" data-title="2016.8.27分享内容 | wustrive&#39;s blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/03/21/Linux/正则表达式/"  title="正则表达式">
+ <strong>NEXT:</strong><br/> 
+ <span>正则表达式
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#开发规范"><span class="toc-number">1.</span> <span class="toc-text">开发规范</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#目的"><span class="toc-number">1.1.</span> <span class="toc-text">目的</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#前提"><span class="toc-number">1.2.</span> <span class="toc-text">前提</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#原则"><span class="toc-number">1.3.</span> <span class="toc-text">原则</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#方法"><span class="toc-number">1.4.</span> <span class="toc-text">方法</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#个人思维思想"><span class="toc-number">2.</span> <span class="toc-text">个人思维思想</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#三体与互联网公司"><span class="toc-number">3.</span> <span class="toc-text">三体与互联网公司</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#《三体》资料"><span class="toc-number">4.</span> <span class="toc-text">《三体》资料</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+		
+			<li><a href="/categories/UML/" title="UML">UML<sup>1</sup></a></li>
+		
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		
+			<li><a href="/categories/http协议/" title="http协议">http协议<sup>2</sup></a></li>
+		
+			<li><a href="/categories/java/" title="java">java<sup>8</sup></a></li>
+		
+			<li><a href="/categories/js/" title="js">js<sup>1</sup></a></li>
+		
+			<li><a href="/categories/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+		
+			<li><a href="/categories/python/" title="python">python<sup>2</sup></a></li>
+		
+			<li><a href="/categories/分享/" title="分享">分享<sup>1</sup></a></li>
+		
+			<li><a href="/categories/版本控制/" title="版本控制">版本控制<sup>2</sup></a></li>
+		
+			<li><a href="/categories/缓存/" title="缓存">缓存<sup>1</sup></a></li>
+		
+			<li><a href="/categories/网络安全/" title="网络安全">网络安全<sup>1</sup></a></li>
+		
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>2</sup></a></li>
+		
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>8</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Arraylist/" title="Arraylist">Arraylist<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Centos/" title="Centos">Centos<sup>2</sup></a></li>
+		
+			<li><a href="/tags/Docker/" title="Docker">Docker<sup>1</sup></a></li>
+		
+			<li><a href="/tags/HashMap/" title="HashMap">HashMap<sup>1</sup></a></li>
+		
+			<li><a href="/tags/HotSpot/" title="HotSpot">HotSpot<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Linux/" title="Linux">Linux<sup>5</sup></a></li>
+		
+			<li><a href="/tags/OOM/" title="OOM">OOM<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Tomcat/" title="Tomcat">Tomcat<sup>1</sup></a></li>
+		
+			<li><a href="/tags/UML/" title="UML">UML<sup>1</sup></a></li>
+		
+			<li><a href="/tags/aes/" title="aes">aes<sup>1</sup></a></li>
+		
+			<li><a href="/tags/array/" title="array">array<sup>1</sup></a></li>
+		
+			<li><a href="/tags/arraylist/" title="arraylist">arraylist<sup>1</sup></a></li>
+		
+			<li><a href="/tags/chkconfig/" title="chkconfig">chkconfig<sup>1</sup></a></li>
+		
+			<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
+		
+			<li><a href="/tags/github/" title="github">github<sup>1</sup></a></li>
+		
+			<li><a href="/tags/hashmap/" title="hashmap">hashmap<sup>1</sup></a></li>
+		
+			<li><a href="/tags/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		
+			<li><a href="/tags/http/" title="http">http<sup>2</sup></a></li>
+		
+			<li><a href="/tags/java/" title="java">java<sup>11</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I&#39;m wustrive. This is my blog on GitHub. <br/>
+			I wish you happiness</p>
+	</section>
+	 
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/12100106" target="_blank" title="weibo"></a>
+		
+		
+		<a href="https://twitter.com/wustrive" target="_blank" title="twitter"></a>
+		
+		
+		<a href="https://github.com/wustrive2008" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2016 
+		
+		<a href="https://wustrive2008.github.io" target="_blank" title="wustrive">wustrive</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"wustrive"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-22190106-2', 'auto');  
+ga('send', 'pageview');
+</script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-22190106-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+  </body>
+</html>

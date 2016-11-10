@@ -1,0 +1,481 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>开放接口的安全验证方案(AES+RSA) | wustrive&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="wustrive">
+    
+    <meta name="description" content="随着密码分析技术的提高，新的数据加密标准AES取代了过时的DES。文章在阐述AES/RSA加密算法的基础上，分别给出了利用AES/RSA实现客户端/服务器端网络数据传输的加密流程。最后在比较AES算法和RSA算法基础上，将AES与RSA相结合提出一种新的数据加密方案。">
+    
+    
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="wustrive" />
+    <meta name="twitter:title" content="开放接口的安全验证方案(AES+RSA) | wustrive&#39;s blog" />
+      
+    
+    
+    <link rel="alternate" href="/atom.xml" title="wustrive&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/logo.ico">
+    <link rel="apple-touch-icon-precomposed" href="/img/logo.ico">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?5829c94e2ff91660826b6c0c188f5620";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="wustrive&#39;s blog" title="wustrive&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="wustrive&#39;s blog">wustrive&#39;s blog</a></h1>
+				<h2 class="blog-motto">好记性不如写博客</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/aboutme">关于</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:wustrive2008.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/08/21/开放接口的安全验证方案(AES+RSA)/" title="开放接口的安全验证方案(AES+RSA)" itemprop="url">开放接口的安全验证方案(AES+RSA)</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="https://wustrive2008.github.io" title="wustrive">wustrive</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-08-21T15:39:13.000Z" itemprop="datePublished">2015-08-21</time>
+    更新日期:<time datetime="2016-11-05T18:14:33.000Z" itemprop="dateModified">2016-11-06</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="http://7xifb5.com1.z0.glb.clouddn.com/wustrive-hexo加解密.png" rel="gallery_civ5jdlf30001uvfyihn0qpxf">
+        <img src="http://7xifb5.com1.z0.glb.clouddn.com/wustrive-hexo加解密.png" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本需求及概念"><span class="toc-number">1.</span> <span class="toc-text">基本需求及概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AES算法"><span class="toc-number">2.</span> <span class="toc-text">AES算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#基本原理及算法流程"><span class="toc-number">2.1.</span> <span class="toc-text">基本原理及算法流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AES算法流程"><span class="toc-number">2.2.</span> <span class="toc-text">AES算法流程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RSA算法"><span class="toc-number">3.</span> <span class="toc-text">RSA算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#基本原理及流程"><span class="toc-number">3.1.</span> <span class="toc-text">基本原理及流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RSA算法实现流程"><span class="toc-number">3.2.</span> <span class="toc-text">RSA算法实现流程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AES与RSA相结合数据加密方案"><span class="toc-number">4.</span> <span class="toc-text">AES与RSA相结合数据加密方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AES+RSA结合最佳实践"><span class="toc-number">5.</span> <span class="toc-text">AES+RSA结合最佳实践</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#基本要求"><span class="toc-number">5.1.</span> <span class="toc-text">基本要求</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#基本流程"><span class="toc-number">5.2.</span> <span class="toc-text">基本流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#java版示例"><span class="toc-number">5.3.</span> <span class="toc-text">java版示例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考："><span class="toc-number">6.</span> <span class="toc-text">参考：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#捐赠"><span class="toc-number">7.</span> <span class="toc-text">捐赠</span></a></li></ol>
+		</div>
+		
+		<p>随着密码分析技术的提高，新的数据加密标准AES取代了过时的DES。文章在阐述AES/RSA加密算法的基础上，分别给出了利用AES/RSA实现客户端/服务器端网络数据传输的加密流程。最后在比较AES算法和RSA算法基础上，将AES与RSA相结合提出一种新的数据加密方案。<br><a id="more"></a></p>
+<h3 id="基本需求及概念">基本需求及概念</h3><p>随着Internet网的广泛应用，信息安全问题日益突出，以数据加密技术为核心的信息安全技术也得到了极大的发展。目前的数据加密技术根据加密密钥类型可分私钥加密（对称加密）系统和公钥加密（非对称加密）系统[1]。对称加密算法是较传统的加密体制，通信双方在加/解密过程中使用他们共享的单一密钥，鉴于其算法简单和加密速度快的优点，目前仍然是主流的密码体制之一。最常用的对称密码算法是数据加密标准（DES）算法，但是由于DES密钥长度较短，已经不适合当今分布式开放网络对数据加密安全性的要求。最后，一种新的基于Rijndael算法对称高级数据加密标准AES取代了数据加密标准DES。非对称加密由于加/解密钥不同（公钥加密，私钥解密），密钥管理简单，也得到广泛应用。RSA是非对称加密系统最著名的公钥密码算法。</p>
+<h3 id="AES算法">AES算法</h3><h4 id="基本原理及算法流程">基本原理及算法流程</h4><p>美国国家标准和技术研究所（NIST）经过三轮候选算法筛选，从众多的分组密码中选中Rijndael算法作为高级加密标准（AES）。Rijndael密码是一个迭代型分组密码，分组长度和密码长度都是可变的，分组长度和密码长度可以独立的指定为128比特，192比特或者256比特。AES的加密算法的数据处理单位是字节，128位的比特信息被分成16个字节，按顺序复制到一个4*4的矩阵中，称为状态（state），AES的所有变换都是基于状态矩阵的变换。<br>用Nr表示对一个数据分组加密的轮数（加密轮数与密钥长度的关系如表1所示）。在轮函数的每一轮迭代中，包括四步变换，分别是字节代换运算(ByteSub())、行变换(ShiftRows())、列混合(MixColumns())以及轮密钥的添加变换AddRoundKey()[3]，其作用就是通过重复简单的非线形变换、混合函数变换，将字节代换运算产生的非线性扩散，达到充分的混合，在每轮迭代中引入不同的密钥，从而实现加密的有效性。<br>表1 是三种不同类型的AES加密密钥分组大小与相应的加密轮数的对照表。加密开始时，输入分组的各字节按表2 的方式装入矩阵state中。如输入ABCDEFGHIJKLMNOP，则输入块影射到如表2的状态矩阵中。<br>表1：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">|AES类型| 密钥长度 | 分组长度 | 加密轮数|</div><div class="line">|AES-128|  4字     |   4字    |   10    |</div><div class="line">|AES-192|  6字     |   4字    |   12    |</div><div class="line">|AES-256|  8字     |   4字    |   14    |</div></pre></td></tr></table></figure></p>
+<p>表2：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">| A | E | I | M |</div><div class="line">| B | F | J | N |</div><div class="line">| C | G | K | O |</div><div class="line">| D | H | L | P |</div></pre></td></tr></table></figure></p>
+<ol>
+<li>字节代换运算(ByteSub())<br> 字节代换运算是一个可逆的非线形字节代换操作，对分组中的每个字节进行，对字节的操作遵循一个代换表，即S盒。S盒由有限域 GF（28）上的乘法取逆和GF（2）上的仿射变换两步组成。</li>
+<li>行变换ShiftRows()<br> 行变换是一种线性变换，其目的就是使密码信息达到充分的混乱，提高非线形度。行变换对状态的每行以字节为单位进行循环右移，移动字节数根据行数来确定，第0行不发生偏移，第一行循环右移一个字节，第二行移两个，依次类推。</li>
+<li>列混合变换MixColumns()<br> 列变换就是从状态中取出一列，表示成多项式的形式后，用它乘以一个固定的多项式a(x)，然后将所得结果进行取模运算，模值为 x4+1。其中a(x)={03}x3+{02}x2+{01}x+{02},<br> 这个多项式与x4+1互质，因此是可逆的。列混合变换的算术表达式为：s’(x)= a(x) s(x)，其中， s(x)表示状态的列多项式。</li>
+<li>轮密钥的添加变换AddRoundKey()<br> 在这个操作中，轮密钥被简单地异或到状态中，轮密钥根据密钥表获得，其长度等于数据块的长度Nb。</li>
+</ol>
+<h4 id="AES算法流程">AES算法流程</h4><p>对于发送方，它首先创建一个AES私钥，并用口令对这个私钥进行加密。然后把用口令加密后的AES密钥通过Internet发送到接收方。发送方解密这个私钥，并用此私钥加密明文得到密文，密文和加密后的AES密钥一起通过Internet发送到接收方。接收方收到后再用口令对加密密钥进行解密得到AES密钥，最后用解密后的密钥把收到的密文解密成明文。图1中是这个过程的实现流程。<br>图1：<br><img src="http://7xifb5.com1.z0.glb.clouddn.com/wustrive-hexoAES流程.png" alt=""></p>
+<h3 id="RSA算法">RSA算法</h3><h4 id="基本原理及流程">基本原理及流程</h4><p>RSA是在1977年发明RSA密码系统的三个人的名字的首字母的缩写，他们是：Ron Rivest、Adi Shamir和Leonard Adleman。它是第一个公钥加密算法，在很多密码协议中都有应用，如SSL和S/MIME。RSA算法是基于大质数的因数分解的公匙体系。简单的讲，就是两个很大的质数，一个作为公钥，另一个作为私钥，如用其中一个加密，则用另一个解密。密钥长度从40到2048位可变，密钥越长，加密效果越好，但加密解密的开销也大。RSA算法可简单描述如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">公开密钥：n=pq，（p，q为两个不同的很大的质数，p和q必须保密）</div><div class="line">将(p-1)和(q-1)相乘得到φ(n)</div><div class="line">选择一个整数e (1&lt;e&lt;φ(n))与φ(n)互质</div><div class="line">秘密密钥：d=e-1modφ(n)，即计算一个数字d，使得它满足公式 de=1 modφ(n)</div><div class="line">加密：c=mc(mod n) </div><div class="line">解密：m=cd(mod n)，m为明文，c为密文。</div></pre></td></tr></table></figure></p>
+<h4 id="RSA算法实现流程">RSA算法实现流程</h4><p> 首先，接收方创建RSA密匙对，即一个公钥和一个私钥，公钥被发送到发送方,私钥则被保存在接收方。发送方在接收到这个公钥后,用该公钥对明文进行加密得到密文，然后把密文通过网络传输给接收方。接收方在收到它们后，用RSA私钥对收到的密文进行解密，最后得到明文。图2是整个过程的实现流程。<br>图2：<br><img src="http://7xifb5.com1.z0.glb.clouddn.com/RSA流程.png" alt=""></p>
+<h3 id="AES与RSA相结合数据加密方案">AES与RSA相结合数据加密方案</h3><p>RSA算法是公开密钥系统的代表，其安全性建立在具有大素数因子的合数，其因子分解困难这一法则之上的。Rijndael算法作为新一代的高级加密标准，运行时不需要计算机有非常高的处理能力和大的内存，操作可以很容易的抵御时间和空间的攻击，在不同的运行环境下始终能保持良好的性能。这使AES将安全，高效，性能，方便，灵活性集于一体，理应成为网络数据加密的首选。相比较，因为AES密钥的长度最长只有256比特，可以利用软件和硬件实现高速处理，而RSA算法需要进行大整数的乘幂和求模等多倍字长处理，处理速度明显慢于AES[5]；所以AES算法加解密处理效率明显高于RSA算法。在密钥管理方面，因为AES算法要求在通信前对密钥进行秘密分配，解密的私钥必须通过网络传送至加密数据接收方，而RSA采用公钥加密，私钥解密（或私钥加密，公钥解密），加解密过程中不必网络传输保密的密钥；所以RSA算法密钥管理要明显优于AES算法。<br>从上面比较得知，由于RSA加解密速度慢，不适合大量数据文件加密，因此在网络中完全用公开密码体制传输机密信息是没有必要，也是不太现实的。AES加密速度很快，但是在网络传输过程中如何安全管理AES密钥是保证AES加密安全的重要环节。这样在传送机密信息的双方，如果使用AES对称密码体制对传输数据加密，同时使用RSA不对称密码体制来传送AES的密钥，就可以综合发挥AES和RSA的优点同时避免它们缺点来实现一种新的数据加密方案。加解密实现流程如图(3)。<br>图3：<br><img src="http://7xifb5.com1.z0.glb.clouddn.com/wustrive-hexoAES+RSA流程.png" alt=""></p>
+<p>具体过程是先由接收方创建RSA密钥对，接收方通过Internet发送RSA公钥到发送方，同时保存RSA私钥。而发送方创建AES密钥，并用该AES密钥加密待传送的明文数据，同时用接受的RSA公钥加密AES密钥，最后把用RSA公钥加密后的AES密钥同密文一起通过Internet传输发送到接收方。当接收方收到这个被加密的AES密钥和密文后，首先调用接收方保存的RSA私钥，并用该私钥解密加密的AES密钥，得到AES密钥。最后用该AES密钥解密密文得到明文。</p>
+<h3 id="AES+RSA结合最佳实践">AES+RSA结合最佳实践</h3><h4 id="基本要求">基本要求</h4><ol>
+<li>保证传输数据的安全性</li>
+<li>保证数据的完整性</li>
+<li>能够验证客户端的身份</li>
+</ol>
+<h4 id="基本流程">基本流程</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">请求：</div><div class="line">1. 服务器端(server)和客户端(client)分别生成自己的密钥对</div><div class="line">2. server和client分别交换自己的公钥</div><div class="line">3. client生成AES密钥(aesKey)</div><div class="line">4. client使用自己的RSA私钥(privateKey)对请求明文数据(params)进行数字签名</div><div class="line">5. 将签名加入到请求参数中，然后转换为json格式</div><div class="line">6. client使用aesKey对json数据进行加密得到密文(data)</div><div class="line">7. client使用sever的RSA公钥对aesKey进行加密(encryptkey)</div><div class="line">8. 分别将data和encryptkey作为参数传输给服务器端</div><div class="line"></div><div class="line">服务器端进行请求响应时将上面流程反过来即可</div></pre></td></tr></table></figure>
+<h4 id="java版示例">java版示例</h4><p><a href="https://github.com/wustrive2008/aes-rsa-java" target="_blank" rel="external">AES+RSA双重加密Java示例</a></p>
+<h3 id="参考：">参考：</h3><ol>
+<li>RSA密钥生成方法参考：<br><a href="https://cshall.alipay.com/support/help_detail.htm?help_id=397433&amp;keyword=%C3%DC%D4%BF%B6%D4&amp;sToken=s-39515fca081c4ba4bad6a8eceac4bf89&amp;from=search&amp;flag=0" target="_blank" rel="external">如何生成RSA密钥</a></li>
+</ol>
+<h3 id="捐赠">捐赠</h3><p>如何觉得本文章对你有帮助，欢迎捐赠</p>
+<p><img src="http://7xifb5.com1.z0.glb.clouddn.com/wustrive-hexo%E6%94%AF%E4%BB%98%E5%AE%9D%E4%BB%98%E6%AC%BE%E4%BA%8C%E7%BB%B4%E7%A0%81%E6%9C%80%E5%B0%8F.png" alt="捐赠"></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/网络安全/">网络安全</a><a href="/tags/开发接口/">开发接口</a><a href="/tags/安全验证/">安全验证</a><a href="/tags/java/">java</a><a href="/tags/aes/">aes</a><a href="/tags/rsa/">rsa</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/网络安全/">网络安全</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="https://wustrive2008.github.io/2015/08/21/开放接口的安全验证方案(AES+RSA)/" data-title="开放接口的安全验证方案(AES+RSA) | wustrive&#39;s blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/08/26/http协议/http协议基础之报文/" title="http协议基础之报文">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  http协议基础之报文</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/08/16/读书笔记/读书笔记-许三观卖血记/"  title="许三观卖血记">
+ <strong>NEXT:</strong><br/> 
+ <span>许三观卖血记
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本需求及概念"><span class="toc-number">1.</span> <span class="toc-text">基本需求及概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AES算法"><span class="toc-number">2.</span> <span class="toc-text">AES算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#基本原理及算法流程"><span class="toc-number">2.1.</span> <span class="toc-text">基本原理及算法流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AES算法流程"><span class="toc-number">2.2.</span> <span class="toc-text">AES算法流程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RSA算法"><span class="toc-number">3.</span> <span class="toc-text">RSA算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#基本原理及流程"><span class="toc-number">3.1.</span> <span class="toc-text">基本原理及流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RSA算法实现流程"><span class="toc-number">3.2.</span> <span class="toc-text">RSA算法实现流程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AES与RSA相结合数据加密方案"><span class="toc-number">4.</span> <span class="toc-text">AES与RSA相结合数据加密方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AES+RSA结合最佳实践"><span class="toc-number">5.</span> <span class="toc-text">AES+RSA结合最佳实践</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#基本要求"><span class="toc-number">5.1.</span> <span class="toc-text">基本要求</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#基本流程"><span class="toc-number">5.2.</span> <span class="toc-text">基本流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#java版示例"><span class="toc-number">5.3.</span> <span class="toc-text">java版示例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考："><span class="toc-number">6.</span> <span class="toc-text">参考：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#捐赠"><span class="toc-number">7.</span> <span class="toc-text">捐赠</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+		
+			<li><a href="/categories/UML/" title="UML">UML<sup>1</sup></a></li>
+		
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		
+			<li><a href="/categories/http协议/" title="http协议">http协议<sup>2</sup></a></li>
+		
+			<li><a href="/categories/java/" title="java">java<sup>8</sup></a></li>
+		
+			<li><a href="/categories/js/" title="js">js<sup>1</sup></a></li>
+		
+			<li><a href="/categories/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+		
+			<li><a href="/categories/python/" title="python">python<sup>2</sup></a></li>
+		
+			<li><a href="/categories/分享/" title="分享">分享<sup>1</sup></a></li>
+		
+			<li><a href="/categories/版本控制/" title="版本控制">版本控制<sup>2</sup></a></li>
+		
+			<li><a href="/categories/缓存/" title="缓存">缓存<sup>1</sup></a></li>
+		
+			<li><a href="/categories/网络安全/" title="网络安全">网络安全<sup>1</sup></a></li>
+		
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>2</sup></a></li>
+		
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>8</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Arraylist/" title="Arraylist">Arraylist<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Centos/" title="Centos">Centos<sup>2</sup></a></li>
+		
+			<li><a href="/tags/Docker/" title="Docker">Docker<sup>1</sup></a></li>
+		
+			<li><a href="/tags/HashMap/" title="HashMap">HashMap<sup>1</sup></a></li>
+		
+			<li><a href="/tags/HotSpot/" title="HotSpot">HotSpot<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Linux/" title="Linux">Linux<sup>5</sup></a></li>
+		
+			<li><a href="/tags/OOM/" title="OOM">OOM<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Tomcat/" title="Tomcat">Tomcat<sup>1</sup></a></li>
+		
+			<li><a href="/tags/UML/" title="UML">UML<sup>1</sup></a></li>
+		
+			<li><a href="/tags/aes/" title="aes">aes<sup>1</sup></a></li>
+		
+			<li><a href="/tags/array/" title="array">array<sup>1</sup></a></li>
+		
+			<li><a href="/tags/arraylist/" title="arraylist">arraylist<sup>1</sup></a></li>
+		
+			<li><a href="/tags/chkconfig/" title="chkconfig">chkconfig<sup>1</sup></a></li>
+		
+			<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
+		
+			<li><a href="/tags/github/" title="github">github<sup>1</sup></a></li>
+		
+			<li><a href="/tags/hashmap/" title="hashmap">hashmap<sup>1</sup></a></li>
+		
+			<li><a href="/tags/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		
+			<li><a href="/tags/http/" title="http">http<sup>2</sup></a></li>
+		
+			<li><a href="/tags/java/" title="java">java<sup>11</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I&#39;m wustrive. This is my blog on GitHub. <br/>
+			I wish you happiness</p>
+	</section>
+	 
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/12100106" target="_blank" title="weibo"></a>
+		
+		
+		<a href="https://twitter.com/wustrive" target="_blank" title="twitter"></a>
+		
+		
+		<a href="https://github.com/wustrive2008" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2016 
+		
+		<a href="https://wustrive2008.github.io" target="_blank" title="wustrive">wustrive</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"wustrive"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-22190106-2', 'auto');  
+ga('send', 'pageview');
+</script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-22190106-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+  </body>
+</html>

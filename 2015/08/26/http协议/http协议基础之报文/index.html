@@ -1,0 +1,498 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>http协议基础之报文 | wustrive&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="wustrive">
+    
+    <meta name="description" content="http协议之报文报文的语法请求报文：1234&amp;lt;method&amp;gt; &amp;lt;request-URL&amp;gt; &amp;lt;version&amp;gt;&amp;lt;headers&amp;gt;&amp;lt;entity-body&amp;gt;
+响应报文：1234&amp;lt;version&amp;gt; &amp;lt;status&amp;gt; &amp;l">
+    
+    
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="wustrive" />
+    <meta name="twitter:title" content="http协议基础之报文 | wustrive&#39;s blog" />
+      
+    
+    
+    <link rel="alternate" href="/atom.xml" title="wustrive&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/logo.ico">
+    <link rel="apple-touch-icon-precomposed" href="/img/logo.ico">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?5829c94e2ff91660826b6c0c188f5620";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="wustrive&#39;s blog" title="wustrive&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="wustrive&#39;s blog">wustrive&#39;s blog</a></h1>
+				<h2 class="blog-motto">好记性不如写博客</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/aboutme">关于</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:wustrive2008.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/08/26/http协议/http协议基础之报文/" title="http协议基础之报文" itemprop="url">http协议基础之报文</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="https://wustrive2008.github.io" title="wustrive">wustrive</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-08-26T15:02:25.000Z" itemprop="datePublished">2015-08-26</time>
+    更新日期:<time datetime="2016-11-05T18:14:33.000Z" itemprop="dateModified">2016-11-06</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="http://7xifb5.com1.z0.glb.clouddn.com/wustrive-hexoHTTP.png" rel="gallery_civ5jdlgj0017uvfyyhdm9egs">
+        <img src="http://7xifb5.com1.z0.glb.clouddn.com/wustrive-hexoHTTP.png" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#http协议之报文"><span class="toc-number">1.</span> <span class="toc-text">http协议之报文</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#报文的语法"><span class="toc-number">1.1.</span> <span class="toc-text">报文的语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#首部"><span class="toc-number">1.2.</span> <span class="toc-text">首部</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#通用首部"><span class="toc-number">1.2.1.</span> <span class="toc-text">通用首部</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#请求首部"><span class="toc-number">1.2.2.</span> <span class="toc-text">请求首部</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Accept首部"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">Accept首部</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#条件请求首部"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">条件请求首部</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#安全请求首部"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">安全请求首部</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#响应首部"><span class="toc-number">1.2.3.</span> <span class="toc-text">响应首部</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#实体首部"><span class="toc-number">1.2.4.</span> <span class="toc-text">实体首部</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#内容首部"><span class="toc-number">1.2.4.1.</span> <span class="toc-text">内容首部</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#扩展首部"><span class="toc-number">1.2.5.</span> <span class="toc-text">扩展首部</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法"><span class="toc-number">1.3.</span> <span class="toc-text">方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Get方法_Head方法"><span class="toc-number">1.3.1.</span> <span class="toc-text">Get方法 Head方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PUT方法"><span class="toc-number">1.3.2.</span> <span class="toc-text">PUT方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#POST方法"><span class="toc-number">1.3.3.</span> <span class="toc-text">POST方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TRACE方法"><span class="toc-number">1.3.4.</span> <span class="toc-text">TRACE方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#OPTIONS方法"><span class="toc-number">1.3.5.</span> <span class="toc-text">OPTIONS方法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#状态码"><span class="toc-number">1.4.</span> <span class="toc-text">状态码</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#100~199信息性状态码"><span class="toc-number">1.4.1.</span> <span class="toc-text">100~199信息性状态码</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#客户端与100_Continue"><span class="toc-number">1.4.1.1.</span> <span class="toc-text">客户端与100 Continue</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#服务器与100_Continue"><span class="toc-number">1.4.1.2.</span> <span class="toc-text">服务器与100 Continue</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#代理与100_Continue"><span class="toc-number">1.4.1.3.</span> <span class="toc-text">代理与100 Continue</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#200~299_成功状态码"><span class="toc-number">1.4.2.</span> <span class="toc-text">200~299 成功状态码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#300~399_重定向状态码"><span class="toc-number">1.4.3.</span> <span class="toc-text">300~399 重定向状态码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#400~499_客户端错误状态码"><span class="toc-number">1.4.4.</span> <span class="toc-text">400~499 客户端错误状态码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#500~599_服务器错误状态码"><span class="toc-number">1.4.5.</span> <span class="toc-text">500~599 服务器错误状态码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#捐赠"><span class="toc-number">1.5.</span> <span class="toc-text">捐赠</span></a></li></ol></li></ol>
+		</div>
+		
+		<h2 id="http协议之报文">http协议之报文</h2><h3 id="报文的语法">报文的语法</h3><p>请求报文：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;method&gt; &lt;request-URL&gt; &lt;version&gt;</div><div class="line">&lt;headers&gt;</div><div class="line"></div><div class="line">&lt;entity-body&gt;</div></pre></td></tr></table></figure></p>
+<p>响应报文：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;version&gt; &lt;status&gt; &lt;reason-phrase&gt;</div><div class="line">&lt;headers&gt;</div><div class="line"></div><div class="line">&lt;entity-body&gt;</div></pre></td></tr></table></figure></p>
+<p>说明：</p>
+<ul>
+<li>方法(method)<br>  客户端希望服务器对资源执行的动作，常见的有GET,POST等</li>
+<li>请求URL<br>  请求资源的绝对路径或相对路径</li>
+<li>版本<br>  格式：HTTP/<major>.<minor></minor></major></li>
+<li>状态码<br>  表示服务器处理的结果，常见的有200,404,400,415,500,502等</li>
+<li>原因短语<br>  对状态码的简单描述，如OK</li>
+<li>首部(headers)<br>  可以有零个或多个首部，每个首部都包含一个名字，后面跟着一个冒号(:),然后是一个可选的空格，接着是一个值，最后是一个CRLF</li>
+<li>实体的主体部分(entity-body)<br>  实体的主体部分包含一个由任意数据组成的数据块</li>
+</ul>
+<h3 id="首部">首部</h3><h4 id="通用首部">通用首部</h4><p>客户端和服务器端都可以使用的首部，如Date<br>Date: May, 4 Oct 2015 02:15:10 GMT</p>
+<h4 id="请求首部">请求首部</h4><p>请求报文所特有的首部，为服务器提供一些额外的信息，如Accept首部用来告知服务器客户端会接受与其请求相符的任意媒体类型：<br>Accept: */*</p>
+<h5 id="Accept首部">Accept首部</h5><p>Accept首部为客户端提供了一种将其喜好和能力告知服务器的方式，包含它们想要什么，可以使用什么，以及最重要的，它们不想要什么。这样，服务器就可以根据这些额外信息，对要发送的内容做出更明智的决定。<br>Accept首部包括：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Accept                  告诉服务器能发送哪些媒体类型</div><div class="line">Accept-Charset          告诉服务器能发送哪些字符集</div><div class="line">Accept-Encoding         告诉服务器能发送哪些编码方式</div><div class="line">Accept-Language         告诉服务器能发送哪些语言</div><div class="line">TE                      告诉服务器可以使用哪些扩展传输编码</div></pre></td></tr></table></figure></p>
+<h5 id="条件请求首部">条件请求首部</h5><p>客户端有时希望为请求加上某些限制。比如，如果客户端已经有了一份文档副本，就希望只在服务器上的文档如客户端拥有的副本有所区别时，才请求服务器传输文档，这时就可以使用条件请求首部：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Expect                  允许客户端列出某请求所要求的服务器行为</div><div class="line">If-Match                如果实体标记与文档当前的实体标记相匹配，就获取这份文档</div><div class="line">If-Modified-Since       除非在某个指定日期之后资源被修改过，否则就限制这个请求</div><div class="line">if-None-Match           如果提供的实体标记与当前文档的实体标记不相符，获取文档</div><div class="line">If-Range                允许对文档的某个范围进行条件请求</div><div class="line">If-Unmodified-since     除非在某个指定日期之后资源被未修改过,否则就限制这个请求</div><div class="line">Range                   如果服务器支持范围请求,就请求资源的指定范围</div></pre></td></tr></table></figure></p>
+<h5 id="安全请求首部">安全请求首部</h5><p>服务器可以对客户端进行简单的身份认证<br>常见的安全请求首部有：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Authorization            包含了客户端提供给服务器，以便对其自身进行认证的数据</div><div class="line">Cookie                   客户端向服务器传送一个令牌</div></pre></td></tr></table></figure></p>
+<h4 id="响应首部">响应首部</h4><p>服务器为客户端提供一些额外信息<br>如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Age                         响应持续时间</div><div class="line">Public                      服务器为其资源支持的请求方法列表</div><div class="line">Retry-After                 如果资源不可用，在此日期或时间重试</div><div class="line">Server                      服务器应用程序的软件名称和版本</div></pre></td></tr></table></figure></p>
+<h4 id="实体首部">实体首部</h4><p>实体首部指的是用于应对实体主体部分的首部。比如，可以用实体首部来说明实体主体部分的数据类型。<br>Content-Type：text/html; charset=utf-8</p>
+<h5 id="内容首部">内容首部</h5><p>提供与实体内容有关的特定信息，说明了其类型，尺寸以及处理它所需的其他有用信息<br>如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Content-Base                    解析相对URL时使用的基础URL</div><div class="line">Content-Encoding                对主体执行的任意编码方式</div><div class="line">Content-Language                理解主体时最适宜使用的自然语言</div><div class="line">Content-Length                  主体的长度或尺寸</div><div class="line">Content-Location                资源实际所处的位置</div><div class="line">Content-MD5                     主体的MD5校验和</div><div class="line">Content-Range                   在整个资源中此实体表示的字节范围</div><div class="line">Content-Type                    这个主体的对象类型</div></pre></td></tr></table></figure></p>
+<h4 id="扩展首部">扩展首部</h4><p>非标准的自定义首部</p>
+<h3 id="方法">方法</h3><h4 id="Get方法_Head方法">Get方法 Head方法</h4><p>get方法用于请求服务器发送某个资源<br>Head方法与Get方法类似，但服务器在响应中只返回首部。不会返回实体的主体部分，这就允许客户端在未获取实际资源的情况下，对资源首部进行检查，可以：</p>
+<ul>
+<li>在获取资源的情况下了解资源的情况</li>
+<li>通过查看响应中的状态码，看看某个对象是否存在</li>
+<li>通过查看首部，测试资源是否被修改</li>
+</ul>
+<h4 id="PUT方法">PUT方法</h4><p>用于向服务器写入文档，在实际应用中很少用，多用POST实现PUT的功能</p>
+<h4 id="POST方法">POST方法</h4><p>向服务器输入数据，如提交表单数据</p>
+<h4 id="TRACE方法">TRACE方法</h4><p>发起一个”环回”诊断，行程最后一站的服务器会发送一个TRACE响应，并在响应主体中携带收到的原始报文</p>
+<h4 id="OPTIONS方法">OPTIONS方法</h4><p>请求服务器告知其支持的各种功能，可以询问服务器支持哪些方法。<br>服务器的响应如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">HTTP/1.1 200 OK</div><div class="line">Allow: GET, POST, PUT</div><div class="line">Content-Length: 0</div></pre></td></tr></table></figure></p>
+<h3 id="状态码">状态码</h3><h4 id="100~199信息性状态码">100~199信息性状态码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">100     Continue        说明收到了请求的初始部分，请客户端继续。发送了这个状态码之后，服务器收到请求之后必须进行响应</div><div class="line">101     Switching protocols     说明服务器正在根据客户端的指定，将协议切换成Update首部所列的协议</div></pre></td></tr></table></figure>
+<h5 id="客户端与100_Continue">客户端与100 Continue</h5><p>如果客户端向服务器发送一个实体，并且愿意在发送实体之前等待100 Continue响应，那么客户端就要发送一个携带了值为100 Continue的Expect请求首部。如果客户端没有发送实体，就不应该发送100 Continue Expect首部，这样会使服务器误以为客户端要发送一个实体。</p>
+<p>客户端发送了100 Continue的Expect首部后不应该永远在那等待服务器的响应。超过一定时间后，应该直接发送实体。</p>
+<h5 id="服务器与100_Continue">服务器与100 Continue</h5><p>如果服务器收到一个带有只为100 Continue的Expect首部请求，会用100 Continue响应或一条错误码来进行响应。服务器永远也不应该向没有发送100 Continue期望的客户端发送100 Continue 状态码</p>
+<p>如果处于某种原因，服务器在有机会发送100 Continue之前就收到了部分或全部实体，说明客户端已经决定继续发送实体了，这时，服务器不需要发送这个状态码了。</p>
+<h5 id="代理与100_Continue">代理与100 Continue</h5><p>如果代理从客户端收到了一条带有100 Continue期望的请求，如果下一跳服务器是HTTP/1.1兼容的，或者不知道下一跳服务器与哪个版本兼容，应该将Expect首部转发到下一跳服务器。如果知道下一跳服务器与HTTP/1.1之前的版本兼容，就应该以417 Expectation Failed错误进行响应。</p>
+<h4 id="200~299_成功状态码">200~299 成功状态码</h4><p>200 OK<br>201 Create<br>202 Accepted</p>
+<h4 id="300~399_重定向状态码">300~399 重定向状态码</h4><p>304 Not Modified</p>
+<h4 id="400~499_客户端错误状态码">400~499 客户端错误状态码</h4><p>400 Bad Request     请求错误<br>401 Unauthorized    需要认证或认证错误<br>403 Forbidden       请求被拒绝，有可能是资源权限问题<br>404 Not Found       未找到资源<br>405 Method Not Allowed  不支持的方法<br>408 Request Timeout     请求超时</p>
+<h4 id="500~599_服务器错误状态码">500~599 服务器错误状态码</h4><p>500 Internal Sever Error    服务器内部错误<br>501 Not Implemented     超出服务器能力范围<br>502 Bad Gateway         网关错误，一般是代理服务器找不到下一条链路<br>503 Sevice Unavailable  暂时无法为请求提供你服务<br>504 Gateway Timeout     响应超时<br>505 HTTP Version Not Supported  不支持的协议版本</p>
+<h3 id="捐赠">捐赠</h3><p>如何觉得本文章对你有帮助，欢迎捐赠</p>
+<p><img src="http://7xifb5.com1.z0.glb.clouddn.com/wustrive-hexo%E6%94%AF%E4%BB%98%E5%AE%9D%E4%BB%98%E6%AC%BE%E4%BA%8C%E7%BB%B4%E7%A0%81%E6%9C%80%E5%B0%8F.png" alt="捐赠"></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/http/">http</a><a href="/tags/报文/">报文</a><a href="/tags/方法/">方法</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/http协议/">http协议</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="https://wustrive2008.github.io/2015/08/26/http协议/http协议基础之报文/" data-title="http协议基础之报文 | wustrive&#39;s blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/08/28/nginx/nginx平滑升级方案/" title="nginx平滑升级方案">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  nginx平滑升级方案</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/08/21/开放接口的安全验证方案(AES+RSA)/"  title="开放接口的安全验证方案(AES+RSA)">
+ <strong>NEXT:</strong><br/> 
+ <span>开放接口的安全验证方案(AES+RSA)
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#http协议之报文"><span class="toc-number">1.</span> <span class="toc-text">http协议之报文</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#报文的语法"><span class="toc-number">1.1.</span> <span class="toc-text">报文的语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#首部"><span class="toc-number">1.2.</span> <span class="toc-text">首部</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#通用首部"><span class="toc-number">1.2.1.</span> <span class="toc-text">通用首部</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#请求首部"><span class="toc-number">1.2.2.</span> <span class="toc-text">请求首部</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Accept首部"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">Accept首部</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#条件请求首部"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">条件请求首部</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#安全请求首部"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">安全请求首部</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#响应首部"><span class="toc-number">1.2.3.</span> <span class="toc-text">响应首部</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#实体首部"><span class="toc-number">1.2.4.</span> <span class="toc-text">实体首部</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#内容首部"><span class="toc-number">1.2.4.1.</span> <span class="toc-text">内容首部</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#扩展首部"><span class="toc-number">1.2.5.</span> <span class="toc-text">扩展首部</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法"><span class="toc-number">1.3.</span> <span class="toc-text">方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Get方法_Head方法"><span class="toc-number">1.3.1.</span> <span class="toc-text">Get方法 Head方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PUT方法"><span class="toc-number">1.3.2.</span> <span class="toc-text">PUT方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#POST方法"><span class="toc-number">1.3.3.</span> <span class="toc-text">POST方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TRACE方法"><span class="toc-number">1.3.4.</span> <span class="toc-text">TRACE方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#OPTIONS方法"><span class="toc-number">1.3.5.</span> <span class="toc-text">OPTIONS方法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#状态码"><span class="toc-number">1.4.</span> <span class="toc-text">状态码</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#100~199信息性状态码"><span class="toc-number">1.4.1.</span> <span class="toc-text">100~199信息性状态码</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#客户端与100_Continue"><span class="toc-number">1.4.1.1.</span> <span class="toc-text">客户端与100 Continue</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#服务器与100_Continue"><span class="toc-number">1.4.1.2.</span> <span class="toc-text">服务器与100 Continue</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#代理与100_Continue"><span class="toc-number">1.4.1.3.</span> <span class="toc-text">代理与100 Continue</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#200~299_成功状态码"><span class="toc-number">1.4.2.</span> <span class="toc-text">200~299 成功状态码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#300~399_重定向状态码"><span class="toc-number">1.4.3.</span> <span class="toc-text">300~399 重定向状态码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#400~499_客户端错误状态码"><span class="toc-number">1.4.4.</span> <span class="toc-text">400~499 客户端错误状态码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#500~599_服务器错误状态码"><span class="toc-number">1.4.5.</span> <span class="toc-text">500~599 服务器错误状态码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#捐赠"><span class="toc-number">1.5.</span> <span class="toc-text">捐赠</span></a></li></ol></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+		
+			<li><a href="/categories/UML/" title="UML">UML<sup>1</sup></a></li>
+		
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		
+			<li><a href="/categories/http协议/" title="http协议">http协议<sup>2</sup></a></li>
+		
+			<li><a href="/categories/java/" title="java">java<sup>8</sup></a></li>
+		
+			<li><a href="/categories/js/" title="js">js<sup>1</sup></a></li>
+		
+			<li><a href="/categories/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+		
+			<li><a href="/categories/python/" title="python">python<sup>2</sup></a></li>
+		
+			<li><a href="/categories/分享/" title="分享">分享<sup>1</sup></a></li>
+		
+			<li><a href="/categories/版本控制/" title="版本控制">版本控制<sup>2</sup></a></li>
+		
+			<li><a href="/categories/缓存/" title="缓存">缓存<sup>1</sup></a></li>
+		
+			<li><a href="/categories/网络安全/" title="网络安全">网络安全<sup>1</sup></a></li>
+		
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>2</sup></a></li>
+		
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>8</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Arraylist/" title="Arraylist">Arraylist<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Centos/" title="Centos">Centos<sup>2</sup></a></li>
+		
+			<li><a href="/tags/Docker/" title="Docker">Docker<sup>1</sup></a></li>
+		
+			<li><a href="/tags/HashMap/" title="HashMap">HashMap<sup>1</sup></a></li>
+		
+			<li><a href="/tags/HotSpot/" title="HotSpot">HotSpot<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Linux/" title="Linux">Linux<sup>5</sup></a></li>
+		
+			<li><a href="/tags/OOM/" title="OOM">OOM<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Tomcat/" title="Tomcat">Tomcat<sup>1</sup></a></li>
+		
+			<li><a href="/tags/UML/" title="UML">UML<sup>1</sup></a></li>
+		
+			<li><a href="/tags/aes/" title="aes">aes<sup>1</sup></a></li>
+		
+			<li><a href="/tags/array/" title="array">array<sup>1</sup></a></li>
+		
+			<li><a href="/tags/arraylist/" title="arraylist">arraylist<sup>1</sup></a></li>
+		
+			<li><a href="/tags/chkconfig/" title="chkconfig">chkconfig<sup>1</sup></a></li>
+		
+			<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
+		
+			<li><a href="/tags/github/" title="github">github<sup>1</sup></a></li>
+		
+			<li><a href="/tags/hashmap/" title="hashmap">hashmap<sup>1</sup></a></li>
+		
+			<li><a href="/tags/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		
+			<li><a href="/tags/http/" title="http">http<sup>2</sup></a></li>
+		
+			<li><a href="/tags/java/" title="java">java<sup>11</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I&#39;m wustrive. This is my blog on GitHub. <br/>
+			I wish you happiness</p>
+	</section>
+	 
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/12100106" target="_blank" title="weibo"></a>
+		
+		
+		<a href="https://twitter.com/wustrive" target="_blank" title="twitter"></a>
+		
+		
+		<a href="https://github.com/wustrive2008" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2016 
+		
+		<a href="https://wustrive2008.github.io" target="_blank" title="wustrive">wustrive</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"wustrive"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-22190106-2', 'auto');  
+ga('send', 'pageview');
+</script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-22190106-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+  </body>
+</html>

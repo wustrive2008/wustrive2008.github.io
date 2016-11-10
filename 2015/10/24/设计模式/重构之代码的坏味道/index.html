@@ -1,0 +1,519 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>重构之代码的坏味道 | wustrive&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="wustrive">
+    
+    <meta name="description" content="1个好的程序员顶10个普通的程序员，程序员之间的差异很大，这是大家的共识，这个差异应该主要表现在设计思想和方法上面。清晰的代码结构和优雅的设计方法在软件开发中的重要性不用多说。成功的原因各不相同，失败的原因却总是相似的。如果一段代码是不稳定或者有一些潜在问题的，那么代码往往会包含一些明显的痕迹。正如食物要腐坏之前，经常会发出一些异味一样。我们管这些痕迹叫做“代码坏味道”。下面主要介绍代码的坏味道，开发中要特别注意这样的代码，他们往往是失败的软件的开始。">
+    
+    
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="wustrive" />
+    <meta name="twitter:title" content="重构之代码的坏味道 | wustrive&#39;s blog" />
+      
+    
+    
+    <link rel="alternate" href="/atom.xml" title="wustrive&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/logo.ico">
+    <link rel="apple-touch-icon-precomposed" href="/img/logo.ico">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?5829c94e2ff91660826b6c0c188f5620";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="wustrive&#39;s blog" title="wustrive&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="wustrive&#39;s blog">wustrive&#39;s blog</a></h1>
+				<h2 class="blog-motto">好记性不如写博客</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/aboutme">关于</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:wustrive2008.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/10/24/设计模式/重构之代码的坏味道/" title="重构之代码的坏味道" itemprop="url">重构之代码的坏味道</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="https://wustrive2008.github.io" title="wustrive">wustrive</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-10-24T12:38:16.000Z" itemprop="datePublished">2015-10-24</time>
+    更新日期:<time datetime="2016-11-05T18:14:33.000Z" itemprop="dateModified">2016-11-06</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="http://7xifb5.com1.z0.glb.clouddn.com/wustrive-blog/设计模式.png" rel="gallery_civ5jdli0002vuvfyr7oxehn7">
+        <img src="http://7xifb5.com1.z0.glb.clouddn.com/wustrive-blog/设计模式.png" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#可度量的味道"><span class="toc-number">1.</span> <span class="toc-text">可度量的味道</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#过长的方法"><span class="toc-number">1.1.</span> <span class="toc-text">过长的方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#大类"><span class="toc-number">1.2.</span> <span class="toc-text">大类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#过多的参数"><span class="toc-number">1.3.</span> <span class="toc-text">过多的参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#过多的注释"><span class="toc-number">1.4.</span> <span class="toc-text">过多的注释</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#不必要的复杂性"><span class="toc-number">2.</span> <span class="toc-text">不必要的复杂性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#过度设计"><span class="toc-number">2.1.</span> <span class="toc-text">过度设计</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#重复"><span class="toc-number">3.</span> <span class="toc-text">重复</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#重复代码"><span class="toc-number">3.1.</span> <span class="toc-text">重复代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#异曲同工的类"><span class="toc-number">3.2.</span> <span class="toc-text">异曲同工的类</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条件逻辑"><span class="toc-number">4.</span> <span class="toc-text">条件逻辑</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#switch语句太长"><span class="toc-number">4.1.</span> <span class="toc-text">switch语句太长</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#基本类型太多"><span class="toc-number">4.2.</span> <span class="toc-text">基本类型太多</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#纯稚的数据类"><span class="toc-number">4.3.</span> <span class="toc-text">纯稚的数据类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据泥团"><span class="toc-number">4.4.</span> <span class="toc-text">数据泥团</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#令人迷惑的暂时值域"><span class="toc-number">4.5.</span> <span class="toc-text">令人迷惑的暂时值域</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#被拒绝的遗赠"><span class="toc-number">4.6.</span> <span class="toc-text">被拒绝的遗赠</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#亲密关系"><span class="toc-number">4.7.</span> <span class="toc-text">亲密关系</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#冗赘类"><span class="toc-number">4.8.</span> <span class="toc-text">冗赘类</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#职责"><span class="toc-number">5.</span> <span class="toc-text">职责</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#发散式变化"><span class="toc-number">5.1.</span> <span class="toc-text">发散式变化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#霰弹式修改"><span class="toc-number">5.2.</span> <span class="toc-text">霰弹式修改</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#平行继承体系"><span class="toc-number">5.3.</span> <span class="toc-text">平行继承体系</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#库类"><span class="toc-number">6.</span> <span class="toc-text">库类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#不完善的程序库类"><span class="toc-number">6.1.</span> <span class="toc-text">不完善的程序库类</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考"><span class="toc-number">7.</span> <span class="toc-text">参考</span></a></li></ol>
+		</div>
+		
+		<p>1个好的程序员顶10个普通的程序员，程序员之间的差异很大，这是大家的共识，这个差异应该主要表现在设计思想和方法上面。清晰的代码结构和优雅的设计方法在软件开发中的重要性不用多说。成功的原因各不相同，失败的原因却总是相似的。如果一段代码是不稳定或者有一些潜在问题的，那么代码往往会包含一些明显的痕迹。正如食物要腐坏之前，经常会发出一些异味一样。我们管这些痕迹叫做“代码坏味道”。下面主要介绍代码的坏味道，开发中要特别注意这样的代码，他们往往是失败的软件的开始。<br><a id="more"></a></p>
+<h3 id="可度量的味道">可度量的味道</h3><h4 id="过长的方法">过长的方法</h4><ol>
+<li>过长的方法往往难以理解，特别是在理解别人的代码的时候，发现这样的方法，往往有抵触心理，大多数人都不喜欢读太长的方法。</li>
+<li>过长的方法不易维护，一个方法里面的逻辑过多，在后期维护、扩展的时候可能会出现各种问题，复杂条件式和循环体常常是提炼的信号。</li>
+</ol>
+<h4 id="大类">大类</h4><ol>
+<li>类太大往往是因为做了太多事情，有些事情不是自己该做的，可能是抽象不够</li>
+<li>类太大通常会出现太多的实例变量</li>
+</ol>
+<h4 id="过多的参数">过多的参数</h4><ol>
+<li>方法的参数过多不易理解和使用，考虑是否可用对方法进行拆分或使用默认参数</li>
+</ol>
+<h4 id="过多的注释">过多的注释</h4><ol>
+<li>注释太多让人厌烦，就像演讲一样，尽说废话，没人想听，应该言简意赅，让人一听就明白。</li>
+<li>当你感觉需要注释，请先尝试重构，试着让所有的注释都变得多余，好的代码本身就应该是自注释的。</li>
+</ol>
+<h3 id="不必要的复杂性">不必要的复杂性</h3><h4 id="过度设计">过度设计</h4><ol>
+<li>超出需求过多的设计往往是过度设计，对某种变化的应对，而这种变化没有发生，也许永远都不会发生。</li>
+</ol>
+<h3 id="重复">重复</h3><h4 id="重复代码">重复代码</h4><ol>
+<li>往往由于设计的问题导致多处存在相似或相同的一段代码，考虑将这些代码提取到一个方法中。</li>
+</ol>
+<h4 id="异曲同工的类">异曲同工的类</h4><ol>
+<li>如果出现多个类在做同样或相似的事情，考虑将这些类进行提炼融合，保证代码的简洁性。</li>
+</ol>
+<h3 id="条件逻辑">条件逻辑</h3><h4 id="switch语句太长">switch语句太长</h4><ol>
+<li>switch语句太长容易导致重复的代码，考虑使用模式或多态来替换。</li>
+</ol>
+<h4 id="基本类型太多">基本类型太多</h4><ol>
+<li>软件中，基本类型被过度使用。在某些场合下，应该使用一些小的类来代替这些基本类型。</li>
+</ol>
+<h4 id="纯稚的数据类">纯稚的数据类</h4><ol>
+<li>这些类拥有一些字段，并提供了对应的Getter和Setter方法，除此以外一无所有。这些类只是一些不会说话的数据容器， 而且它们必定会被其他类过分琐细地操作。</li>
+</ol>
+<h4 id="数据泥团">数据泥团</h4><ol>
+<li>反复出现的一组参数，有关联的多个数组换成类</li>
+</ol>
+<h4 id="令人迷惑的暂时值域">令人迷惑的暂时值域</h4><ol>
+<li>有时候你会看到一个对象的实例变量仅为某些特定的场合而设。这样的代码将导致难以理解，因为你期望一个对象需要它所有的变量。很多情况下，这些值域应该不属于此class ，而应该单独的提取成新的类。</li>
+</ol>
+<h4 id="被拒绝的遗赠">被拒绝的遗赠</h4><ol>
+<li>子类继承父类的方法和数据，但是它们只需要使用其中的一部分，考虑用代理替代继承关系。</li>
+</ol>
+<h4 id="亲密关系">亲密关系</h4><ol>
+<li>有时候，类之间的关系变得非常亲密，并且需要花费大量时间来探究彼此之间的私有成分。考虑对他们进行拆散合并。</li>
+</ol>
+<h4 id="冗赘类">冗赘类</h4><ol>
+<li>不要创建没有价值的类</li>
+</ol>
+<h3 id="职责">职责</h3><h4 id="发散式变化">发散式变化</h4><ol>
+<li>如果某个类经常因为不同的原因在不同的方向上发生变化就会产生发散式变化。也就是说，一个类拥有多个引起它发生变化的原因。</li>
+</ol>
+<h4 id="霰弹式修改">霰弹式修改</h4><ol>
+<li>霰弹式修改与发散式变化类似，却又存在相反的一面。每次进行某种修改时，你都必须对多个不同的类进行很多对应的小修改。</li>
+</ol>
+<h4 id="平行继承体系">平行继承体系</h4><ol>
+<li>平行继承体系是霰弹式修改的一个特例。在这种情况下，当你为某个类增加一个子类时，你不得不为另一个类也相应增加一个子类。你也许能够识别到这种味道，因为一个继承体系中类的类名前缀与另一个体系中的类名前缀一样。</li>
+</ol>
+<h3 id="库类">库类</h3><h4 id="不完善的程序库类">不完善的程序库类</h4><ol>
+<li>库类在使用时一定要小心，特别是在我们不知道一个库是否完整时。</li>
+</ol>
+<h3 id="参考">参考</h3><ol>
+<li>《重构——改善既有代码的设计》</li>
+<li><a href="http://blog.csdn.net/lovelion/article/details/9301691" target="_blank" rel="external">刘伟技术博客</a></li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/oop/">oop</a><a href="/tags/重构/">重构</a><a href="/tags/软件设计/">软件设计</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/设计模式/">设计模式</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="https://wustrive2008.github.io/2015/10/24/设计模式/重构之代码的坏味道/" data-title="重构之代码的坏味道 | wustrive&#39;s blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/12/24/java/深入理解jvm之内存区域与内存溢出/" title="深入理解jvm之内存区域与内存溢出">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  深入理解jvm之内存区域与内存溢出</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/09/18/java/List与Map的遍历过程中删除元素/"  title="List与Map的遍历过程中删除元素">
+ <strong>NEXT:</strong><br/> 
+ <span>List与Map的遍历过程中删除元素
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#可度量的味道"><span class="toc-number">1.</span> <span class="toc-text">可度量的味道</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#过长的方法"><span class="toc-number">1.1.</span> <span class="toc-text">过长的方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#大类"><span class="toc-number">1.2.</span> <span class="toc-text">大类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#过多的参数"><span class="toc-number">1.3.</span> <span class="toc-text">过多的参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#过多的注释"><span class="toc-number">1.4.</span> <span class="toc-text">过多的注释</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#不必要的复杂性"><span class="toc-number">2.</span> <span class="toc-text">不必要的复杂性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#过度设计"><span class="toc-number">2.1.</span> <span class="toc-text">过度设计</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#重复"><span class="toc-number">3.</span> <span class="toc-text">重复</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#重复代码"><span class="toc-number">3.1.</span> <span class="toc-text">重复代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#异曲同工的类"><span class="toc-number">3.2.</span> <span class="toc-text">异曲同工的类</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条件逻辑"><span class="toc-number">4.</span> <span class="toc-text">条件逻辑</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#switch语句太长"><span class="toc-number">4.1.</span> <span class="toc-text">switch语句太长</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#基本类型太多"><span class="toc-number">4.2.</span> <span class="toc-text">基本类型太多</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#纯稚的数据类"><span class="toc-number">4.3.</span> <span class="toc-text">纯稚的数据类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据泥团"><span class="toc-number">4.4.</span> <span class="toc-text">数据泥团</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#令人迷惑的暂时值域"><span class="toc-number">4.5.</span> <span class="toc-text">令人迷惑的暂时值域</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#被拒绝的遗赠"><span class="toc-number">4.6.</span> <span class="toc-text">被拒绝的遗赠</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#亲密关系"><span class="toc-number">4.7.</span> <span class="toc-text">亲密关系</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#冗赘类"><span class="toc-number">4.8.</span> <span class="toc-text">冗赘类</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#职责"><span class="toc-number">5.</span> <span class="toc-text">职责</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#发散式变化"><span class="toc-number">5.1.</span> <span class="toc-text">发散式变化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#霰弹式修改"><span class="toc-number">5.2.</span> <span class="toc-text">霰弹式修改</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#平行继承体系"><span class="toc-number">5.3.</span> <span class="toc-text">平行继承体系</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#库类"><span class="toc-number">6.</span> <span class="toc-text">库类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#不完善的程序库类"><span class="toc-number">6.1.</span> <span class="toc-text">不完善的程序库类</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考"><span class="toc-number">7.</span> <span class="toc-text">参考</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+		
+			<li><a href="/categories/UML/" title="UML">UML<sup>1</sup></a></li>
+		
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		
+			<li><a href="/categories/http协议/" title="http协议">http协议<sup>2</sup></a></li>
+		
+			<li><a href="/categories/java/" title="java">java<sup>8</sup></a></li>
+		
+			<li><a href="/categories/js/" title="js">js<sup>1</sup></a></li>
+		
+			<li><a href="/categories/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+		
+			<li><a href="/categories/python/" title="python">python<sup>2</sup></a></li>
+		
+			<li><a href="/categories/分享/" title="分享">分享<sup>1</sup></a></li>
+		
+			<li><a href="/categories/版本控制/" title="版本控制">版本控制<sup>2</sup></a></li>
+		
+			<li><a href="/categories/缓存/" title="缓存">缓存<sup>1</sup></a></li>
+		
+			<li><a href="/categories/网络安全/" title="网络安全">网络安全<sup>1</sup></a></li>
+		
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>2</sup></a></li>
+		
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>8</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Arraylist/" title="Arraylist">Arraylist<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Centos/" title="Centos">Centos<sup>2</sup></a></li>
+		
+			<li><a href="/tags/Docker/" title="Docker">Docker<sup>1</sup></a></li>
+		
+			<li><a href="/tags/HashMap/" title="HashMap">HashMap<sup>1</sup></a></li>
+		
+			<li><a href="/tags/HotSpot/" title="HotSpot">HotSpot<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Linux/" title="Linux">Linux<sup>5</sup></a></li>
+		
+			<li><a href="/tags/OOM/" title="OOM">OOM<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Tomcat/" title="Tomcat">Tomcat<sup>1</sup></a></li>
+		
+			<li><a href="/tags/UML/" title="UML">UML<sup>1</sup></a></li>
+		
+			<li><a href="/tags/aes/" title="aes">aes<sup>1</sup></a></li>
+		
+			<li><a href="/tags/array/" title="array">array<sup>1</sup></a></li>
+		
+			<li><a href="/tags/arraylist/" title="arraylist">arraylist<sup>1</sup></a></li>
+		
+			<li><a href="/tags/chkconfig/" title="chkconfig">chkconfig<sup>1</sup></a></li>
+		
+			<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
+		
+			<li><a href="/tags/github/" title="github">github<sup>1</sup></a></li>
+		
+			<li><a href="/tags/hashmap/" title="hashmap">hashmap<sup>1</sup></a></li>
+		
+			<li><a href="/tags/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		
+			<li><a href="/tags/http/" title="http">http<sup>2</sup></a></li>
+		
+			<li><a href="/tags/java/" title="java">java<sup>11</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I&#39;m wustrive. This is my blog on GitHub. <br/>
+			I wish you happiness</p>
+	</section>
+	 
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/12100106" target="_blank" title="weibo"></a>
+		
+		
+		<a href="https://twitter.com/wustrive" target="_blank" title="twitter"></a>
+		
+		
+		<a href="https://github.com/wustrive2008" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2016 
+		
+		<a href="https://wustrive2008.github.io" target="_blank" title="wustrive">wustrive</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"wustrive"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-22190106-2', 'auto');  
+ga('send', 'pageview');
+</script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-22190106-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+  </body>
+</html>

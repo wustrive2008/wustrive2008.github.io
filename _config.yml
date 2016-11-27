@@ -76,5 +76,5 @@ deploy:
   branch: master
 
 plugins:
-- hexo-generator-feed
-- hexo-generator-sitemap
+#- hexo-generator-feed
+#- hexo-generator-sitemap

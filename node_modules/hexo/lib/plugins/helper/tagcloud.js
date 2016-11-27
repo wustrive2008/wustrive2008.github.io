@@ -157,9 +157,8 @@ var colorNames = {
   yellowgreen: {r: 154, g: 205, b: 50, a: 1}
 };
 
-function tagcloudHelper(tags, options){
-  /* jshint validthis: true */
-  if (!options && (!tags || !tags.hasOwnProperty('length'))){
+function tagcloudHelper(tags, options) {
+  if (!options && (!tags || !tags.hasOwnProperty('length'))) {
     options = tags;
     tags = this.site.tags;
   }
@@ -174,11 +173,12 @@ function tagcloudHelper(tags, options){
   var unit = options.unit || 'px';
   var color = options.color;
   var transform = options.transform;
-  var result = '';
+  var separator = options.separator || ' ';
+  var result = [];
   var self = this;
   var startColor, endColor;
 
-  if (color){
+  if (color) {
     startColor = new Color(options.start_color);
     endColor = new Color(options.end_color);
 
@@ -186,25 +186,25 @@ function tagcloudHelper(tags, options){
   }
 
   // Sort the tags
-  if (orderby === 'random' || orderby === 'rand'){
+  if (orderby === 'random' || orderby === 'rand') {
     tags = tags.random();
   } else {
     tags = tags.sort(orderby, order);
   }
 
   // Ignore tags with zero posts
-  tags = tags.filter(function(tag){
+  tags = tags.filter(function(tag) {
     return tag.length;
   });
 
   // Limit the number of tags
-  if (options.amount){
+  if (options.amount) {
     tags = tags.limit(options.amount);
   }
 
   var sizes = [];
 
-  tags.sort('length').forEach(function(tag){
+  tags.sort('length').forEach(function(tag) {
     var length = tag.length;
     if (~sizes.indexOf(length)) return;
 
@@ -213,31 +213,33 @@ function tagcloudHelper(tags, options){
 
   var length = sizes.length - 1;
 
-  tags.forEach(function(tag){
-    var index = sizes.indexOf(tag.length);
-    var size = min + (max - min) / length * index;
+  tags.forEach(function(tag) {
+    var ratio = length ? (sizes.indexOf(tag.length) / length) : 0;
+    var size = min + (max - min) * ratio;
     var style = 'font-size: ' + parseFloat(size.toFixed(2)) + unit + ';';
 
-    if (color){
-      var midColor = startColor.mix(endColor, index / length);
+    if (color) {
+      var midColor = startColor.mix(endColor, ratio);
       style += ' color: ' + midColor.toString();
     }
 
-    result += '<a href="' + self.url_for(tag.path) + '" style="' + style + '">';
-    result += transform ? transform(tag.name) : tag.name;
-    result +='</a>';
+    result.push(
+      '<a href="' + self.url_for(tag.path) + '" style="' + style + '">' +
+      (transform ? transform(tag.name) : tag.name) +
+      '</a>'
+    );
   });
 
-  return result;
+  return result.join(separator);
 }
 
-function Color(color){
-  if (typeof color === 'object'){
+function Color(color) {
+  if (typeof color === 'object') {
     this.r = color.r;
     this.g = color.g;
     this.b = color.b;
     this.a = color.a;
-  } else if (typeof color === 'string'){
+  } else if (typeof color === 'string') {
     this.parse(color);
   } else {
     throw new TypeError('color is required!');
@@ -246,15 +248,15 @@ function Color(color){
   if (this.r < 0 || this.r > 255 ||
       this.g < 0 || this.g > 255 ||
       this.b < 0 || this.b > 255 ||
-      this.a < 0 || this.a > 1){
+      this.a < 0 || this.a > 1) {
     throw new Error(color + ' is invalid.');
   }
 }
 
-Color.prototype.parse = function(color){
+Color.prototype.parse = function(color) {
   color = color.toLowerCase();
 
-  if (colorNames.hasOwnProperty(color)){
+  if (colorNames.hasOwnProperty(color)) {
     var obj = colorNames[color];
 
     this.r = obj.r;
@@ -267,7 +269,7 @@ Color.prototype.parse = function(color){
 
   var match, txt, code;
 
-  if (rHex3.test(color)){
+  if (rHex3.test(color)) {
     txt = color.substring(1);
     code = parseInt(txt, 16);
 
@@ -275,7 +277,7 @@ Color.prototype.parse = function(color){
     this.g = ((code & 0xF0) >> 4) * 17;
     this.b = (code & 0xF) * 17;
     this.a = 1;
-  } else if (rHex6.test(color)){
+  } else if (rHex6.test(color)) {
     txt = color.substring(1);
     code = parseInt(txt, 16);
 
@@ -283,14 +285,14 @@ Color.prototype.parse = function(color){
     this.g = (code & 0xFF00) >> 8;
     this.b = code & 0xFF;
     this.a = 1;
-  } else if (rRGB.test(color)){
+  } else if (rRGB.test(color)) {
     match = color.match(rRGB);
 
     this.r = match[1] | 0;
     this.g = match[2] | 0;
     this.b = match[3] | 0;
     this.a = match[4] ? +match[4] : 1;
-  } else if (rHSL.test(color)){
+  } else if (rHSL.test(color)) {
     match = color.match(rHSL);
 
     var h = +match[1] / 360;
@@ -299,7 +301,7 @@ Color.prototype.parse = function(color){
 
     this.a = match[4] ? +match[4] : 1;
 
-    if (!s){
+    if (!s) {
       this.r = this.g = this.b = l * 255;
     }
 
@@ -318,23 +320,23 @@ Color.prototype.parse = function(color){
   }
 };
 
-Color.prototype.toString = function(){
-  if (this.a === 1){
+Color.prototype.toString = function() {
+  if (this.a === 1) {
     var r = convertRGB(this.r);
     var g = convertRGB(this.g);
     var b = convertRGB(this.b);
 
-    if (this.r % 17 || this.g % 17 || this.b % 17){
+    if (this.r % 17 || this.g % 17 || this.b % 17) {
       return '#' + r + g + b;
-    } else {
-      return '#' + r[0] + g[0] + b[0];
     }
-  } else {
-    return 'rgba(' + this.r + ', ' + this.g + ', ' + this.b + ', ' + parseFloat(this.a.toFixed(2)) + ')';
+
+    return '#' + r[0] + g[0] + b[0];
   }
+
+  return 'rgba(' + this.r + ', ' + this.g + ', ' + this.b + ', ' + parseFloat(this.a.toFixed(2)) + ')';
 };
 
-Color.prototype.mix = function(color, ratio){
+Color.prototype.mix = function(color, ratio) {
   switch (ratio){
     case 0:
       return new Color(this);
@@ -351,17 +353,17 @@ Color.prototype.mix = function(color, ratio){
   });
 };
 
-function convertHue(p, q, h){
+function convertHue(p, q, h) {
   if (h < 0) h++;
   if (h > 1) h--;
 
   var color;
 
-  if (h * 6 < 1){
+  if (h * 6 < 1) {
     color = p + (q - p) * h * 6;
-  } else if (h * 2 < 1){
+  } else if (h * 2 < 1) {
     color = q;
-  } else if (h * 3 < 2){
+  } else if (h * 3 < 2) {
     color = p + (q - p) * ((2 / 3) - h) * 6;
   } else {
     color = p;
@@ -370,14 +372,14 @@ function convertHue(p, q, h){
   return Math.round(color * 255);
 }
 
-function convertRGB(value){
+function convertRGB(value) {
   var str = value.toString(16);
   if (value < 16) return '0' + str;
 
   return str;
 }
 
-function mixValue(a, b, ratio){
+function mixValue(a, b, ratio) {
   return a + (b - a) * ratio;
 }
 

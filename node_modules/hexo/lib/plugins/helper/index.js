@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function(ctx){
+module.exports = function(ctx) {
   var helper = ctx.extend.helper;
 
   var date = require('./date');
@@ -9,6 +9,7 @@ module.exports = function(ctx){
   helper.register('date_xml', date.date_xml);
   helper.register('time', date.time);
   helper.register('full_date', date.full_date);
+  helper.register('relative_date', date.relative_date);
   helper.register('time_tag', date.time_tag);
   helper.register('moment', date.moment);
 
@@ -27,10 +28,10 @@ module.exports = function(ctx){
   helper.register('gravatar', require('./gravatar'));
 
   var is = require('./is');
-
   helper.register('is_current', is.current);
   helper.register('is_home', is.home);
   helper.register('is_post', is.post);
+  helper.register('is_page', is.page);
   helper.register('is_archive', is.archive);
   helper.register('is_year', is.year);
   helper.register('is_month', is.month);
@@ -62,7 +63,6 @@ module.exports = function(ctx){
   helper.register('feed_tag', require('./feed_tag'));
 
   var tagcloud = require('./tagcloud');
-
   helper.register('tagcloud', tagcloud);
   helper.register('tag_cloud', tagcloud);
 
@@ -70,4 +70,8 @@ module.exports = function(ctx){
 
   helper.register('relative_url', require('./relative_url'));
   helper.register('url_for', require('./url_for'));
+
+  var debug = require('./debug');
+  helper.register('inspect', debug.inspectObject);
+  helper.register('log', debug.log);
 };

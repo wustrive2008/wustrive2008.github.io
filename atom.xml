@@ -4,7 +4,7 @@
   <subtitle><![CDATA[好记性不如写博客]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="https://wustrive2008.github.io/"/>
-  <updated>2016-12-02T17:26:30.000Z</updated>
+  <updated>2016-12-02T17:36:11.000Z</updated>
   <id>https://wustrive2008.github.io/</id>
   
   <author>
@@ -15,11 +15,74 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[数据库行列转换]]></title>
+    <link href="https://wustrive2008.github.io/2016/12/03/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%8C%E5%88%97%E8%BD%AC%E6%8D%A2/"/>
+    <id>https://wustrive2008.github.io/2016/12/03/数据库/数据库行列转换/</id>
+    <published>2016-12-02T17:29:56.000Z</published>
+    <updated>2016-12-02T17:36:11.000Z</updated>
+    <content type="html"><![CDATA[<p>示例(mysql)</p>
+<p>原表：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">表名 :user</div><div class="line">----------------------------------------</div><div class="line">name        |  course   | grade</div><div class="line">----------------------------------------</div><div class="line">zhangsan    |  Java     |  70</div><div class="line">----------------------------------------</div><div class="line">zhangsan    |  C++      |  80</div><div class="line">----------------------------------------</div><div class="line">lisi        |  java     |  90</div><div class="line">----------------------------------------</div><div class="line">lisi        |  C#       |  60</div><div class="line">----------------------------------------</div></pre></td></tr></table></figure></p>
+<p>用一条 SQL 语句得到如下形式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">----------------------------------------</div><div class="line">name     |  java |  C++  |  C#</div><div class="line">----------------------------------------</div><div class="line">zhangsan |  70   |  80   |  null</div><div class="line">----------------------------------------</div><div class="line">lisi     |  90   |  null |  60</div><div class="line">----------------------------------------</div></pre></td></tr></table></figure>
+<p>方案1</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span>   <span class="keyword">name</span>,</div><div class="line"><span class="keyword">sum</span>(<span class="keyword">case</span> <span class="keyword">when</span> course=<span class="string">'java'</span> <span class="keyword">then</span> grade <span class="keyword">end</span>) <span class="keyword">as</span> <span class="keyword">java</span>,</div><div class="line"><span class="keyword">sum</span>(<span class="keyword">case</span> <span class="keyword">when</span> course=<span class="string">'C++'</span> <span class="keyword">then</span> grade <span class="keyword">end</span>) <span class="keyword">as</span> C++,</div><div class="line"><span class="keyword">sum</span>(<span class="keyword">case</span> <span class="keyword">when</span> course=<span class="string">'C#'</span> <span class="keyword">then</span> grade <span class="keyword">end</span>) <span class="keyword">as</span> C#</div><div class="line"><span class="keyword">from</span> <span class="keyword">test</span> <span class="keyword">group</span> <span class="keyword">by</span> <span class="keyword">name</span></div></pre></td></tr></table></figure>
+<p>方案2</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span>  <span class="keyword">distinct</span> c.<span class="string">`name`</span> <span class="keyword">AS</span> <span class="keyword">name</span>,</div><div class="line">(<span class="keyword">select</span> grade <span class="keyword">from</span> <span class="keyword">test</span> <span class="keyword">where</span> <span class="keyword">name</span> = c.<span class="string">`name`</span> <span class="keyword">and</span> course = <span class="string">'java'</span> )<span class="keyword">as</span> <span class="keyword">java</span>,</div><div class="line">(<span class="keyword">select</span> grade <span class="keyword">from</span> <span class="keyword">test</span> <span class="keyword">where</span> <span class="keyword">name</span> = c.<span class="string">`name`</span> <span class="keyword">and</span> course = <span class="string">'C++'</span> )<span class="keyword">as</span> C++,</div><div class="line">(<span class="keyword">select</span> grade <span class="keyword">from</span> <span class="keyword">test</span> <span class="keyword">where</span> <span class="keyword">name</span> = c.<span class="string">`name`</span> <span class="keyword">and</span> course = <span class="string">'C#'</span> )<span class="keyword">as</span> C#</div><div class="line"><span class="keyword">from</span> <span class="keyword">test</span> c</div></pre></td></tr></table></figure>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>示例(mysql)</p>
+<p>原表：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</]]>
+    </summary>
+    
+      <category term="数据库" scheme="https://wustrive2008.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="DB" scheme="https://wustrive2008.github.io/tags/DB/"/>
+    
+      <category term="sql" scheme="https://wustrive2008.github.io/tags/sql/"/>
+    
+      <category term="mysql" scheme="https://wustrive2008.github.io/tags/mysql/"/>
+    
+      <category term="DB" scheme="https://wustrive2008.github.io/categories/DB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[最大子序列问题]]></title>
+    <link href="https://wustrive2008.github.io/2016/12/03/%E7%AE%97%E6%B3%95/%E6%9C%80%E5%A4%A7%E5%AD%90%E5%BA%8F%E5%88%97%E5%92%8C%E9%97%AE%E9%A2%98/"/>
+    <id>https://wustrive2008.github.io/2016/12/03/算法/最大子序列和问题/</id>
+    <published>2016-12-02T16:57:33.000Z</published>
+    <updated>2016-12-02T17:27:36.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="最大子序列问题">最大子序列问题</h2><h3 id="问题描述：">问题描述：</h3><p>有这样一个序列：23,-23,11,43,-45,29,34,0,23,-12 ，求出这个序列中的最大子序列的和，例如从第0个元素到第3个元素是一个子序列，其和为54，最短的子序列可以只有一个元素，最长的子序列可以包含所有元素。</p>
+<h3 id="算法1">算法1</h3><p>也是我们第一个想到的算法，是非常容易理解的一个算法，但是它效率最低，平均时间复杂度为O(n^3):</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getMaxSubVector1</span><span class="params">(<span class="keyword">int</span>[] m)</span></span>&#123;  </div><div class="line">    <span class="keyword">int</span> maxSubVector=<span class="number">0</span>;  </div><div class="line">    <span class="keyword">int</span> i,j=<span class="number">0</span>,k=<span class="number">0</span>;  </div><div class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;m.length;i++)&#123;  </div><div class="line">        <span class="keyword">for</span>(j=i;j&lt;m.length;j++)&#123;  </div><div class="line">            <span class="keyword">int</span> sum=<span class="number">0</span>;  </div><div class="line">            <span class="keyword">for</span>( k=i;k&lt;j;k++)&#123;  </div><div class="line">                sum+=m[k];  </div><div class="line">                maxSubVector=Math.max(maxSubVector,sum);  </div><div class="line">            &#125;     </div><div class="line">        &#125;     </div><div class="line">    &#125;  </div><div class="line">    <span class="keyword">return</span> maxSubVector;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="算法2">算法2</h3><p>这是一个稍微改进的算法，它的平均时间复杂度为O(n^2)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getMaxSubVector2</span><span class="params">(<span class="keyword">int</span>[] m)</span></span>&#123;  </div><div class="line">    <span class="keyword">int</span> maxSubVector=<span class="number">0</span>;  </div><div class="line">    <span class="keyword">int</span> i,j=<span class="number">0</span>;  </div><div class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;m.length;i++)&#123;  </div><div class="line">        <span class="keyword">int</span> sum=<span class="number">0</span>;  </div><div class="line">        <span class="keyword">for</span>(j=i;j&lt;m.length;j++)&#123;  </div><div class="line">            sum+=m[j];  </div><div class="line">            maxSubVector=Math.max(maxSubVector, sum);  </div><div class="line">        &#125;  </div><div class="line">    &#125;  </div><div class="line">    <span class="keyword">return</span> maxSubVector;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="算法3">算法3</h3><p>我们可以用分治算法的思想来解决这个问题，这样可以将平均时间复杂度降到O(nlogn)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getMaxSubVector4</span><span class="params">(<span class="keyword">int</span>[] b,<span class="keyword">int</span> l,<span class="keyword">int</span> u)</span></span>&#123;  </div><div class="line">          </div><div class="line">        <span class="keyword">int</span> sum=<span class="number">0</span>;  </div><div class="line">        <span class="keyword">int</span> m = (l+u)/<span class="number">2</span>;  </div><div class="line">        <span class="keyword">if</span>(l&gt;u) <span class="keyword">return</span> <span class="number">0</span>;  </div><div class="line">        <span class="keyword">if</span>(l==u) <span class="keyword">return</span> Math.max(<span class="number">0</span>,b[<span class="number">1</span>]);  </div><div class="line">        <span class="keyword">int</span> lmax=sum=<span class="number">0</span>;  </div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=m;i&gt;=<span class="number">1</span>;i--)&#123;  </div><div class="line">            sum+=b[i];  </div><div class="line">            lmax=Math.max(lmax, sum);  </div><div class="line">        &#125;  </div><div class="line">        <span class="keyword">int</span> rmax=sum=<span class="number">0</span>;  </div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=u;i&gt;m;i--)&#123;  </div><div class="line">            sum+=b[i];  </div><div class="line">            rmax=Math.max(rmax, sum);     </div><div class="line">        &#125;  </div><div class="line">        <span class="keyword">return</span> max3(lmax+rmax, getMaxSubVector4(b,l,m),getMaxSubVector4(b,m+<span class="number">1</span>,u));  </div><div class="line">    &#125;  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span>  <span class="keyword">int</span> <span class="title">max3</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y,<span class="keyword">int</span> z)</span></span>&#123;  </div><div class="line">        <span class="keyword">if</span>(x&lt;y)&#123;  </div><div class="line">            x=y;  </div><div class="line">        &#125;  </div><div class="line">        <span class="keyword">if</span>(x&gt;z)&#123;  </div><div class="line">            <span class="keyword">return</span> x;  </div><div class="line">        &#125;  </div><div class="line">        <span class="keyword">return</span> z;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="算法4">算法4</h3><p>这个算法是一种扫描的思想，是一种线性时间O(n)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getMaxSubVector5</span><span class="params">(<span class="keyword">int</span>[] b)</span></span>&#123;  </div><div class="line">    <span class="keyword">int</span> maxSubVector=<span class="number">0</span>;  </div><div class="line">    <span class="keyword">int</span> maxEnding=<span class="number">0</span>;  </div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;b.length;i++)&#123;  </div><div class="line">        maxEnding=Math.max(maxEnding+b[i], <span class="number">0</span>);  </div><div class="line">        maxSubVector=Math.max(maxSubVector, maxEnding);  </div><div class="line">    &#125;  </div><div class="line">    <span class="keyword">return</span> maxSubVector;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="参考">参考</h3><p>以上算法思想参考《编程珠玑》第二版</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="最大子序列问题">最大子序列问题</h2><h3 id="问题描述：">问题描述：</h3><p>有这样一个序列：23,-23,11,43,-45,29,34,0,23,-12 ，求出这个序列中的最大子序列的和，例如从第0个元素到第3个元素是一个子序列，其和为54]]>
+    </summary>
+    
+      <category term="java" scheme="https://wustrive2008.github.io/tags/java/"/>
+    
+      <category term="算法" scheme="https://wustrive2008.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+    
+      <category term="最大子序列问题" scheme="https://wustrive2008.github.io/tags/%E6%9C%80%E5%A4%A7%E5%AD%90%E5%BA%8F%E5%88%97%E9%97%AE%E9%A2%98/"/>
+    
+      <category term="算法" scheme="https://wustrive2008.github.io/categories/%E7%AE%97%E6%B3%95/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[C语言核心之数组和指针详解]]></title>
     <link href="https://wustrive2008.github.io/2016/12/03/cORc++/C%E8%AF%AD%E8%A8%80%E6%A0%B8%E5%BF%83%E4%B9%8B%E6%95%B0%E7%BB%84%E5%92%8C%E6%8C%87%E9%92%88%E8%AF%A6%E8%A7%A3/"/>
     <id>https://wustrive2008.github.io/2016/12/03/cORc++/C语言核心之数组和指针详解/</id>
     <published>2016-12-02T16:57:33.000Z</published>
-    <updated>2016-12-02T17:26:30.000Z</updated>
+    <updated>2016-12-02T17:30:15.000Z</updated>
     <content type="html"><![CDATA[<h3 id="指针">指针</h3><p>相信大家对下面的代码不陌生：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> i=<span class="number">2</span>;                                            </div><div class="line"><span class="keyword">int</span> *p;                                             </div><div class="line">p=&amp;i;</div></pre></td></tr></table></figure>
 <p>这是最简单的指针应用，也是最基本的用法。再来熟悉一下什么是指针：首先指针是一个变量，它保存的并不是平常的数据，而是变量的地址。如上代码，指针p中保存的是整型变量i的地址信息。</p>
@@ -80,38 +143,7 @@
     
       <category term="指针" scheme="https://wustrive2008.github.io/tags/%E6%8C%87%E9%92%88/"/>
     
-      <category term="算法" scheme="https://wustrive2008.github.io/categories/%E7%AE%97%E6%B3%95/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[最大子序列问题]]></title>
-    <link href="https://wustrive2008.github.io/2016/12/03/%E7%AE%97%E6%B3%95/%E6%9C%80%E5%A4%A7%E5%AD%90%E5%BA%8F%E5%88%97%E5%92%8C%E9%97%AE%E9%A2%98/"/>
-    <id>https://wustrive2008.github.io/2016/12/03/算法/最大子序列和问题/</id>
-    <published>2016-12-02T16:57:33.000Z</published>
-    <updated>2016-12-02T17:27:36.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="最大子序列问题">最大子序列问题</h2><h3 id="问题描述：">问题描述：</h3><p>有这样一个序列：23,-23,11,43,-45,29,34,0,23,-12 ，求出这个序列中的最大子序列的和，例如从第0个元素到第3个元素是一个子序列，其和为54，最短的子序列可以只有一个元素，最长的子序列可以包含所有元素。</p>
-<h3 id="算法1">算法1</h3><p>也是我们第一个想到的算法，是非常容易理解的一个算法，但是它效率最低，平均时间复杂度为O(n^3):</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getMaxSubVector1</span><span class="params">(<span class="keyword">int</span>[] m)</span></span>&#123;  </div><div class="line">    <span class="keyword">int</span> maxSubVector=<span class="number">0</span>;  </div><div class="line">    <span class="keyword">int</span> i,j=<span class="number">0</span>,k=<span class="number">0</span>;  </div><div class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;m.length;i++)&#123;  </div><div class="line">        <span class="keyword">for</span>(j=i;j&lt;m.length;j++)&#123;  </div><div class="line">            <span class="keyword">int</span> sum=<span class="number">0</span>;  </div><div class="line">            <span class="keyword">for</span>( k=i;k&lt;j;k++)&#123;  </div><div class="line">                sum+=m[k];  </div><div class="line">                maxSubVector=Math.max(maxSubVector,sum);  </div><div class="line">            &#125;     </div><div class="line">        &#125;     </div><div class="line">    &#125;  </div><div class="line">    <span class="keyword">return</span> maxSubVector;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="算法2">算法2</h3><p>这是一个稍微改进的算法，它的平均时间复杂度为O(n^2)</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getMaxSubVector2</span><span class="params">(<span class="keyword">int</span>[] m)</span></span>&#123;  </div><div class="line">    <span class="keyword">int</span> maxSubVector=<span class="number">0</span>;  </div><div class="line">    <span class="keyword">int</span> i,j=<span class="number">0</span>;  </div><div class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;m.length;i++)&#123;  </div><div class="line">        <span class="keyword">int</span> sum=<span class="number">0</span>;  </div><div class="line">        <span class="keyword">for</span>(j=i;j&lt;m.length;j++)&#123;  </div><div class="line">            sum+=m[j];  </div><div class="line">            maxSubVector=Math.max(maxSubVector, sum);  </div><div class="line">        &#125;  </div><div class="line">    &#125;  </div><div class="line">    <span class="keyword">return</span> maxSubVector;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="算法3">算法3</h3><p>我们可以用分治算法的思想来解决这个问题，这样可以将平均时间复杂度降到O(nlogn)</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getMaxSubVector4</span><span class="params">(<span class="keyword">int</span>[] b,<span class="keyword">int</span> l,<span class="keyword">int</span> u)</span></span>&#123;  </div><div class="line">          </div><div class="line">        <span class="keyword">int</span> sum=<span class="number">0</span>;  </div><div class="line">        <span class="keyword">int</span> m = (l+u)/<span class="number">2</span>;  </div><div class="line">        <span class="keyword">if</span>(l&gt;u) <span class="keyword">return</span> <span class="number">0</span>;  </div><div class="line">        <span class="keyword">if</span>(l==u) <span class="keyword">return</span> Math.max(<span class="number">0</span>,b[<span class="number">1</span>]);  </div><div class="line">        <span class="keyword">int</span> lmax=sum=<span class="number">0</span>;  </div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=m;i&gt;=<span class="number">1</span>;i--)&#123;  </div><div class="line">            sum+=b[i];  </div><div class="line">            lmax=Math.max(lmax, sum);  </div><div class="line">        &#125;  </div><div class="line">        <span class="keyword">int</span> rmax=sum=<span class="number">0</span>;  </div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=u;i&gt;m;i--)&#123;  </div><div class="line">            sum+=b[i];  </div><div class="line">            rmax=Math.max(rmax, sum);     </div><div class="line">        &#125;  </div><div class="line">        <span class="keyword">return</span> max3(lmax+rmax, getMaxSubVector4(b,l,m),getMaxSubVector4(b,m+<span class="number">1</span>,u));  </div><div class="line">    &#125;  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span>  <span class="keyword">int</span> <span class="title">max3</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y,<span class="keyword">int</span> z)</span></span>&#123;  </div><div class="line">        <span class="keyword">if</span>(x&lt;y)&#123;  </div><div class="line">            x=y;  </div><div class="line">        &#125;  </div><div class="line">        <span class="keyword">if</span>(x&gt;z)&#123;  </div><div class="line">            <span class="keyword">return</span> x;  </div><div class="line">        &#125;  </div><div class="line">        <span class="keyword">return</span> z;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="算法4">算法4</h3><p>这个算法是一种扫描的思想，是一种线性时间O(n)</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getMaxSubVector5</span><span class="params">(<span class="keyword">int</span>[] b)</span></span>&#123;  </div><div class="line">    <span class="keyword">int</span> maxSubVector=<span class="number">0</span>;  </div><div class="line">    <span class="keyword">int</span> maxEnding=<span class="number">0</span>;  </div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;b.length;i++)&#123;  </div><div class="line">        maxEnding=Math.max(maxEnding+b[i], <span class="number">0</span>);  </div><div class="line">        maxSubVector=Math.max(maxSubVector, maxEnding);  </div><div class="line">    &#125;  </div><div class="line">    <span class="keyword">return</span> maxSubVector;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="参考">参考</h3><p>以上算法思想参考《编程珠玑》第二版</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="最大子序列问题">最大子序列问题</h2><h3 id="问题描述：">问题描述：</h3><p>有这样一个序列：23,-23,11,43,-45,29,34,0,23,-12 ，求出这个序列中的最大子序列的和，例如从第0个元素到第3个元素是一个子序列，其和为54]]>
-    </summary>
-    
-      <category term="java" scheme="https://wustrive2008.github.io/tags/java/"/>
-    
-      <category term="算法" scheme="https://wustrive2008.github.io/tags/%E7%AE%97%E6%B3%95/"/>
-    
-      <category term="最大子序列问题" scheme="https://wustrive2008.github.io/tags/%E6%9C%80%E5%A4%A7%E5%AD%90%E5%BA%8F%E5%88%97%E9%97%AE%E9%A2%98/"/>
-    
-      <category term="算法" scheme="https://wustrive2008.github.io/categories/%E7%AE%97%E6%B3%95/"/>
+      <category term="cORc++" scheme="https://wustrive2008.github.io/categories/cORc/"/>
     
   </entry>
   
@@ -1045,34 +1077,6 @@
       <category term="设计模式" scheme="https://wustrive2008.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
       <category term="设计模式" scheme="https://wustrive2008.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[nginx平滑升级方案]]></title>
-    <link href="https://wustrive2008.github.io/2015/08/28/nginx/nginx%E5%B9%B3%E6%BB%91%E5%8D%87%E7%BA%A7%E6%96%B9%E6%A1%88/"/>
-    <id>https://wustrive2008.github.io/2015/08/28/nginx/nginx平滑升级方案/</id>
-    <published>2015-08-28T12:50:31.000Z</published>
-    <updated>2016-11-05T18:14:33.000Z</updated>
-    <content type="html"><![CDATA[<h4 id="下载版本">下载版本</h4><p>下载新版本的nginx源码包<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://nginx.org/en/download.html</div></pre></td></tr></table></figure></p>
-<h4 id="备份配置">备份配置</h4><p>备份旧nginx二进制文件和配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cp /usr/local/nginx/sbin/nginx /usr/local/nginx/sbin/nginx_old</div><div class="line">cp /usr/local/nginx/conf/nginx.conf /usr/local/nginx/conf/nginx.conf.old</div></pre></td></tr></table></figure></p>
-<h4 id="配置安装">配置安装</h4><p>解压下载的源码包， 执行configure选项配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">./configure --with-http_ssl_module --with-openssl=/path/to/openssl_src</div><div class="line"></div><div class="line">make&amp;make install</div></pre></td></tr></table></figure></p>
-<p>可以执行/usr/local/nginx/sbin/nginx -V命令查看以前的编译参数。</p>
-<h4 id="新旧进程同时运行">新旧进程同时运行</h4><p>向旧的nginx主进程发送USR2信号，这会启动新的nginx主进程而保留旧的nginx主进程。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kill -USR2 `cat /usr/local/nginx/logs/nginx.pid`</div></pre></td></tr></table></figure></p>
-<h4 id="杀掉旧的子进程">杀掉旧的子进程</h4><p>发送WINCH信号到旧的nginx主进程以杀掉旧的nginx子进程。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kill -WINCH pid</div></pre></td></tr></table></figure></p>
-<h4 id="检测访问正常，退出旧的进程">检测访问正常，退出旧的进程</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kill -QUIT pid</div></pre></td></tr></table></figure>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h4 id="下载版本">下载版本</h4><p>下载新版本的nginx源码包<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pr]]>
-    </summary>
-    
-      <category term="linux" scheme="https://wustrive2008.github.io/tags/linux/"/>
-    
-      <category term="nginx" scheme="https://wustrive2008.github.io/tags/nginx/"/>
-    
-      <category term="升级" scheme="https://wustrive2008.github.io/tags/%E5%8D%87%E7%BA%A7/"/>
-    
-      <category term="nginx" scheme="https://wustrive2008.github.io/categories/nginx/"/>
     
   </entry>
   

@@ -1,0 +1,551 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>邮件协议SMTP|POP3|IMAP详解 | wustrive&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="wustrive">
+    
+    <meta name="description" content="邮件协议SMTP|POP3|IMAP详解SMPT(简单邮件传输协议)协议简介目标是向用户提供高效、可靠的邮件传输。主要用户发送邮件。
+工作机制SMTP通常有两种工作模式。发送SMTP和接收SMTP。具体工作方式为：发送SMTP在接收到用户的邮件请求后，判断此邮件是否为本地邮件，若是直接投送到用户的邮">
+    
+    
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="wustrive" />
+    <meta name="twitter:title" content="邮件协议SMTP|POP3|IMAP详解 | wustrive&#39;s blog" />
+      
+    
+    
+    <link rel="alternate" href="/atom.xml" title="wustrive&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/logo.ico">
+    <link rel="apple-touch-icon-precomposed" href="/img/logo.ico">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?5829c94e2ff91660826b6c0c188f5620";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="wustrive&#39;s blog" title="wustrive&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="wustrive&#39;s blog">wustrive&#39;s blog</a></h1>
+				<h2 class="blog-motto">好记性不如写博客</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/aboutme">关于</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:wustrive2008.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/12/23/网络协议/邮件协议SMTP|POP3|IMAP详解/" title="邮件协议SMTP|POP3|IMAP详解" itemprop="url">邮件协议SMTP|POP3|IMAP详解</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="https://wustrive2008.github.io" title="wustrive">wustrive</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2016-12-23T15:17:17.000Z" itemprop="datePublished">2016-12-23</time>
+    更新日期:<time datetime="2016-12-23T15:27:15.000Z" itemprop="dateModified">2016-12-23</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#邮件协议SMTP|POP3|IMAP详解"><span class="toc-number">1.</span> <span class="toc-text">邮件协议SMTP|POP3|IMAP详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SMPT(简单邮件传输协议)"><span class="toc-number">1.1.</span> <span class="toc-text">SMPT(简单邮件传输协议)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#协议简介"><span class="toc-number">1.1.1.</span> <span class="toc-text">协议简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#工作机制"><span class="toc-number">1.1.2.</span> <span class="toc-text">工作机制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#服务器查找"><span class="toc-number">1.1.3.</span> <span class="toc-text">服务器查找</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#操作示例"><span class="toc-number">1.1.4.</span> <span class="toc-text">操作示例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#常用命令"><span class="toc-number">1.1.5.</span> <span class="toc-text">常用命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#常用响应"><span class="toc-number">1.1.6.</span> <span class="toc-text">常用响应</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#POP3(邮局协议)"><span class="toc-number">1.2.</span> <span class="toc-text">POP3(邮局协议)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#协议简介-1"><span class="toc-number">1.2.1.</span> <span class="toc-text">协议简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#示例"><span class="toc-number">1.2.2.</span> <span class="toc-text">示例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#常用命令-1"><span class="toc-number">1.2.3.</span> <span class="toc-text">常用命令</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IMAP(交互式邮件存取协议)"><span class="toc-number">1.3.</span> <span class="toc-text">IMAP(交互式邮件存取协议)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#pop3协议的不足"><span class="toc-number">1.3.1.</span> <span class="toc-text">pop3协议的不足</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#IMAP简介"><span class="toc-number">1.3.2.</span> <span class="toc-text">IMAP简介</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考"><span class="toc-number">1.4.</span> <span class="toc-text">参考</span></a></li></ol></li></ol>
+		</div>
+		
+		<h2 id="邮件协议SMTP|POP3|IMAP详解">邮件协议SMTP|POP3|IMAP详解</h2><h3 id="SMPT(简单邮件传输协议)">SMPT(简单邮件传输协议)</h3><h4 id="协议简介">协议简介</h4><p>目标是向用户提供高效、可靠的邮件传输。主要用户发送邮件。</p>
+<h4 id="工作机制">工作机制</h4><p>SMTP通常有两种工作模式。发送SMTP和接收SMTP。具体工作方式为：发送SMTP在接收到用户的邮件请求后，判断此邮件是否为本地邮件，若是直接投送到用户的邮箱，否则向DNS查询远端邮件服务器的MX记录，并建立与远端接收SMTP之间的一个双向传送通道，此后SMTP命令由发送SMTP发出，由接收SMTP接收，而应答则反方向传送。一旦传送通道建立，SMTP发送者发送MAIL命令指明邮件发送者。如果SMTP接收者可以接收邮件则返回OK应答。SMTP发送者再发出RCPT命令确认邮件是否接收到。如果SMTP接收者接收，则返回OK应答；如果不能接收到，则发出拒绝接收应答（但不中止整个邮件操作），双方将如此反复多次。当接收者收到全部邮件后会接收到特别的序列，入伏哦接收者成功处理了邮件，则返回OK应答。</p>
+<h4 id="服务器查找">服务器查找</h4><p>SMTP服务器是基于域名服务DNS中计划收件人的域名来路由电子邮件。一般根据登陆邮箱的后缀域名通过DNS协议查找MX记录。</p>
+<ul>
+<li>查找邮箱后缀域名的MX记录所指向的域名地址</li>
+<li>根据指向域名地址通过dns查找域名地址指向的服务器ip</li>
+<li>tcp连接服务器ip：25（默认端口)（用来登陆或者发送）</li>
+</ul>
+<h4 id="操作示例">操作示例</h4><ul>
+<li>【c-&gt;s】telnet smtp.163.com 25【tcp连接】</li>
+<li>【s-&gt;c】220 163.com Anti-spam GT for Coremail System (163com[20141201])【欢迎信息】</li>
+<li>【c-&gt;s】helo 163.com【helo命令】</li>
+<li>【s-&gt;c】250 OK</li>
+<li>【c-&gt;s】auth login【请求登陆】</li>
+<li>【s-&gt;c】334 dXNlcm5dhbWU6【要求用户名】</li>
+<li>【c-&gt;s】Z3dfdsaffEDF=【输入base64用户名】</li>
+<li>【s-&gt;c】334 UGFzc3ddvcmQ6【要求密码】</li>
+<li>【c-&gt;s】fdasDSDFFFfDS=【输入base64密码】</li>
+<li>【s-&gt;c】235 Authentication successful【登陆成功】</li>
+<li>【c-&gt;s】mail from:xxx@163.com【发件地址】</li>
+<li>【c-&gt;s】rcpt to:xxx@163.com【收件地址】</li>
+<li>【c-&gt;s】DATA【data命令，要求发送内容】</li>
+<li>【s-&gt;c】354 End data with .【提示信息，以.作为结束符号】</li>
+<li>【c-&gt;s】from:gule11@163.com【要显示的发件地址】</li>
+<li>【c-&gt;s】to:xxx@163.com【要显示的收件地址】</li>
+<li>【c-&gt;s】hello world【内容】</li>
+<li>【c-&gt;s】.【结束】</li>
+<li>【s-&gt;c】250 Mail OK queued as smtp13,EcCowABHIv39riFXqUpKBA—.47592S3 1461825582【返回发送状态，我的测试不幸进入垃圾邮件】</li>
+<li>【c-&gt;s】QUIT【退出命令】</li>
+<li>【s-&gt;c】221 Bye</li>
+</ul>
+<h4 id="常用命令">常用命令</h4><p>SMTP命令不区分大小写，但参数区分大小写。常用命令如下：</p>
+<ul>
+<li>HELO ——向服务器标识用户身份发送者能欺骗、说谎，但一般情况下服务器都能检测到</li>
+<li>RCPT TO: <forward-path> ——<forward-path>用来标志邮件接收者的地址，常用在MAIL FROM后，可以有多个RCPT TO</forward-path></forward-path></li>
+<li>DATA ——将之后的数据作为数据发送，以.标志数据的结尾</li>
+<li>REST ——重置会话，当前传输被取消</li>
+<li>NOOP ——要求服务器返回OK应答，一般用作测试</li>
+<li>QUIT ——结束会话</li>
+<li>VRFY ——验证指定的邮箱是否存在，由于安全方面的原因，服务器大多禁止此命令</li>
+<li>EXPN ——验证给定的邮箱列表是否存在，由于安全方面的原因，服务器大多禁止此命令</li>
+<li>HELP ——查询服务器支持什么命令</li>
+</ul>
+<h4 id="常用响应">常用响应</h4><ul>
+<li>501——参数格式错误</li>
+<li>502——命令不可实现</li>
+<li>503——错误的命令序列</li>
+<li>504——命令参数不可实现</li>
+<li>211——系统状态或系统帮助响应</li>
+<li>214——帮助信息</li>
+<li>220——服务器就绪</li>
+<li>221——服务关闭</li>
+<li>421——服务器未就绪，关闭传输信道</li>
+<li>250——要求的邮件操作完成</li>
+<li>251——用户非本地，将转发向<forward-path></forward-path></li>
+<li>450——要求的邮件操作未完成，邮箱不可用</li>
+<li>550——要求的邮件操作未完成，邮箱不可用</li>
+<li>451——放弃要求的操作，处理过程中出错</li>
+<li>551——用户非本地，请尝试<forward-path></forward-path></li>
+<li>452——系统存储不足，要求的操作未执行</li>
+<li>552——过量的存储分配，要求的操作未执行</li>
+<li>553——邮箱名不可用，要求的操作未执行</li>
+<li>354——开始邮件输入，以“.”结束</li>
+<li>554——操作失败</li>
+</ul>
+<h3 id="POP3(邮局协议)">POP3(邮局协议)</h3><h4 id="协议简介-1">协议简介</h4><p>POP3称为邮局协议版本3(Post Office Protocol-Version 3)，是TCP/IP协议族中的一员，由RFC1939 定义，主要用于支持使用客户端远程管理在服务器上的电子邮件。POP3 使用 TCP 作为传输协议，端口号是110。<br>POP3协议相对简单，POP3服务器响应一般为：“+OK”表示成功，“-ERR”表示失败。</p>
+<h4 id="示例">示例</h4><ul>
+<li>【c-&gt;s】telnet pop.163.com 110【tcp连接】</li>
+<li>【s-&gt;c】+OK Welcome to coremail Mail Pop3 Server (163coms[726cd8【欢迎信息】</li>
+<li>【c-&gt;s】user xxx@163.com【登陆】</li>
+<li>【s-&gt;c】+OK core mail</li>
+<li>【c-&gt;s】pass password【密码】</li>
+<li>【s-&gt;c】+OK 1025 message(s) [125726173 byte(s)]</li>
+<li>【c-&gt;s】list【列出邮件】</li>
+<li>【s-&gt;c】1023 15552【邮件id 邮件大小】</li>
+<li>【s-&gt;c】1024 24905</li>
+<li>【s-&gt;c】1025 5288</li>
+<li>【s-&gt;c】.【列出邮件结束】</li>
+<li>【c-&gt;s】tetr 1025【收取一封邮件内容】</li>
+<li>【s-&gt;c】邮件内容</li>
+<li>【c-&gt;s】quit【退出】</li>
+<li>【s-&gt;c】+OK core mail</li>
+</ul>
+<h4 id="常用命令-1">常用命令</h4><ul>
+<li>USER [username] 处理用户名</li>
+<li>PASS [password] 处理用户密码</li>
+<li>APOP [Name,Digest] 认可Digest是MD5消息摘要</li>
+<li>STAT 处理请求服务器发回关于邮箱的统计资料，如邮件总数和总字节数</li>
+<li>UIDL [邮件id] 处理返回邮件的唯一标识符，POP3会话的每个标识符都将是唯一的</li>
+<li>LIST [邮件id] 处理返回邮件数量和每个邮件的大小</li>
+<li>RETR [邮件id] 处理返回由参数标识的邮件的全部文本</li>
+<li>DELE [邮件id] 处理服务器将由参数标识的邮件标记为删除，最后由【quit】命令执行</li>
+<li>RSET 处理服务器将重置所有标记为删除的邮件，用于撤消DELE命令</li>
+<li>TOP [邮件id n] 处理服务器将返回由参数标识的邮件前n行内容，n必须是正整数</li>
+<li>NOOP 处理服务器返回一个肯定的响应</li>
+<li>QUIT 终止会话</li>
+</ul>
+<h3 id="IMAP(交互式邮件存取协议)">IMAP(交互式邮件存取协议)</h3><h4 id="pop3协议的不足">pop3协议的不足</h4><p>POP作为Internet上邮件的第一个离线协议标准，允许用户从服务器上把邮件下载到本地主机上，同时删除保存在邮件服务器上的邮件【现在的邮件服务商都可以设置是否同时删除】，从而使用户不必长时间地与邮件服务器连接，很大程度上减少了服务器和网络的整体开销。</p>
+<p>但POP3有其天生的缺陷，即当用户接收电子邮件时，所有的信件都从服务器上清除并下载到客户机。在整个收信过程中，用户无法知道邮件的具体信息，只有照单全收入硬盘后，才能慢慢浏览和删除。这使用户几乎没有对邮件接收的控制决定权。一旦碰上邮箱被轰炸，或有比较大的邮件，用户不能通过分析邮件的内容及发信人地址来决定是否下载或删除，从而造成系统资源的浪费。而IMAP协议不但可以克服POP3的缺陷，而且还提供了更强大的功能。</p>
+<h4 id="IMAP简介">IMAP简介</h4><p>IMAP:是Internet Mail Access Protocol交互式邮件存取协议的简称。IMAP协议运行在TCP/IP协议之上，使用的端口是143。它与POP3协议的主要区别是用户可以不用把所有的邮件全部下载，可以通过客户端直接对服务器上的邮件进行操作。</p>
+<p>与POP3协议类似，IMAP（Internet消息访问协议）也是提供面向用户的邮件收取服务。常用的版本是IMAP4。IMAP4改进了POP3的不足，用户可以通过浏览信件头来决定是否收取、删除和检索邮件的特定部分，还可以在服务器上创建或更改文件夹或邮箱，它除了支持POP3协议的脱机操作模式外，还支持联机操作和断连接操作。它为用户提供了有选择的从邮件服务器接收邮件的功能、基于服务器的信息处理功能和共享信箱功能。</p>
+<p>IMAP4的脱机模式不同于POP3，它不会自动删除在邮件服务器上已取出的邮件，其联机模式和断连接模式也是将邮件服务器作为“远程文件服务器”进行访问，更加灵活方便。</p>
+<p>其实说个简单的，就是如果你不对客户端做一个特殊设置的话，默认情况下，你使用POP3协议下载邮件，会把服务器上的所有邮件下载到客户端，而服务器上将不再存储。而IMAP在默认情况下，下载但是不删除邮件服务器上的文件。</p>
+<h3 id="参考">参考</h3><p><a href="http://forthxu.com/blog/article/61.html" target="_blank" rel="external">电子邮件SMTP、POP3、IMAP协议学习</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Email/">Email</a><a href="/tags/SMTP/">SMTP</a><a href="/tags/POP3/">POP3</a><a href="/tags/IMAP/">IMAP</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/网络协议/">网络协议</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="https://wustrive2008.github.io/2016/12/23/网络协议/邮件协议SMTP|POP3|IMAP详解/" data-title="邮件协议SMTP|POP3|IMAP详解 | wustrive&#39;s blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/12/03/数据库/数据库行列转换/"  title="数据库行列转换">
+ <strong>NEXT:</strong><br/> 
+ <span>数据库行列转换
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#邮件协议SMTP|POP3|IMAP详解"><span class="toc-number">1.</span> <span class="toc-text">邮件协议SMTP|POP3|IMAP详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SMPT(简单邮件传输协议)"><span class="toc-number">1.1.</span> <span class="toc-text">SMPT(简单邮件传输协议)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#协议简介"><span class="toc-number">1.1.1.</span> <span class="toc-text">协议简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#工作机制"><span class="toc-number">1.1.2.</span> <span class="toc-text">工作机制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#服务器查找"><span class="toc-number">1.1.3.</span> <span class="toc-text">服务器查找</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#操作示例"><span class="toc-number">1.1.4.</span> <span class="toc-text">操作示例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#常用命令"><span class="toc-number">1.1.5.</span> <span class="toc-text">常用命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#常用响应"><span class="toc-number">1.1.6.</span> <span class="toc-text">常用响应</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#POP3(邮局协议)"><span class="toc-number">1.2.</span> <span class="toc-text">POP3(邮局协议)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#协议简介-1"><span class="toc-number">1.2.1.</span> <span class="toc-text">协议简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#示例"><span class="toc-number">1.2.2.</span> <span class="toc-text">示例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#常用命令-1"><span class="toc-number">1.2.3.</span> <span class="toc-text">常用命令</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IMAP(交互式邮件存取协议)"><span class="toc-number">1.3.</span> <span class="toc-text">IMAP(交互式邮件存取协议)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#pop3协议的不足"><span class="toc-number">1.3.1.</span> <span class="toc-text">pop3协议的不足</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#IMAP简介"><span class="toc-number">1.3.2.</span> <span class="toc-text">IMAP简介</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考"><span class="toc-number">1.4.</span> <span class="toc-text">参考</span></a></li></ol></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/DB/" title="DB">DB<sup>1</sup></a></li>
+		
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+		
+			<li><a href="/categories/UML/" title="UML">UML<sup>1</sup></a></li>
+		
+			<li><a href="/categories/cORc/" title="cORc++">cORc++<sup>1</sup></a></li>
+		
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		
+			<li><a href="/categories/http协议/" title="http协议">http协议<sup>2</sup></a></li>
+		
+			<li><a href="/categories/java/" title="java">java<sup>8</sup></a></li>
+		
+			<li><a href="/categories/js/" title="js">js<sup>1</sup></a></li>
+		
+			<li><a href="/categories/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+		
+			<li><a href="/categories/python/" title="python">python<sup>2</sup></a></li>
+		
+			<li><a href="/categories/分享/" title="分享">分享<sup>1</sup></a></li>
+		
+			<li><a href="/categories/摘录/" title="摘录">摘录<sup>1</sup></a></li>
+		
+			<li><a href="/categories/版本控制/" title="版本控制">版本控制<sup>3</sup></a></li>
+		
+			<li><a href="/categories/算法/" title="算法">算法<sup>2</sup></a></li>
+		
+			<li><a href="/categories/缓存/" title="缓存">缓存<sup>1</sup></a></li>
+		
+			<li><a href="/categories/网络协议/" title="网络协议">网络协议<sup>1</sup></a></li>
+		
+			<li><a href="/categories/网络安全/" title="网络安全">网络安全<sup>1</sup></a></li>
+		
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>2</sup></a></li>
+		
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>8</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Arraylist/" title="Arraylist">Arraylist<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Centos/" title="Centos">Centos<sup>2</sup></a></li>
+		
+			<li><a href="/tags/DB/" title="DB">DB<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Docker/" title="Docker">Docker<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Email/" title="Email">Email<sup>1</sup></a></li>
+		
+			<li><a href="/tags/HashMap/" title="HashMap">HashMap<sup>1</sup></a></li>
+		
+			<li><a href="/tags/HotSpot/" title="HotSpot">HotSpot<sup>1</sup></a></li>
+		
+			<li><a href="/tags/IMAP/" title="IMAP">IMAP<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Linux/" title="Linux">Linux<sup>5</sup></a></li>
+		
+			<li><a href="/tags/OOM/" title="OOM">OOM<sup>1</sup></a></li>
+		
+			<li><a href="/tags/POP3/" title="POP3">POP3<sup>1</sup></a></li>
+		
+			<li><a href="/tags/SMTP/" title="SMTP">SMTP<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Tomcat/" title="Tomcat">Tomcat<sup>1</sup></a></li>
+		
+			<li><a href="/tags/UML/" title="UML">UML<sup>1</sup></a></li>
+		
+			<li><a href="/tags/aes/" title="aes">aes<sup>1</sup></a></li>
+		
+			<li><a href="/tags/array/" title="array">array<sup>1</sup></a></li>
+		
+			<li><a href="/tags/arraylist/" title="arraylist">arraylist<sup>1</sup></a></li>
+		
+			<li><a href="/tags/c/" title="c">c<sup>2</sup></a></li>
+		
+			<li><a href="/tags/chkconfig/" title="chkconfig">chkconfig<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I&#39;m wustrive. This is my blog on GitHub. <br/>
+			I wish you happiness</p>
+	</section>
+	 
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/12100106" target="_blank" title="weibo"></a>
+		
+		
+		<a href="https://twitter.com/wustrive" target="_blank" title="twitter"></a>
+		
+		
+		<a href="https://github.com/wustrive2008" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2016 
+		
+		<a href="https://wustrive2008.github.io" target="_blank" title="wustrive">wustrive</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"wustrive"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-22190106-2', 'auto');  
+ga('send', 'pageview');
+</script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-22190106-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+  </body>
+</html>
